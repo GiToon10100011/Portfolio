@@ -28,6 +28,10 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
 
+  body{
+    background-color: var(--background-color);
+  }
+
   :root{
     --font-logo: "UniversNextProBold";
     --font-nintendo: "CoutureBold";
