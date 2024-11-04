@@ -19,6 +19,7 @@ const Container = styled.main`
    */
   background: #000;
   animation: ${bootupAnimations["initial"]} 0.6s linear;
+  font-family: ${({ theme }) => theme.fonts.logo};
 `;
 
 const Loading = styled.main<{ $progress: number }>`

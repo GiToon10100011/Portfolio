@@ -19,29 +19,34 @@ const Container = styled.button<IButtonProps>`
   gap: 10px;
   border-radius: 40px;
   background-color: ${({ bgColor }) => bgColor};
-  color: var(--text-color);
-  font-family: var(--font-text);
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.text};
   font-size: 20px;
   border: 1px solid ${({ borderColor }) => borderColor};
   cursor: pointer;
-  ${({ bgFilter }) => bgFilter}
+  backdrop-filter: blur(${({ bgFilter }) => bgFilter});
+  transition: all 0.3s;
+  &:hover {
+    filter: brightness(0.8);
+    transform: scale(0.98);
+  }
 `;
 
 const Button = ({
   text,
   icon,
-  bgColor,
-  borderColor,
-  bgFilter,
+  bgColor = "transparent",
+  borderColor = "transparent",
+  bgFilter = "0px",
   onClick,
 }: IButtonProps) => {
   return (
     <Container
-      onClick={onClick ?? undefined}
-      icon={icon ?? undefined}
-      bgColor={bgColor ?? "var(--point-color)"}
-      borderColor={borderColor ?? "transparent"}
-      bgFilter={bgFilter ?? "0px"}
+      onClick={onClick}
+      icon={icon}
+      bgColor={bgColor}
+      borderColor={borderColor}
+      bgFilter={bgFilter}
       text={text}
     >
       {icon}

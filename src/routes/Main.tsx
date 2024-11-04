@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import React from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Slider from "../components/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
+import Header from "../components/Header";
+import { useTheme } from "styled-components";
 
 const Container = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 1080px;
   background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.8),
@@ -33,7 +34,6 @@ const SliderMenu = styled(motion.section)`
 
 const InnerContainer = styled.div`
   width: 1700px;
-  height: 100%;
   margin: 0 auto;
 `;
 
@@ -45,10 +45,10 @@ const SliderInnerContainer = styled(InnerContainer)`
 
 const GameTitle = styled.h1`
   width: 675px;
-  font-family: var(--font-text);
+  font-family: ${({ theme }) => theme.fonts.text};
   font-size: 60px;
   font-weight: bold;
-  color: var(--text-color);
+  color: ${({ theme }) => theme.colors.text};
   margin-bottom: 30px;
 `;
 
@@ -58,34 +58,40 @@ const ButtonsContainer = styled.div`
 `;
 
 const Main = () => {
+  const theme = useTheme();
+
   return (
-    <Container>
-      <InnerContainer>
-        <GameTitle>The Legend of Zelda: Tears of the Kingdom</GameTitle>
-        <ButtonsContainer>
-          <Button
-            text="Play"
-            bgColor="var(--point-color)"
-            icon={<PlayIcon />}
-          />
-          <Button
-            text="More Info"
-            bgColor="transparent"
-            borderColor="var(--text-color)"
-            icon={<MoreInfoIcon />}
-          />
-        </ButtonsContainer>
-        <SliderMenu
-          initial={{ y: 540 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.4, ease: "easeIn" }}
-        >
-          <SliderInnerContainer>
-            <Slider />
-          </SliderInnerContainer>
-        </SliderMenu>
-      </InnerContainer>
-    </Container>
+    <>
+      <Container>
+        <Header />
+        <InnerContainer>
+          <GameTitle>The Legend of Zelda: Tears of the Kingdom</GameTitle>
+          <ButtonsContainer>
+            <Button
+              text="Play"
+              bgColor={theme.colors.point}
+              icon={<PlayIcon />}
+            />
+            <Button
+              text="More Info"
+              bgColor="transparent"
+              bgFilter="4px"
+              borderColor={theme.colors.text}
+              icon={<MoreInfoIcon />}
+            />
+          </ButtonsContainer>
+          <SliderMenu
+            initial={{ y: 540 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.4, ease: "easeIn" }}
+          >
+            <SliderInnerContainer>
+              <Slider />
+            </SliderInnerContainer>
+          </SliderMenu>
+        </InnerContainer>
+      </Container>
+    </>
   );
 };
 

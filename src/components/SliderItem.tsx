@@ -9,6 +9,7 @@ const Item = styled.div`
   width: 260px;
   height: 346px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
   &.active {
     width: 300px;
     height: 400px;
