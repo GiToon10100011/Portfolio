@@ -3,7 +3,7 @@ import { bootupAnimations } from "../styles/animations";
 import React, { useState } from "react";
 import { triggerMain } from "../atoms";
 import { useSetRecoilState } from "recoil";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Container = styled.main`
   position: fixed;
@@ -139,15 +139,21 @@ function Bootup() {
     if (e.animationName === bootupAnimations["initial"].getName()) {
       setTimeout(() => {
         setInit(true);
+        let velocity = 0.5; // Reduced initial velocity
+        let acceleration = 0.05; // Reduced acceleration
         const interval = setInterval(() => {
-          setProgressWidth((prev) => prev - 1);
+          setProgressWidth((prev) => prev - Math.ceil(velocity));
           setProgress((prev) => {
-            if (prev >= 99) {
+            if (prev >= 100) {
               clearInterval(interval);
+              return 100; // Force it to stay at 100
             }
-            return prev + 1;
+            velocity += acceleration;
+            velocity = Math.min(velocity, 3); // Reduced max velocity
+            const nextProgress = prev + Math.ceil(velocity);
+            return Math.min(nextProgress, 100); // Ensure it doesn't exceed 100
           });
-        }, 20);
+        }, 30); // Increased interval time
       }, 200);
     }
   };
@@ -182,9 +188,15 @@ function Bootup() {
       <Container onAnimationEnd={handleAnimationEnd}>
         <Loading onAnimationEnd={handleBootupEnded} $progress={progress} />
         <ProgressBarContainer>
-          <ProgressBar style={{ width: `${progressWidth}%` }} />
+          <ProgressBar
+            style={{
+              width: `${progressWidth}%`,
+              display: progress === 100 ? "none" : "block",
+            }}
+          />
         </ProgressBarContainer>
         <Title>{init ? `${progress}%` : "Loading"}</Title>
+        <Title>{progress === 100 && "Press F11 for better experience"}</Title>
       </Container>
     </motion.div>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import Bootup from "./components/Bootup";
 import GlobalStyles from "./styles/globalstyles.styles";
 import { useRecoilValue } from "recoil";
@@ -13,9 +12,8 @@ const App = () => {
     <>
       <GlobalStyles />
       <AnimatePresence mode="wait">
-        {/* {!triggerMainValue && <Bootup key="bootup" />}
-        {triggerMainValue && <Main key="main" />} */}
-        <Main />
+        {!triggerMainValue && <Bootup key="bootup" />}
+        {triggerMainValue && <Main key="main" />}
       </AnimatePresence>
     </>
   );
