@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Slider from "../components/Slider";
+import { MoreInfoIcon, PlayIcon } from "../Icons";
 
 const Container = styled.div`
   position: relative;
@@ -36,6 +37,12 @@ const InnerContainer = styled.div`
   margin: 0 auto;
 `;
 
+const SliderInnerContainer = styled(InnerContainer)`
+  display: flex;
+  height: 540px;
+  align-items: center;
+`;
+
 const GameTitle = styled.h1`
   width: 675px;
   font-family: var(--font-text);
@@ -56,11 +63,16 @@ const Main = () => {
       <InnerContainer>
         <GameTitle>The Legend of Zelda: Tears of the Kingdom</GameTitle>
         <ButtonsContainer>
-          <Button text="Play" bgColor="var(--point-color)" />
+          <Button
+            text="Play"
+            bgColor="var(--point-color)"
+            icon={<PlayIcon />}
+          />
           <Button
             text="More Info"
             bgColor="transparent"
             borderColor="var(--text-color)"
+            icon={<MoreInfoIcon />}
           />
         </ButtonsContainer>
         <SliderMenu
@@ -68,7 +80,9 @@ const Main = () => {
           animate={{ y: 0 }}
           transition={{ duration: 0.4, ease: "easeIn" }}
         >
-          <Slider />
+          <SliderInnerContainer>
+            <Slider />
+          </SliderInnerContainer>
         </SliderMenu>
       </InnerContainer>
     </Container>

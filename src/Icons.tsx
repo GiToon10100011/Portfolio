@@ -1,0 +1,53 @@
+export const PlayIcon = () => {
+  return (
+    <svg
+      width="19"
+      height="21"
+      viewBox="0 0 19 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2.62174 1.057C2.50895 0.990127 2.38047 0.954298 2.24936 0.953153C2.11824 0.952008 1.98916 0.985587 1.87523 1.05048C1.76129 1.11537 1.66656 1.20926 1.60065 1.32262C1.53475 1.43597 1.50002 1.56475 1.5 1.69587V18.8983C1.50002 19.0294 1.53475 19.1582 1.60065 19.2716C1.66656 19.3849 1.76129 19.4788 1.87523 19.5437C1.98916 19.6086 2.11824 19.6422 2.24936 19.641C2.38047 19.6399 2.50895 19.604 2.62174 19.5372L17.1362 10.936C17.2471 10.8702 17.3389 10.7767 17.4027 10.6647C17.4665 10.5527 17.5 10.426 17.5 10.2971C17.5 10.1682 17.4665 10.0415 17.4027 9.92949C17.3389 9.81748 17.2471 9.72399 17.1362 9.65822L2.62174 1.057Z"
+        fill="white"
+        stroke="white"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+export const MoreInfoIcon = () => {
+  return (
+    <svg
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z"
+        stroke="white"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12.5 16V12"
+        stroke="white"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12.5 8H12.51"
+        stroke="white"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};

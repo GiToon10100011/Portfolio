@@ -13,6 +13,10 @@ interface IButtonProps {
 const Container = styled.button<IButtonProps>`
   width: 216px;
   height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   border-radius: 40px;
   background-color: ${({ bgColor }) => bgColor};
   color: var(--text-color);
@@ -40,6 +44,7 @@ const Button = ({
       bgFilter={bgFilter ?? "0px"}
       text={text}
     >
+      {icon}
       {text}
     </Container>
   );

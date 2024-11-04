@@ -139,7 +139,7 @@ function Bootup() {
     if (e.animationName === bootupAnimations["initial"].getName()) {
       setTimeout(() => {
         setInit(true);
-        let velocity = 0.5; // Reduced initial velocity
+        let velocity = 0.6; // Slightly increased initial velocity
         let acceleration = 0.05; // Reduced acceleration
         const interval = setInterval(() => {
           setProgressWidth((prev) => prev - Math.ceil(velocity));
@@ -153,7 +153,7 @@ function Bootup() {
             const nextProgress = prev + Math.ceil(velocity);
             return Math.min(nextProgress, 100); // Ensure it doesn't exceed 100
           });
-        }, 30); // Increased interval time
+        }, 50); // Increased interval time
       }, 200);
     }
   };
