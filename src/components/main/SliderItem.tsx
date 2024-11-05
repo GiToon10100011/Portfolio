@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { sliderAnimations } from "../styles/animations";
+import { sliderAnimations } from "../../styles/animations";
 
 // const text = "Fullpage.JS를 활용한\n사이드 프로젝트";
 

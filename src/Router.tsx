@@ -16,10 +16,6 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "detail/:projectId",
-        element: <Detail />,
-      },
-      {
         path: "profile",
         element: <Profile />,
       },

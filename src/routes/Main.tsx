@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Button from "../components/Button";
-import Slider from "../components/Slider";
+import Slider from "../components/main/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
 import Header from "../components/Header";
 import { useTheme } from "styled-components";
-import FullScreenGuide from "../components/FullScreenGuide";
+import { Outlet, useNavigate } from "react-router-dom";
+
+const testKey = "tloztotk";
 
 const Container = styled.div`
   position: relative;
@@ -61,6 +63,7 @@ const ButtonsContainer = styled.div`
 
 const Main = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -75,6 +78,7 @@ const Main = () => {
               icon={<PlayIcon />}
             />
             <Button
+              onClick={() => navigate(`/detail/${testKey}`)}
               text="More Info"
               $bgColor="transparent"
               $bgFilter="4px"

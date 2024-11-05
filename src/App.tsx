@@ -1,36 +1,19 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isFullscreenAtom, triggerMainAtom } from "./atoms";
-import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "./styles/theme";
-import GlobalStyles from "./styles/globalstyles.styles";
 import { AnimatePresence } from "framer-motion";
 import Main from "./routes/Main";
 import Bootup from "./components/Bootup";
-import FullScreenGuide from "./components/FullScreenGuide";
-import { Outlet } from "react-router-dom";
 
 const App = () => {
-  const [isFullscreen, setIsFullscreen] = useRecoilState(isFullscreenAtom);
-  const triggerMainValue = useRecoilValue(triggerMainAtom);
-
-  window.document.addEventListener("fullscreenchange", () => {
-    if (document.fullscreenElement) {
-      setIsFullscreen(true);
-    } else {
-      setIsFullscreen(false);
-    }
-  });
+  const triggerMain = useRecoilValue(triggerMainAtom);
+  const isFullscreen = useRecoilValue(isFullscreenAtom);
 
   return (
     <>
-      <ThemeProvider theme={defaultTheme}>
-        <GlobalStyles />
-        <AnimatePresence mode="wait">
-          {!triggerMainValue && isFullscreen && <Bootup key="bootup" />}
-          {triggerMainValue && <Main key="main" />}
-          {!isFullscreen && <FullScreenGuide />}
-        </AnimatePresence>
-      </ThemeProvider>
+      <AnimatePresence mode="wait">
+        {!triggerMain && isFullscreen && <Bootup key="bootup" />}
+        {triggerMain && <Main key="main" />}
+      </AnimatePresence>
     </>
   );
 };
