@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { bootupAnimations } from "../styles/animations";
 import React, { useState } from "react";
-import { triggerMain } from "../atoms";
+import { triggerMainAtom } from "../atoms";
 import { useSetRecoilState } from "recoil";
 import { motion } from "framer-motion";
 
@@ -134,7 +134,7 @@ function Bootup() {
   const [progress, setProgress] = useState(0);
   const [isBootingEnded, setIsBootingEnded] = useState(false);
   const [progressWidth, setProgressWidth] = useState(100);
-  const setTriggerMain = useSetRecoilState(triggerMain);
+  const setTriggerMain = useSetRecoilState(triggerMainAtom);
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === bootupAnimations["initial"].getName()) {
@@ -197,7 +197,7 @@ function Bootup() {
           />
         </ProgressBarContainer>
         <Title>{init ? `${progress}%` : "Loading"}</Title>
-        <Title>{progress === 100 && "Press F11 for better experience"}</Title>
+        <Title>{progress === 100 && "Please remain in fullscreen mode"}</Title>
       </Container>
     </motion.div>
   );

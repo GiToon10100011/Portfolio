@@ -91,3 +91,39 @@ export const NetworkStatusIcon = () => {
     </svg>
   );
 };
+export const FullScreenIcon = () => {
+  return (
+    <svg
+      width="200"
+      height="200"
+      viewBox="0 0 200 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="100" cy="100" r="96" stroke="white" stroke-width="8" />
+      <path
+        d="M145.333 83V66H128.333V54.6667H156.667V83H145.333ZM43.3335 83V54.6667H71.6668V66H54.6668V83H43.3335ZM128.333 145.333V134H145.333V117H156.667V145.333H128.333ZM43.3335 145.333V117H54.6668V134H71.6668V145.333H43.3335ZM66.0002 122.667V77.3333H134V122.667H66.0002Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
+export const HomepageIcon = () => {
+  return (
+    <svg
+      width="200"
+      height="200"
+      viewBox="0 0 200 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="100" cy="100" r="96" stroke="white" stroke-width="8" />
+      <path
+        d="M98.1046 55.5449C99.2081 54.6454 100.792 54.6454 101.895 55.5449L152.356 96.6746C154.544 98.4576 153.283 102 150.461 102H49.5392C46.7171 102 45.4563 98.4576 47.6438 96.6746L98.1046 55.5449Z"
+        fill="white"
+      />
+      <rect x="64" y="102" width="72" height="44" rx="1" fill="white" />
+      <rect x="82" y="102" width="36" height="24" rx="1" fill="#333333" />
+    </svg>
+  );
+};

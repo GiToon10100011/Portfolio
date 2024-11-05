@@ -5,11 +5,13 @@ import Slider from "../components/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
 import Header from "../components/Header";
 import { useTheme } from "styled-components";
+import FullScreenGuide from "../components/FullScreenGuide";
 
 const Container = styled.div`
   position: relative;
+  overflow: hidden;
   width: 100%;
-  height: 1080px;
+  height: 100vh;
   background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.8),
