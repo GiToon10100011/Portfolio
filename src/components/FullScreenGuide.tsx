@@ -60,7 +60,6 @@ const FullScreenGuide = () => {
       </IconContainer>
       <Guidance>
         <span>Press the Fullscreen Button to continue..</span>
-        <span>Or.. press F11</span>
       </Guidance>
     </Container>
   );

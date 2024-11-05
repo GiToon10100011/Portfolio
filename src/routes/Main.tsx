@@ -71,14 +71,14 @@ const Main = () => {
           <ButtonsContainer>
             <Button
               text="Play"
-              bgColor={theme.colors.point}
+              $bgColor={theme.colors.point}
               icon={<PlayIcon />}
             />
             <Button
               text="More Info"
-              bgColor="transparent"
-              bgFilter="4px"
-              borderColor={theme.colors.text}
+              $bgColor="transparent"
+              $bgFilter="4px"
+              $borderColor={theme.colors.text}
               icon={<MoreInfoIcon />}
             />
           </ButtonsContainer>

@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Main from "./routes/Main";
 import Bootup from "./components/Bootup";
 import FullScreenGuide from "./components/FullScreenGuide";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   const [isFullscreen, setIsFullscreen] = useRecoilState(isFullscreenAtom);
@@ -21,14 +22,16 @@ const App = () => {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <GlobalStyles />
-      <AnimatePresence mode="wait">
-        {!triggerMainValue && <Bootup key="bootup" />}
-        {triggerMainValue && <Main key="main" />}
-        {!isFullscreen && <FullScreenGuide />}
-      </AnimatePresence>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={defaultTheme}>
+        <GlobalStyles />
+        <AnimatePresence mode="wait">
+          {!triggerMainValue && isFullscreen && <Bootup key="bootup" />}
+          {triggerMainValue && <Main key="main" />}
+          {!isFullscreen && <FullScreenGuide />}
+        </AnimatePresence>
+      </ThemeProvider>
+    </>
   );
 };
 
