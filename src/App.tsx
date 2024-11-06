@@ -1,18 +1,18 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isFullscreenAtom, triggerMainAtom } from "./atoms";
+import { triggerMainStore, isFullscreenStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import Main from "./routes/Main";
 import Bootup from "./components/Bootup";
 
 const App = () => {
-  const triggerMain = useRecoilValue(triggerMainAtom);
-  const isFullscreen = useRecoilValue(isFullscreenAtom);
+  const triggerMain = triggerMainStore((state) => state.triggerMain);
+  const isFullscreen = isFullscreenStore((state) => state.isFullscreen);
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {!triggerMain && isFullscreen && <Bootup key="bootup" />}
-        {triggerMain && <Main key="main" />}
+        {/* {!triggerMain && isFullscreen && <Bootup key="bootup" />}
+        {triggerMain && <Main key="main" />} */}
+        <Main />
       </AnimatePresence>
     </>
   );

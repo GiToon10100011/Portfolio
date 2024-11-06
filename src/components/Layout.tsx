@@ -1,14 +1,12 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isFullscreenAtom, triggerMainAtom } from "../atoms";
+import { isFullscreenStore } from "../stores";
 import FullScreenGuide from "./FullScreenGuide";
 import GlobalStyles from "../styles/globalstyles.styles";
 import { AnimatePresence } from "framer-motion";
 
 const Layout = () => {
-  const [isFullscreen, setIsFullscreen] = useRecoilState(isFullscreenAtom);
-
+  const { isFullscreen, setIsFullscreen } = isFullscreenStore();
   window.document.addEventListener("fullscreenchange", () => {
     if (document.fullscreenElement) {
       setIsFullscreen(true);

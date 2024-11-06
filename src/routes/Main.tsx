@@ -5,7 +5,8 @@ import Slider from "../components/main/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
 import Header from "../components/Header";
 import { useTheme } from "styled-components";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import DetailModal from "../components/DetailModal";
 
 const testKey = "tloztotk";
 
@@ -67,6 +68,7 @@ const Main = () => {
 
   return (
     <>
+      <DetailModal />
       <Container>
         <Header />
         <InnerContainer>

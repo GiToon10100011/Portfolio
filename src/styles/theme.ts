@@ -34,6 +34,10 @@ export const defaultTheme: DefaultTheme = {
     light: 0.2,
     dark: 0.6,
   },
+  fontWeight: {
+    semiBold: 550,
+    bold: 600,
+    regular: "normal",
+    extraBold: 800,
+  },
 };
-
-export type Theme = typeof defaultTheme;

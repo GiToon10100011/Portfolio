@@ -1,8 +1,7 @@
 import styled, { css } from "styled-components";
 import { bootupAnimations } from "../styles/animations";
 import React, { useState } from "react";
-import { triggerMainAtom } from "../atoms";
-import { useSetRecoilState } from "recoil";
+import { triggerMainStore } from "../stores";
 import { motion } from "framer-motion";
 
 const Container = styled.main`
@@ -134,7 +133,7 @@ function Bootup() {
   const [progress, setProgress] = useState(0);
   const [isBootingEnded, setIsBootingEnded] = useState(false);
   const [progressWidth, setProgressWidth] = useState(100);
-  const setTriggerMain = useSetRecoilState(triggerMainAtom);
+  const { setTriggerMain } = triggerMainStore();
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === bootupAnimations["initial"].getName()) {
@@ -167,7 +166,7 @@ function Bootup() {
 
   const handleLoadingEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === bootupAnimations["expansionThird"].getName()) {
-      setTriggerMain(() => true);
+      setTriggerMain(true);
     }
   };
 

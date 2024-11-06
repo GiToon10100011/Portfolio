@@ -2,7 +2,7 @@ import "styled-components";
 import { Theme } from "./styles/theme";
 
 declare module "styled-components" {
-  export interface DefaultTheme extends Theme {
+  export interface DefaultTheme {
     fonts: {
       logo: string;
       nintendo: string;
@@ -35,6 +35,12 @@ declare module "styled-components" {
     bgFilter: {
       light: number;
       dark: number;
+    };
+    fontWeight: {
+      semiBold: number;
+      bold: number;
+      regular: string;
+      extraBold: number;
     };
   }
 }

@@ -1,6 +1,5 @@
 import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
-import Detail from "./routes/Detail";
 import Profile from "./routes/Profile";
 import NotFound from "./routes/NotFound";
 import Comments from "./routes/Comments";

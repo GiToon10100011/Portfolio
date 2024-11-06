@@ -8,10 +8,12 @@ interface IButtonProps {
   $borderColor?: string;
   $bgFilter?: string;
   onClick?: () => void;
+  $width?: string;
+  $order?: string;
 }
 
 const Container = styled.button<IButtonProps>`
-  width: 216px;
+  width: ${({ $width }) => $width ?? "216px"};
   height: 60px;
   display: flex;
   align-items: center;
@@ -30,6 +32,9 @@ const Container = styled.button<IButtonProps>`
     filter: brightness(0.8);
     transform: scale(0.98);
   }
+  svg {
+    order: ${({ $order }) => $order};
+  }
 `;
 
 const Button = ({
@@ -39,6 +44,8 @@ const Button = ({
   $borderColor = "transparent",
   $bgFilter = "0px",
   onClick,
+  $width,
+  $order,
 }: IButtonProps) => {
   return (
     <Container
@@ -48,6 +55,8 @@ const Button = ({
       $borderColor={$borderColor}
       $bgFilter={$bgFilter}
       text={text}
+      $width={$width}
+      $order={$order}
     >
       {icon}
       {text}
