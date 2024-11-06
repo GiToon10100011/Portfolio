@@ -131,6 +131,7 @@ const TroubleshootingItem = styled.p`
   font-size: 22px;
   line-height: 1.2;
   margin-bottom: 40px;
+  display: flex;
   &::before {
     counter-increment: paragraph;
     content: counter(paragraph) ". ";
