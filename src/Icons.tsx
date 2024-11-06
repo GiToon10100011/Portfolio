@@ -1,3 +1,66 @@
+import styled from "styled-components";
+
+interface IHelpIconProps {
+  onHover?: () => void;
+  onExit?: () => void;
+  content?: string;
+  $isHovering?: boolean;
+}
+
+const HelpIconContainer = styled.div<IHelpIconProps>`
+  all: initial;
+  color: white;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &::before {
+    content: attr(data-content);
+    z-index: 20;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: -130px;
+    width: 160px;
+    height: 40px;
+    padding: 20px;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transform: scaleY(${({ $isHovering }) => ($isHovering ? 1 : 0)});
+    will-change: transform, opacity;
+    font-size: 14px;
+    text-align: left;
+    background-color: black;
+    transform-origin: top;
+    opacity: ${({ $isHovering }) => ($isHovering ? 1 : 0)};
+    transition: all 0.3s;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%) scaleY(-1);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid black;
+    z-index: 2;
+    opacity: ${({ $isHovering }) => ($isHovering ? 1 : 0)};
+    transition: all 0.3s;
+  }
+  &:hover {
+    &::before {
+      transform: scale(1);
+      filter: brightness(1);
+      opacity: 1;
+    }
+    &::after {
+      opacity: 1;
+    }
+  }
+`;
+
 export const PlayIcon = () => {
   return (
     <svg
@@ -127,25 +190,57 @@ export const HomepageIcon = () => {
     </svg>
   );
 };
-export const HelpIcon = () => {
+export const HelpIcon = ({
+  onHover,
+  onExit,
+  content,
+  $isHovering,
+}: IHelpIconProps) => {
   return (
-    <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
+    <HelpIconContainer
+      data-content={content ?? ""}
+      onMouseEnter={onHover}
+      onMouseLeave={onExit}
+      $isHovering={$isHovering}
+    >
+      <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
+        <path
+          d="M10.5001 18.3334C15.1025 18.3334 18.8334 14.6025 18.8334 10.0001C18.8334 5.39771 15.1025 1.66675 10.5001 1.66675C5.89771 1.66675 2.16675 5.39771 2.16675 10.0001C2.16675 14.6025 5.89771 18.3334 10.5001 18.3334Z"
+          stroke="white"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.07495 7.49999C8.27087 6.94304 8.65758 6.47341 9.16658 6.17426C9.67558 5.87512 10.274 5.76577 10.8559 5.86558C11.4378 5.96539 11.9656 6.26792 12.3458 6.71959C12.7261 7.17126 12.9342 7.74292 12.9333 8.33332C12.9333 9.99999 10.4333 10.8333 10.4333 10.8333"
+          stroke="white"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10.5 14.1667H10.5083"
+          stroke="white"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </HelpIconContainer>
+  );
+};
+export const BackIcon = () => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path
-        d="M10.5001 18.3334C15.1025 18.3334 18.8334 14.6025 18.8334 10.0001C18.8334 5.39771 15.1025 1.66675 10.5001 1.66675C5.89771 1.66675 2.16675 5.39771 2.16675 10.0001C2.16675 14.6025 5.89771 18.3334 10.5001 18.3334Z"
+        d="M15.8332 10H4.1665"
         stroke="white"
         strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M8.07495 7.49999C8.27087 6.94304 8.65758 6.47341 9.16658 6.17426C9.67558 5.87512 10.274 5.76577 10.8559 5.86558C11.4378 5.96539 11.9656 6.26792 12.3458 6.71959C12.7261 7.17126 12.9342 7.74292 12.9333 8.33332C12.9333 9.99999 10.4333 10.8333 10.4333 10.8333"
-        stroke="white"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.5 14.1667H10.5083"
+        d="M9.99984 15.8334L4.1665 10.0001L9.99984 4.16675"
         stroke="white"
         strokeWidth="1.4"
         strokeLinecap="round"

@@ -4,6 +4,7 @@ import Profile from "./routes/Profile";
 import NotFound from "./routes/NotFound";
 import Comments from "./routes/Comments";
 import Layout from "./components/Layout";
+import GameLoading from "./components/GameLoading";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <App />,
+      },
+      {
+        path: "redirect/:gameId",
+        element: <GameLoading />,
       },
       {
         path: "profile",

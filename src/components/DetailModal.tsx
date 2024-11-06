@@ -6,7 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import Button from "./Button";
-import { HelpIcon, PlayIcon } from "../Icons";
+import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
+import { useState } from "react";
 
 const Wrapper = styled(motion.main)`
   position: fixed;
@@ -23,7 +24,14 @@ const Wrapper = styled(motion.main)`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+const Overlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
+
 const Modal = styled.div`
+  position: relative;
   width: 1520px;
   height: 880px;
   display: flex;
@@ -70,13 +78,8 @@ const DescTitle = styled.h4`
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
 `;
 const DescContent = styled.p`
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const Slider = styled(Swiper)`
@@ -123,7 +126,7 @@ const TroubleshootingTitle = styled.h4`
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
 `;
 
-const TroubleshootingContent = styled.p`
+const TroubleshootingContent = styled.div`
   counter-reset: paragraph;
 `;
 
@@ -169,13 +172,45 @@ const ButtonContainer = styled.div`
   gap: 14px;
 `;
 
-const Detail = () => {
+const CloseModal = styled.button`
+  position: absolute;
+  bottom: -60px;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 28px;
+  font-family: ${({ theme }) => theme.fonts.text};
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  svg {
+    width: 30px;
+    height: 30px;
+    background: #000;
+    border-radius: 50%;
+  }
+`;
+
+const Detail = ({
+  setIsDetailModalOpen,
+}: {
+  setIsDetailModalOpen: (value: boolean) => void;
+}) => {
   const theme = useTheme();
+  const [isHovering, setIsHovering] = useState(false);
   const pagers = {
     clickable: true,
     renderBullet: (index: number, className: string) => {
       return `<Pager class="${className}"></Pager>`;
     },
+  };
+  const whileHoverInfo = () => {
+    setIsHovering(true);
+  };
+  const whileHoverExit = () => {
+    setIsHovering(false);
   };
   return (
     <>
@@ -184,6 +219,7 @@ const Detail = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
+        <Overlay onClick={() => setIsDetailModalOpen(false)} />
         <Modal>
           <LeftArea>
             <ModalHeader>
@@ -258,15 +294,30 @@ const Detail = () => {
                 $bgColor={theme.colors.point}
               />
               <Button
-                icon={<HelpIcon />}
+                icon={
+                  <HelpIcon
+                    onHover={whileHoverInfo}
+                    onExit={whileHoverExit}
+                    content="방명록을 통해 피드백 등을 
+                  남기실 수 있습니다. "
+                    $isHovering={isHovering}
+                  />
+                }
                 text="Review"
                 $width="100%"
-                $order="2"
+                $order="-1"
                 $borderColor={theme.colors.text}
                 $bgFilter="4px"
+                $scale="1"
+                $brightness="1"
+                $customHover={`background: white; color: black; path{stroke: black;}`}
               />
             </ButtonContainer>
           </RightArea>
+          <CloseModal onClick={() => setIsDetailModalOpen(false)}>
+            <BackIcon />
+            <span>Back</span>
+          </CloseModal>
         </Modal>
       </Wrapper>
     </>

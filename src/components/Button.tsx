@@ -10,6 +10,9 @@ interface IButtonProps {
   onClick?: () => void;
   $width?: string;
   $order?: string;
+  $scale?: string;
+  $brightness?: string;
+  $customHover?: string;
 }
 
 const Container = styled.button<IButtonProps>`
@@ -29,10 +32,11 @@ const Container = styled.button<IButtonProps>`
   backdrop-filter: blur(${({ $bgFilter }) => $bgFilter});
   transition: all 0.3s;
   &:hover {
-    filter: brightness(0.8);
-    transform: scale(0.98);
+    filter: brightness(${({ $brightness }) => $brightness});
+    transform: scale(${({ $scale }) => $scale});
+    ${({ $customHover }) => $customHover}
   }
-  svg {
+  span {
     order: ${({ $order }) => $order};
   }
 `;
@@ -46,6 +50,9 @@ const Button = ({
   onClick,
   $width,
   $order,
+  $scale = "0.98",
+  $brightness = "0.8",
+  $customHover,
 }: IButtonProps) => {
   return (
     <Container
@@ -57,9 +64,12 @@ const Button = ({
       text={text}
       $width={$width}
       $order={$order}
+      $scale={$scale}
+      $brightness={$brightness}
+      $customHover={$customHover}
     >
       {icon}
-      {text}
+      <span>{text}</span>
     </Container>
   );
 };

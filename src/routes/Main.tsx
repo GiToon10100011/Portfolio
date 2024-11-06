@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Slider from "../components/main/Slider";
@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";
+import { useState } from "react";
 
 const testKey = "tloztotk";
 
@@ -30,7 +31,7 @@ const SliderMenu = styled(motion.section)`
   left: 0;
   width: 100%;
   height: 540px;
-  background: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.7));
+  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0.7));
   backdrop-filter: blur(10px);
   border-radius: 40px 40px 0 0;
   display: flex;
@@ -63,12 +64,20 @@ const ButtonsContainer = styled.div`
 `;
 
 const Main = () => {
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
 
   return (
     <>
-      <DetailModal />
+      <AnimatePresence mode="wait">
+        {isDetailModalOpen && (
+          <DetailModal
+            key="detailModal"
+            setIsDetailModalOpen={setIsDetailModalOpen}
+          />
+        )}
+      </AnimatePresence>
       <Container>
         <Header />
         <InnerContainer>
@@ -80,7 +89,7 @@ const Main = () => {
               icon={<PlayIcon />}
             />
             <Button
-              onClick={() => navigate(`/detail/${testKey}`)}
+              onClick={() => setIsDetailModalOpen(true)}
               text="More Info"
               $bgColor="transparent"
               $bgFilter="4px"
