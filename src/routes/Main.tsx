@@ -8,6 +8,7 @@ import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";
 import { useState } from "react";
+import { isPlayingStore } from "../stores";
 
 const testKey = "tloztotk";
 
@@ -65,8 +66,17 @@ const ButtonsContainer = styled.div`
 
 const Main = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const { setIsPlaying } = isPlayingStore();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const onHandlePlay = () => {
+    setIsPlaying(true);
+    setTimeout(() => {
+      navigate(`/redirect/${testKey}`);
+      setIsPlaying(false);
+    }, 300);
+  };
 
   return (
     <>
@@ -87,6 +97,7 @@ const Main = () => {
               text="Play"
               $bgColor={theme.colors.point}
               icon={<PlayIcon />}
+              onClick={onHandlePlay}
             />
             <Button
               onClick={() => setIsDetailModalOpen(true)}

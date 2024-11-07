@@ -23,6 +23,11 @@ interface IsFullscreenStore {
   setIsFullscreen: (isFullscreen: boolean) => void;
 }
 
+interface IsPlayingStore {
+  isPlaying: boolean;
+  setIsPlaying: (isPlaying: boolean) => void;
+}
+
 export const triggerMainStore = create<TriggerMainStore>()(
   devtools((set) => ({
     triggerMain: false,
@@ -34,5 +39,12 @@ export const isFullscreenStore = create<IsFullscreenStore>()(
   devtools((set) => ({
     isFullscreen: false,
     setIsFullscreen: (isFullscreen) => set({ isFullscreen }),
+  }))
+);
+
+export const isPlayingStore = create<IsPlayingStore>()(
+  devtools((set) => ({
+    isPlaying: false,
+    setIsPlaying: (isPlaying) => set({ isPlaying }),
   }))
 );

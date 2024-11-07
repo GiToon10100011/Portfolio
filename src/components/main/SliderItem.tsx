@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { sliderAnimations } from "../../styles/animations";
+import { AnimatePresence, motion } from "framer-motion";
+import { isPlayingStore } from "../../stores";
 
 // const text = "Fullpage.JS를 활용한\n사이드 프로젝트";
 
@@ -8,7 +10,7 @@ interface ISliderProps {
   isActive?: string;
 }
 
-const Item = styled.div`
+const Item = styled(motion.div)`
   overflow: hidden;
   width: 260px;
   height: 346px;
@@ -49,10 +51,17 @@ const Item = styled.div`
 `;
 
 const SliderItem = ({ isActive }: ISliderProps) => {
+  const { isPlaying } = isPlayingStore();
   return (
     <Item
       data-content={"Fullpage.JS를 활용한\n사이드 프로젝트"}
       className={isActive ?? ""}
+      animate={{
+        scale: isPlaying && isActive === "active" ? [0.9, 1] : 1,
+      }}
+      transition={{
+        duration: 0.3,
+      }}
     />
   );
 };
