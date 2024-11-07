@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 const Container = styled.main`
   position: fixed;
+  z-index: 4;
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -89,7 +90,7 @@ const Title = styled.h4`
 
 const CircleContainer = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   width: 100%;
   height: 100vh;
   overflow: hidden;

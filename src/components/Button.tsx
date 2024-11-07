@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
@@ -15,7 +16,7 @@ interface IButtonProps {
   $customHover?: string;
 }
 
-const Container = styled.button<IButtonProps>`
+const Container = styled(motion.button)<IButtonProps>`
   width: ${({ $width }) => $width ?? "216px"};
   height: 60px;
   display: flex;
@@ -32,8 +33,8 @@ const Container = styled.button<IButtonProps>`
   backdrop-filter: blur(${({ $bgFilter }) => $bgFilter});
   transition: all 0.3s;
   &:hover {
-    filter: brightness(${({ $brightness }) => $brightness});
-    transform: scale(${({ $scale }) => $scale});
+    /* filter: brightness(${({ $brightness }) => $brightness});
+    transform: scale(${({ $scale }) => $scale}); */
     ${({ $customHover }) => $customHover}
   }
   span {
@@ -67,6 +68,14 @@ const Button = ({
       $scale={$scale}
       $brightness={$brightness}
       $customHover={$customHover}
+      initial={{ scale: 1 }}
+      whileTap={{
+        scale: 0.9,
+      }}
+      whileHover={{
+        scale: $scale,
+        filter: `brightness(${$brightness})`,
+      }}
     >
       {icon}
       <span>{text}</span>

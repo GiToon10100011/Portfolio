@@ -1,22 +1,43 @@
 import styled from "styled-components";
 import { NetworkStatusIcon } from "../Icons";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "styled-components";
+import FadeLoader from "react-spinners/FadeLoader";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Container = styled.header`
+const override: CSSProperties = {
+  scale: 2,
+};
+
+interface IProfileInfoProps {
+  $isProfilePage: boolean;
+}
+
+const Container = styled.header<IProfileInfoProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 120px;
   margin-bottom: 70px;
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.text};
+  z-index: 3;
+  display: flex;
+  align-items: center;
 `;
 
-const InnerContainer = styled.div`
+const InnerContainer = styled.div<IProfileInfoProps>`
   width: 1700px;
-  height: 100%;
+  height: ${({ $isProfilePage }) => (!$isProfilePage ? "100%" : "80px")};
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${({ $isProfilePage, theme }) =>
+    $isProfilePage &&
+    `border-bottom: 1px solid ${theme.colors.lightBorder}; padding-bottom: 20px`}
 `;
 
 const LeftSide = styled.div`
@@ -25,22 +46,24 @@ const LeftSide = styled.div`
   align-items: center;
 `;
 
-const ProfileIcon = styled.div`
-  width: 80px;
-  height: 80px;
+const ProfileIcon = styled(motion.div)<IProfileInfoProps>`
+  border-radius: 50%;
+  width: ${({ $isProfilePage }) => (!$isProfilePage ? "80px" : "60px")};
+  height: ${({ $isProfilePage }) => (!$isProfilePage ? "80px" : "60px")};
+  cursor: ${({ $isProfilePage }) => (!$isProfilePage ? "pointer" : "default")};
+  overflow: hidden;
 `;
 
 const ProfilePic = styled.img`
-  border-radius: 50%;
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const ProfileInfo = styled.div`
+const ProfileInfo = styled.div<IProfileInfoProps>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${({ $isProfilePage }) => (!$isProfilePage ? "10px" : "0")};
 `;
 
 const ProfileName = styled.h1`
@@ -67,8 +90,33 @@ const CurrentTime = styled.p`
   }
 `;
 
+const ProfileLoading = styled(motion.div)`
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: ${({ theme }) => theme.colors.subBackground};
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+`;
+
+const LoadingProfileIcon = styled(motion.div)`
+  width: 200px;
+  height: 200px;
+`;
+
 const Header = () => {
+  const location = useLocation();
+  const isProfilePage = location.pathname.split("/")[1] === "profile";
+  const theme = useTheme();
+  const navigate = useNavigate();
+
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [navigateProfile, setNavigateProfile] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
   const [time, period] = currentTime
     .toLocaleTimeString("en-US", {
@@ -80,6 +128,14 @@ const Header = () => {
 
   const [firstPeriod, secondPeriod] = period.split("");
 
+  const handleNavigateProfile = () => {
+    setNavigateProfile(true);
+    setTimeout(() => {
+      navigate("/profile");
+      setNavigateProfile(false);
+    }, 1400);
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
@@ -88,28 +144,70 @@ const Header = () => {
   }, []);
 
   return (
-    <Container>
-      <InnerContainer>
-        <LeftSide>
-          <ProfileIcon>
-            <ProfilePic src="/profile.png" />
-          </ProfileIcon>
-          <ProfileInfo>
-            <ProfileName>Jon Jinu</ProfileName>
-            <ProfileKrName>전진우</ProfileKrName>
-          </ProfileInfo>
-        </LeftSide>
-        <RightSide>
-          <CurrentTime>
-            {time}
-            <span>
-              {firstPeriod}.{secondPeriod}.
-            </span>
-          </CurrentTime>
-          <NetworkStatusIcon />
-        </RightSide>
-      </InnerContainer>
-    </Container>
+    <>
+      <AnimatePresence>
+        {navigateProfile && (
+          <ProfileLoading
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <LoadingProfileIcon
+              layoutId="profile"
+              animate={{ borderRadius: 10 }}
+              transition={{
+                duration: 0.5,
+                ease: "easeInOut",
+              }}
+            >
+              <ProfilePic src="/profile.png" />
+            </LoadingProfileIcon>
+            <FadeLoader
+              color={theme.colors.textPoint}
+              loading={isLoadingProfile}
+              cssOverride={override}
+            />
+          </ProfileLoading>
+        )}
+      </AnimatePresence>
+      <Container $isProfilePage={isProfilePage}>
+        <InnerContainer $isProfilePage={isProfilePage}>
+          <LeftSide>
+            <ProfileIcon
+              initial={{ scale: 1, rotate: 0, borderRadius: "50%" }}
+              whileHover={
+                !isProfilePage
+                  ? { y: -10, rotate: [10, -10, 10, -10, 10, -10] }
+                  : undefined
+              }
+              transition={{
+                duration: 0.6,
+              }}
+              onClick={!isProfilePage ? handleNavigateProfile : undefined}
+              layoutId="profile"
+              $isProfilePage={isProfilePage}
+            >
+              <ProfilePic src="/profile.png" />
+            </ProfileIcon>
+            <ProfileInfo $isProfilePage={isProfilePage}>
+              <ProfileName>
+                {isProfilePage ? "Jon Jinu's Page" : "Jon Jinu"}
+              </ProfileName>
+              <ProfileKrName>{!isProfilePage && "전진우"}</ProfileKrName>
+            </ProfileInfo>
+          </LeftSide>
+          <RightSide>
+            <CurrentTime>
+              {time}
+              <span>
+                {firstPeriod}.{secondPeriod}.
+              </span>
+            </CurrentTime>
+            <NetworkStatusIcon />
+          </RightSide>
+        </InnerContainer>
+      </Container>
+    </>
   );
 };
 

@@ -10,9 +10,9 @@ const App = () => {
   return (
     <>
       <AnimatePresence mode="wait">
-        {/* {!triggerMain && isFullscreen && <Bootup key="bootup" />}
-        {triggerMain && <Main key="main" />} */}
-        <Main />
+        {!triggerMain && isFullscreen && <Bootup key="bootup" />}
+        {triggerMain && <Main key="main" />}
+        {/* <Main /> */}
       </AnimatePresence>
     </>
   );

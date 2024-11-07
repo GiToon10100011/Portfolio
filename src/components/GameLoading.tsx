@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import nintendoLogo from "../svgs/NintendoLogo.svg";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled(motion.div)`
   position: relative;
@@ -9,6 +10,7 @@ const Container = styled(motion.div)`
   background-color: #000;
   font-family: ${({ theme }) => theme.fonts.nintendo};
   color: ${({ theme }) => theme.colors.text};
+  z-index: 9;
 `;
 
 const NintendoLogo = styled.img`
@@ -29,8 +31,8 @@ const LoadingContainer = styled.div`
   align-items: center;
   gap: 14px;
 `;
-const LeftPart = styled.img``;
-const RightPart = styled.img``;
+const LeftPart = styled(motion.img)``;
+const RightPart = styled(motion.img)``;
 const LoadingText = styled.div``;
 const UpperText = styled.span`
   font-size: 40px;
@@ -45,28 +47,75 @@ const CopyRight = styled.span`
   letter-spacing: 0;
 `;
 
+const moveVariants = {
+  animate: {
+    y: [0, -20, 0],
+    transition: {
+      duration: 1.2,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatDelay: 2,
+    },
+  },
+};
+
+const letterVariants = {
+  initial: { rotateY: 0 },
+  animate: { rotateY: 720 },
+};
+
 const GameLoading = () => {
+  const navigate = useNavigate();
+  setTimeout(() => {
+    navigate("/");
+  }, 6000);
   return (
     <Container
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 1 }}
+      exit={{ opacity: 0 }}
     >
-      <NintendoLogo src={nintendoLogo} />
+      <NintendoLogo src={nintendoLogo} alt="nintendo logo" />
       <LoadingContainer>
         <NintendoSwitchLogo>
           <LeftPart src={"/images/ogLeftSwitchLogo.png"} />
-          <RightPart src={"/images/ogRightSwitchLogo.png"} />
+          <RightPart
+            src={"/images/ogRightSwitchLogo.png"}
+            variants={moveVariants}
+            initial={{ y: 0 }}
+            animate="animate"
+            transition={{
+              duration: 0.6,
+              ease: "easeOut",
+              type: "spring",
+              repeat: Infinity,
+              repeatType: "reverse",
+              repeatDelay: 2,
+            }}
+          />
         </NintendoSwitchLogo>
         <LoadingText>
           <UpperText>NINTENDO</UpperText>
           <LowerText>
-            <span>S</span>
-            <span>W</span>
-            <span>I</span>
-            <span>T</span>
-            <span>C</span>
-            <span>H</span>
+            {["S", "W", "I", "T", "C", "H"].map((letter, index) => (
+              <motion.span
+                key={index}
+                variants={letterVariants}
+                initial="initial"
+                animate="animate"
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1 + 1.2,
+                  type: "spring",
+                  repeat: Infinity,
+                  repeatDelay: 3,
+                }}
+                style={{ display: "inline-block" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
             <CopyRight>TM</CopyRight>
           </LowerText>
         </LoadingText>

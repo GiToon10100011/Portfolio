@@ -69,21 +69,21 @@ export const bootupAnimations = {
   expansionSecond: keyframes`
     from{
       transform: scale(1);
-      z-index: 2;
+      z-index: 5;
     }
     to{
       transform: scale(100);
-      z-index: 3;
+      z-index: 6;
     }
   `,
   expansionThird: keyframes`
     from{
       transform: scale(1);
-      z-index: 3;
+      z-index: 6;
     }
     to{
       transform: scale(100);
-      z-index: 4;
+      z-index: 7;
     }
   `,
 };

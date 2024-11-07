@@ -9,6 +9,11 @@ import Button from "./Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
 import { useState } from "react";
 
+interface IDetailModalProps {
+  setIsDetailModalOpen: (value: boolean) => void;
+  onPlay: () => void;
+}
+
 const Wrapper = styled(motion.main)`
   position: fixed;
   display: flex;
@@ -193,11 +198,7 @@ const CloseModal = styled.button`
   }
 `;
 
-const Detail = ({
-  setIsDetailModalOpen,
-}: {
-  setIsDetailModalOpen: (value: boolean) => void;
-}) => {
+const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
   const theme = useTheme();
   const [isHovering, setIsHovering] = useState(false);
   const pagers = {
@@ -292,6 +293,7 @@ const Detail = ({
                 text="Play Now"
                 $width="100%"
                 $bgColor={theme.colors.point}
+                onClick={onPlay}
               />
               <Button
                 icon={

@@ -4,6 +4,7 @@ import { isFullscreenStore } from "../stores";
 import FullScreenGuide from "./FullScreenGuide";
 import GlobalStyles from "../styles/globalstyles.styles";
 import { AnimatePresence } from "framer-motion";
+import Header from "./Header";
 
 const Layout = () => {
   const { isFullscreen, setIsFullscreen } = isFullscreenStore();
@@ -20,6 +21,9 @@ const Layout = () => {
       <GlobalStyles />
       <AnimatePresence mode="wait">
         {!isFullscreen && <FullScreenGuide key="fullscreen" />}
+      </AnimatePresence>
+      <Header />
+      <AnimatePresence mode="wait">
         <Outlet key={location.pathname} />
       </AnimatePresence>
     </>

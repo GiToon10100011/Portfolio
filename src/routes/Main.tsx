@@ -17,6 +17,7 @@ const Container = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100vh;
+  padding-top: 190px;
   background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.8),
@@ -75,7 +76,7 @@ const Main = () => {
     setTimeout(() => {
       navigate(`/redirect/${testKey}`);
       setIsPlaying(false);
-    }, 300);
+    }, 600);
   };
 
   return (
@@ -85,11 +86,11 @@ const Main = () => {
           <DetailModal
             key="detailModal"
             setIsDetailModalOpen={setIsDetailModalOpen}
+            onPlay={onHandlePlay}
           />
         )}
       </AnimatePresence>
       <Container>
-        <Header />
         <InnerContainer>
           <GameTitle>The Legend of Zelda: Tears of the Kingdom</GameTitle>
           <ButtonsContainer>
