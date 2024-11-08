@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   padding-top: 140px;
   width: 100%;
   height: 100vh;
@@ -282,7 +283,12 @@ const RightArea = styled.div`
 
 const Profile = () => {
   return (
-    <Container>
+    <Container
+      initial={{ opacity: 0, scale: 1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 1 }}
+    >
       <InnerContainer>
         <LeftArea>
           <ProfileCard>
@@ -295,7 +301,7 @@ const Profile = () => {
               <ProfileName>JON JINU</ProfileName>
             </ProfileInfo>
             <SNSMenu>
-              <SNSItem>
+              <SNSItem href="mailto:boon10034@gmail.com" target="_blank">
                 <SNSIcon src="/images/icons/EmailIcon.png" alt="Email" />
               </SNSItem>
               <SNSItem>

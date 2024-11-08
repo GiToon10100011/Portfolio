@@ -28,6 +28,11 @@ interface IsPlayingStore {
   setIsPlaying: (isPlaying: boolean) => void;
 }
 
+interface ICursorChangingStore {
+  cursorChanging: boolean;
+  setCursorChanging: (cursorChanging: boolean) => void;
+}
+
 export const triggerMainStore = create<TriggerMainStore>()(
   devtools((set) => ({
     triggerMain: false,
@@ -46,5 +51,12 @@ export const isPlayingStore = create<IsPlayingStore>()(
   devtools((set) => ({
     isPlaying: false,
     setIsPlaying: (isPlaying) => set({ isPlaying }),
+  }))
+);
+
+export const cursorChangingStore = create<ICursorChangingStore>()(
+  devtools((set) => ({
+    cursorChanging: false,
+    setCursorChanging: (cursorChanging) => set({ cursorChanging }),
   }))
 );

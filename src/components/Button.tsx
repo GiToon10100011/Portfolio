@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
+import { cursorChangingStore } from "../stores";
 
 interface IButtonProps {
   text: string;
@@ -55,12 +56,13 @@ const Button = ({
   $brightness = "0.8",
   $customHover,
 }: IButtonProps) => {
+  const { setCursorChanging } = cursorChangingStore();
   return (
     <Container
       onClick={onClick}
       icon={icon}
-      $bgColor={$bgColor}
       $borderColor={$borderColor}
+      $bgColor={$bgColor}
       $bgFilter={$bgFilter}
       text={text}
       $width={$width}
@@ -76,6 +78,8 @@ const Button = ({
         scale: $scale,
         filter: `brightness(${$brightness})`,
       }}
+      onMouseEnter={() => setCursorChanging(true)}
+      onMouseLeave={() => setCursorChanging(false)}
     >
       {icon}
       <span>{text}</span>
