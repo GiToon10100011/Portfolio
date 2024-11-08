@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import Content from "../components/profile/Content";
+import { glitchAnimations } from "../styles/animations";
 
 const Container = styled(motion.div)`
   padding-top: 140px;
@@ -22,12 +24,12 @@ const InnerContainer = styled.div`
 const LeftArea = styled.div`
   overflow: hidden;
   width: 500px;
-  height: fit-content;
+  height: 788px;
   background: #141414;
   border-radius: 40px 0 40px 40px;
 `;
 
-const ProfileCard = styled.div`
+const ProfileCard = styled(motion.div)`
   width: 100%;
   padding: 60px;
   display: flex;
@@ -36,7 +38,7 @@ const ProfileCard = styled.div`
   gap: 40px;
 `;
 
-const ProfilePicture = styled.div`
+const ProfilePicture = styled(motion.div)`
   position: relative;
   width: 380px;
   height: 380px;
@@ -53,7 +55,7 @@ const ProfilePicture = styled.div`
     background: linear-gradient(
       45deg,
       transparent 65%,
-      rgba(175, 83, 255, 0.2) 15 85%
+      rgba(175, 83, 255, 0.6) 15 85%
     );
     mix-blend-mode: overlay;
     pointer-events: none;
@@ -68,7 +70,7 @@ const GlitchImage = styled.div`
   height: 100%;
   background: url("/profile.png") no-repeat center center / cover;
   filter: saturate(0.85) contrast(1.1);
-  animation: base-effect 3s infinite;
+  animation: ${glitchAnimations.baseEffect} 3s infinite;
 
   &::before,
   &::after {
@@ -84,83 +86,15 @@ const GlitchImage = styled.div`
 
   &::before {
     background: url("/profile.png") no-repeat center center / cover;
-    animation: glitch-effect 3s infinite;
+    animation: ${glitchAnimations.glitchEffect} 3s infinite;
     mix-blend-mode: screen;
-    background-color: rgba(175, 83, 255, 0.4);
+    background-color: rgba(175, 83, 255, 0.6);
   }
 
   &::after {
-    background: rgba(175, 83, 255, 0.4);
-    animation: color-overlay 3s infinite;
+    background: rgba(175, 83, 255, 0.6);
+    animation: ${glitchAnimations.colorOverlay} 3s infinite;
     mix-blend-mode: color-dodge;
-  }
-
-  @keyframes base-effect {
-    0%,
-    78%,
-    100% {
-      filter: saturate(0.85) contrast(1.1) grayscale(0);
-    }
-    79%,
-    83% {
-      filter: saturate(0.85) contrast(1.1) grayscale(0.8);
-    }
-  }
-
-  @keyframes glitch-effect {
-    0%,
-    78%,
-    100% {
-      opacity: 0;
-      transform: translate(0);
-      clip-path: inset(0 0 0 0);
-    }
-    79% {
-      opacity: 0.7;
-      transform: translate(-2px);
-      clip-path: inset(10% 0 15% 0);
-    }
-    80% {
-      opacity: 0.7;
-      transform: translate(2px);
-      clip-path: inset(25% 0 40% 0);
-    }
-    81% {
-      opacity: 0.7;
-      transform: translate(-2px);
-      clip-path: inset(45% 0 55% 0);
-    }
-    82% {
-      opacity: 0.7;
-      transform: translate(2px);
-      clip-path: inset(60% 0 75% 0);
-    }
-    83% {
-      opacity: 0;
-      transform: translate(0);
-      clip-path: inset(0 0 0 0);
-    }
-  }
-
-  @keyframes color-overlay {
-    0%,
-    78%,
-    100% {
-      opacity: 0;
-    }
-    79%,
-    80% {
-      opacity: 0.3;
-    }
-    81% {
-      opacity: 0.5;
-    }
-    82% {
-      opacity: 0.3;
-    }
-    83% {
-      opacity: 0;
-    }
   }
 `;
 
@@ -176,34 +110,16 @@ const NoiseOverlay = styled.div`
   opacity: 0.05;
   z-index: 1;
   pointer-events: none;
-  animation: noise 0.2s steps(3) infinite;
+  animation: ${glitchAnimations.noise} 0.2s steps(3) infinite;
   background-image: repeating-radial-gradient(
     circle at 50% 50%,
     transparent 0,
-    rgba(175, 83, 255, 0.2) 1px,
+    rgba(175, 83, 255, 0.6) 1px,
     transparent 2px
   );
-
-  @keyframes noise {
-    0% {
-      transform: translate(0, 0);
-    }
-    25% {
-      transform: translate(-1%, -1%);
-    }
-    50% {
-      transform: translate(1%, 1%);
-    }
-    75% {
-      transform: translate(-1%, 1%);
-    }
-    100% {
-      transform: translate(1%, -1%);
-    }
-  }
 `;
 
-const ProfileInfo = styled.div`
+const ProfileInfo = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -223,7 +139,7 @@ const ProfileName = styled.h1`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const SNSMenu = styled.div`
+const SNSMenu = styled(motion.div)`
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -247,7 +163,7 @@ const SNSItem = styled.a`
 
 const SNSIcon = styled.img``;
 
-const ContactMenu = styled.div`
+const ContactMenu = styled(motion.div)`
   width: 100%;
   height: 80px;
   display: flex;
@@ -279,10 +195,83 @@ const RightArea = styled.div`
   height: 100%;
   overflow-y: scroll;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
 `;
 
+const profileCardVariants = {
+  initial: {
+    opacity: 0,
+    x: 200,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      type: "spring",
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 200,
+    transition: {
+      duration: 1,
+      type: "spring",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+// Add variants for the child elements
+const childVariants = {
+  initial: {
+    opacity: 0,
+    x: 100,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 200,
+    transition: {
+      duration: 1,
+      type: "spring",
+    },
+  },
+};
+
+const contactMenuVariants = {
+  initial: { opacity: 0, x: 200 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 1,
+      type: "spring",
+      delay: 0.4,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 200,
+    transition: {
+      duration: 1,
+      type: "spring",
+    },
+  },
+};
+
 const Profile = () => {
-  const [mode, setMode] = useState<string>("profile");
+  const [mode, setMode] = useState<string>("menu");
   console.log(mode);
   return (
     <Container
@@ -293,36 +282,65 @@ const Profile = () => {
     >
       <InnerContainer>
         <LeftArea>
-          <ProfileCard>
-            <ProfilePicture>
-              <GlitchImage />
-              <NoiseOverlay />
-            </ProfilePicture>
-            <ProfileInfo>
-              <ProfileSubtitle>Frontend Developer_</ProfileSubtitle>
-              <ProfileName>JON JINU</ProfileName>
-            </ProfileInfo>
-            <SNSMenu>
-              <SNSItem href="mailto:boon10034@gmail.com" target="_blank">
-                <SNSIcon src="/images/icons/EmailIcon.png" alt="Email" />
-              </SNSItem>
-              <SNSItem>
-                <SNSIcon src="/images/icons/LinkedInIcon.png" alt="LinkedIn" />
-              </SNSItem>
-              <SNSItem>
-                <SNSIcon src="/images/icons/DiscordIcon.png" alt="Discord" />
-              </SNSItem>
-              <SNSItem>
-                <SNSIcon src="/images/icons/GithubIcon.png" alt="Github" />
-              </SNSItem>
-            </SNSMenu>
-          </ProfileCard>
-          <ContactMenu>
-            <ContactItem>Download CV</ContactItem>
-            <ContactItem>Contact Me</ContactItem>
-          </ContactMenu>
+          <AnimatePresence>
+            {mode === "menu" ? (
+              <>
+                <ProfileCard
+                  variants={profileCardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <ProfilePicture variants={childVariants}>
+                    <GlitchImage />
+                    <NoiseOverlay />
+                  </ProfilePicture>
+                  <ProfileInfo variants={childVariants}>
+                    <ProfileSubtitle>Frontend Developer_</ProfileSubtitle>
+                    <ProfileName>JON JINU</ProfileName>
+                  </ProfileInfo>
+                  <SNSMenu variants={childVariants}>
+                    <SNSItem href="mailto:boon10034@gmail.com" target="_blank">
+                      <SNSIcon src="/images/icons/EmailIcon.png" alt="Email" />
+                    </SNSItem>
+                    <SNSItem>
+                      <SNSIcon
+                        src="/images/icons/LinkedInIcon.png"
+                        alt="LinkedIn"
+                      />
+                    </SNSItem>
+                    <SNSItem>
+                      <SNSIcon
+                        src="/images/icons/DiscordIcon.png"
+                        alt="Discord"
+                      />
+                    </SNSItem>
+                    <SNSItem>
+                      <SNSIcon
+                        src="/images/icons/GithubIcon.png"
+                        alt="Github"
+                      />
+                    </SNSItem>
+                  </SNSMenu>
+                </ProfileCard>
+                <ContactMenu
+                  variants={contactMenuVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <ContactItem>Download CV</ContactItem>
+                  <ContactItem>Contact Me</ContactItem>
+                </ContactMenu>
+              </>
+            ) : (
+              ""
+            )}
+          </AnimatePresence>
         </LeftArea>
-        <RightArea></RightArea>
+        <RightArea>
+          <Content />
+        </RightArea>
       </InnerContainer>
       <Footer icon="menu" mode={mode} setMode={setMode} />
     </Container>

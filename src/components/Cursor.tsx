@@ -41,7 +41,7 @@ const Cursor = ({ x, y }: ICursor) => {
       transition: {
         type: "tween",
         ease: "circOut",
-        duration: 0.6,
+        duration: 1,
       },
     },
   };

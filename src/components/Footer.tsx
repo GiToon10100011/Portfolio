@@ -3,6 +3,7 @@ import { HomeIcon, MenuIcon, ProfileIcon } from "../Icons";
 import { useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { motion } from "framer-motion";
 
 interface IFooter {
   icon?: string;
@@ -35,7 +36,7 @@ const NavigationMenu = styled.nav`
   gap: 60px;
 `;
 
-const NavigationItem = styled.button`
+const NavigationItem = styled(motion.button)`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -74,7 +75,7 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     }
   };
 
-  switch (icon) {
+  switch (mode) {
     case "menu":
       IconSwitcher = <MenuIcon />;
       break;
@@ -98,7 +99,7 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
             onMouseLeave={() => setCursorChanging(false)}
           >
             <IconContainer>{IconSwitcher}</IconContainer>
-            {icon}
+            {mode ? mode : icon}
           </NavigationItem>
           <NavigationItem
             onClick={() => navigate("/")}

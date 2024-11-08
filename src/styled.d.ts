@@ -22,6 +22,7 @@ declare module "styled-components" {
       alert: string;
       lightBorder: string;
       itemsBorder: string;
+      dividerBorder: string;
     };
     opacity: {
       default: number;

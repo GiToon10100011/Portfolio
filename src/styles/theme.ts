@@ -20,6 +20,7 @@ export const defaultTheme: DefaultTheme = {
     alert: "#ff3a3a",
     lightBorder: "#aaa",
     itemsBorder: "#444",
+    dividerBorder: "#888",
   },
   opacity: {
     default: 0.8,
