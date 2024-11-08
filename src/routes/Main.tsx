@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import Slider from "../components/main/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
-import Header from "../components/Header";
 import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";

@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "styled-components";
 import FadeLoader from "react-spinners/FadeLoader";
 import { useLocation, useNavigate } from "react-router-dom";
+import { cursorChangingStore } from "../stores";
 
 const override: CSSProperties = {
   scale: 2,
@@ -113,10 +114,11 @@ const Header = () => {
   const isProfilePage = location.pathname.split("/")[1] === "profile";
   const theme = useTheme();
   const navigate = useNavigate();
+  const { setCursorChanging } = cursorChangingStore();
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [navigateProfile, setNavigateProfile] = useState(false);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true); 
 
   const [time, period] = currentTime
     .toLocaleTimeString("en-US", {
@@ -130,8 +132,10 @@ const Header = () => {
 
   const handleNavigateProfile = () => {
     setNavigateProfile(true);
+    setIsLoadingProfile(true);
     setTimeout(() => {
       navigate("/profile");
+      setIsLoadingProfile(false);
       setNavigateProfile(false);
     }, 1400);
   };
@@ -187,6 +191,8 @@ const Header = () => {
               onClick={!isProfilePage ? handleNavigateProfile : undefined}
               layoutId="profile"
               $isProfilePage={isProfilePage}
+              onMouseEnter={!isProfilePage ? () => setCursorChanging(true) : undefined}
+              onMouseLeave={!isProfilePage ? () => setCursorChanging(false) : undefined}
             >
               <ProfilePic src="/profile.png" />
             </ProfileIcon>

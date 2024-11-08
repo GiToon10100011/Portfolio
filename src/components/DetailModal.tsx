@@ -8,6 +8,7 @@ import "swiper/css/effect-coverflow";
 import Button from "./Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
 import { useState } from "react";
+import { cursorChangingStore } from "../stores";
 
 interface IDetailModalProps {
   setIsDetailModalOpen: (value: boolean) => void;
@@ -22,7 +23,7 @@ const Wrapper = styled(motion.main)`
   width: 100%;
   height: 100vh;
   backdrop-filter: blur(40px);
-  z-index: 9;
+  z-index: 7;
   top: 0;
   left: 0;
   font-family: ${({ theme }) => theme.fonts.text};
@@ -200,6 +201,7 @@ const CloseModal = styled.button`
 
 const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
   const theme = useTheme();
+  const { setCursorChanging } = cursorChangingStore();
   const [isHovering, setIsHovering] = useState(false);
   const pagers = {
     clickable: true,
@@ -316,7 +318,11 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
               />
             </ButtonContainer>
           </RightArea>
-          <CloseModal onClick={() => setIsDetailModalOpen(false)}>
+          <CloseModal
+            onClick={() => setIsDetailModalOpen(false)}
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
+          >
             <BackIcon />
             <span>Back</span>
           </CloseModal>

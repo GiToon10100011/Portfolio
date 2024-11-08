@@ -1,7 +1,14 @@
-import React from "react";
 import styled from "styled-components";
-import { HomeIcon } from "../Icons";
+import { HomeIcon, MenuIcon, ProfileIcon } from "../Icons";
 import { useNavigate } from "react-router-dom";
+import { cursorChangingStore } from "../stores";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
+
+interface IFooter {
+  icon?: string;
+  mode?: string;
+  setMode?: Dispatch<SetStateAction<string>>;
+}
 
 const Container = styled.footer`
   position: fixed;
@@ -38,6 +45,7 @@ const NavigationItem = styled.button`
   font-family: ${({ theme }) => theme.fonts.text};
   font-size: 28px;
   font-weight: 450;
+  text-transform: capitalize;
   cursor: pointer;
 `;
 
@@ -51,22 +59,57 @@ const IconContainer = styled.div`
   border-radius: 50%;
 `;
 
-const Footer = () => {
+let IconSwitcher: JSX.Element;
+
+const Footer = ({ icon, mode, setMode }: IFooter) => {
   const navigate = useNavigate();
+  const { setCursorChanging } = cursorChangingStore();
+
+  const changeMenuModes = () => {
+    if (mode === "profile" && setMode) {
+      setMode("menu");
+    }
+    if (mode === "menu" && setMode) {
+      setMode("profile");
+    }
+  };
+
+  switch (icon) {
+    case "menu":
+      IconSwitcher = <MenuIcon />;
+      break;
+    case "profile":
+      IconSwitcher = <ProfileIcon />;
+      break;
+    default:
+      IconSwitcher = <></>;
+  }
+
+  useEffect(() => {
+    return () => setCursorChanging(false);
+  }, []);
   return (
     <Container>
       <InnerContainer>
         <NavigationMenu>
-          <NavigationItem onClick={() => navigate("/")}>
+          <NavigationItem
+            onClick={mode ? changeMenuModes : undefined}
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
+          >
+            <IconContainer>{IconSwitcher}</IconContainer>
+            {icon}
+          </NavigationItem>
+          <NavigationItem
+            onClick={() => navigate("/")}
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
+          >
             <IconContainer>
               <HomeIcon />
             </IconContainer>
-            Home
+            home
           </NavigationItem>
-          {/* <NavigationItem>
-            <IconContainer>
-            </IconContainer>
-          </NavigationItem> */}
         </NavigationMenu>
       </InnerContainer>
     </Container>

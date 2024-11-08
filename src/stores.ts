@@ -33,6 +33,11 @@ interface ICursorChangingStore {
   setCursorChanging: (cursorChanging: boolean) => void;
 }
 
+interface IHideCursorStore {
+  hideCursor: boolean;
+  setHideCursor: (hideCursor: boolean) => void;
+}
+
 export const triggerMainStore = create<TriggerMainStore>()(
   devtools((set) => ({
     triggerMain: false,
@@ -58,5 +63,12 @@ export const cursorChangingStore = create<ICursorChangingStore>()(
   devtools((set) => ({
     cursorChanging: false,
     setCursorChanging: (cursorChanging) => set({ cursorChanging }),
+  }))
+);
+
+export const hideCursorStore = create<IHideCursorStore>()(
+  devtools((set) => ({
+    hideCursor: false,
+    setHideCursor: (hideCursor) => set({ hideCursor }),
   }))
 );

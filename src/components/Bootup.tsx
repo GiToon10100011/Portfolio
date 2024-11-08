@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { bootupAnimations } from "../styles/animations";
-import React, { useState } from "react";
-import { triggerMainStore } from "../stores";
+import React, { useEffect, useState } from "react";
+import { hideCursorStore, triggerMainStore } from "../stores";
 import { motion } from "framer-motion";
 
 const Container = styled.main`
@@ -135,6 +135,7 @@ function Bootup() {
   const [isBootingEnded, setIsBootingEnded] = useState(false);
   const [progressWidth, setProgressWidth] = useState(100);
   const { setTriggerMain } = triggerMainStore();
+  const { setHideCursor } = hideCursorStore();
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === bootupAnimations["initial"].getName()) {
@@ -170,6 +171,11 @@ function Bootup() {
       setTriggerMain(true);
     }
   };
+
+  useEffect(() => {
+    setHideCursor(true);
+    return () => setHideCursor(false);
+  }, []);
 
   return (
     <motion.div

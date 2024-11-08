@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { sliderAnimations } from "../../styles/animations";
 import { AnimatePresence, motion } from "framer-motion";
-import { isPlayingStore } from "../../stores";
+import { cursorChangingStore, isPlayingStore } from "../../stores";
 
 // const text = "Fullpage.JS를 활용한\n사이드 프로젝트";
 
@@ -16,7 +16,7 @@ const Item = styled(motion.div)`
   height: 346px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-
+  cursor: pointer;
   &.active {
     position: relative;
     width: 300px;
@@ -28,6 +28,7 @@ const Item = styled(motion.div)`
         rgba(0, 0, 0, 0.2)
       ),
       url("/images/zeldaProjectThumbnail.png") no-repeat center/cover;
+    cursor: default;
     &::before {
       content: attr(data-content);
       position: absolute;
@@ -52,6 +53,7 @@ const Item = styled(motion.div)`
 
 const SliderItem = ({ isActive }: ISliderProps) => {
   const { isPlaying } = isPlayingStore();
+  const { setCursorChanging } = cursorChangingStore();
   return (
     <Item
       data-content={"Fullpage.JS를 활용한\n사이드 프로젝트"}
@@ -62,6 +64,12 @@ const SliderItem = ({ isActive }: ISliderProps) => {
       transition={{
         duration: 0.3,
       }}
+      onMouseEnter={
+        isActive !== "active" ? () => setCursorChanging(true) : undefined
+      }
+      onMouseLeave={
+        isActive !== "active" ? () => setCursorChanging(false) : undefined
+      }
     />
   );
 };

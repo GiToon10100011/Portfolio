@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
@@ -282,6 +282,8 @@ const RightArea = styled.div`
 `;
 
 const Profile = () => {
+  const [mode, setMode] = useState<string>("profile");
+  console.log(mode);
   return (
     <Container
       initial={{ opacity: 0, scale: 1 }}
@@ -322,7 +324,7 @@ const Profile = () => {
         </LeftArea>
         <RightArea></RightArea>
       </InnerContainer>
-      <Footer />
+      <Footer icon="menu" mode={mode} setMode={setMode} />
     </Container>
   );
 };
