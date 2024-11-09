@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import Content from "../components/profile/Content";
 import { glitchAnimations } from "../styles/animations";
+import { cursorChangingStore, triggerMainStore } from "../stores";
 
 const Container = styled(motion.div)`
   padding-top: 140px;
@@ -171,8 +172,11 @@ const ContactMenu = styled(motion.div)`
   border-top: 1px solid rgba(204, 204, 204, 0.3);
 `;
 
-const ContactItem = styled.button`
+const ContactItem = styled.a`
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   background: none;
   border: none;
@@ -190,6 +194,52 @@ const ContactItem = styled.button`
     color: ${({ theme }) => theme.colors.textPoint};
   }
 `;
+
+const MenuCard = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+const MenuBadge = styled(motion.div)`
+  height: 1em;
+  width: 3px;
+  opacity: 0;
+  transition: background 0.3s, opacity 0.3s;
+`;
+const MenuItem = styled(motion.a)`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 30px;
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.text};
+  border-radius: ${({ theme }) => theme.borderRadius.light};
+  transition: border 0.3s, color 0.3s;
+  &.active {
+    border: 4px solid ${({ theme }) => theme.colors.textPoint};
+    color: ${({ theme }) => theme.colors.textPoint};
+    ${MenuBadge} {
+      opacity: 1;
+      background: ${({ theme }) => theme.colors.textPoint};
+    }
+  }
+  &:hover {
+    color: ${({ theme }) => theme.colors.textPoint};
+    ${MenuBadge} {
+      opacity: 1;
+      background: ${({ theme }) => theme.colors.textPoint};
+    }
+  }
+`;
+
+const MenuDivider = styled(motion.div)`
+  height: 1px;
+  background: ${({ theme }) => theme.colors.lightBorder};
+`;
+
 const RightArea = styled.div`
   width: calc(100% - 560px);
   height: 100%;
@@ -198,6 +248,7 @@ const RightArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 60px;
+  scroll-behavior: smooth;
 `;
 
 const profileCardVariants = {
@@ -219,14 +270,13 @@ const profileCardVariants = {
     opacity: 0,
     x: 200,
     transition: {
-      duration: 1,
+      duration: 0.5,
       type: "spring",
       staggerChildren: 0.1,
     },
   },
 };
 
-// Add variants for the child elements
 const childVariants = {
   initial: {
     opacity: 0,
@@ -243,7 +293,7 @@ const childVariants = {
     opacity: 0,
     x: 200,
     transition: {
-      duration: 1,
+      duration: 0.3,
       type: "spring",
     },
   },
@@ -264,7 +314,44 @@ const contactMenuVariants = {
     opacity: 0,
     x: 200,
     transition: {
-      duration: 1,
+      duration: 0.5,
+      type: "spring",
+    },
+  },
+};
+
+const menuCardVariants = {
+  initial: { opacity: 0, x: -200 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.3,
+      type: "spring",
+      staggerChildren: 0.1,
+      staggerDelay: 0.2,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: -100,
+    transition: {
+      duration: 0.3,
+      type: "spring",
+      staggerChildren: 0.08,
+      when: "afterChildren",
+    },
+  },
+};
+
+const menuItemVariants = {
+  initial: { opacity: 0, x: -200 },
+  animate: { opacity: 1, x: 0 },
+  exit: {
+    opacity: 0,
+    x: -200,
+    transition: {
+      duration: 0.2,
       type: "spring",
     },
   },
@@ -272,17 +359,23 @@ const contactMenuVariants = {
 
 const Profile = () => {
   const [mode, setMode] = useState<string>("menu");
-  console.log(mode);
+  const { setTriggerMain } = triggerMainStore();
+  const { setCursorChanging } = cursorChangingStore();
+  useEffect(() => {
+    return () => {
+      setTriggerMain(true);
+    };
+  }, []);
   return (
     <Container
       initial={{ opacity: 0, scale: 1 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 1 }}
+      exit={{ scale: 0.9, opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
       <InnerContainer>
         <LeftArea>
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {mode === "menu" ? (
               <>
                 <ProfileCard
@@ -290,6 +383,7 @@ const Profile = () => {
                   initial="initial"
                   animate="animate"
                   exit="exit"
+                  key="profileCard"
                 >
                   <ProfilePicture variants={childVariants}>
                     <GlitchImage />
@@ -329,12 +423,59 @@ const Profile = () => {
                   animate="animate"
                   exit="exit"
                 >
-                  <ContactItem>Download CV</ContactItem>
-                  <ContactItem>Contact Me</ContactItem>
+                  <ContactItem href="/resume.pdf" target="_blank">
+                    Download CV
+                  </ContactItem>
+                  <ContactItem href="#contact">Contact Me</ContactItem>
                 </ContactMenu>
               </>
             ) : (
-              ""
+              <MenuCard
+                key="menuCard"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={menuCardVariants}
+              >
+                <MenuItem
+                  href="#top"
+                  className="active"
+                  variants={menuItemVariants}
+                  onMouseEnter={() => setCursorChanging(true)}
+                  onMouseLeave={() => setCursorChanging(false)}
+                >
+                  <MenuBadge />
+                  Profile
+                </MenuItem>
+                <MenuDivider exit={{ opacity: 0, x: -100 }} />
+                <MenuItem
+                  href="#about"
+                  variants={menuItemVariants}
+                  onMouseEnter={() => setCursorChanging(true)}
+                  onMouseLeave={() => setCursorChanging(false)}
+                >
+                  <MenuBadge />
+                  About
+                </MenuItem>
+                <MenuItem
+                  href="#skills"
+                  variants={menuItemVariants}
+                  onMouseEnter={() => setCursorChanging(true)}
+                  onMouseLeave={() => setCursorChanging(false)}
+                >
+                  <MenuBadge />
+                  Skills
+                </MenuItem>
+                <MenuItem
+                  href="#contact"
+                  variants={menuItemVariants}
+                  onMouseEnter={() => setCursorChanging(true)}
+                  onMouseLeave={() => setCursorChanging(false)}
+                >
+                  <MenuBadge />
+                  Contact
+                </MenuItem>
+              </MenuCard>
             )}
           </AnimatePresence>
         </LeftArea>

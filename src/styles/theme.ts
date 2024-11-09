@@ -21,6 +21,7 @@ export const defaultTheme: DefaultTheme = {
     lightBorder: "#aaa",
     itemsBorder: "#444",
     dividerBorder: "#888",
+    cardBadgeBorder: "#666",
   },
   opacity: {
     default: 0.8,

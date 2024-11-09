@@ -323,3 +323,23 @@ export const MenuIcon = () => {
     </svg>
   );
 };
+export const CheckIcon = () => {
+  return (
+    <svg width="24" height="17" viewBox="0 0 24 17" fill="none">
+      <path
+        d="M22.8182 1L7.81818 16L1 9.18182"
+        stroke="#AF53FF"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+export const NavigateArrowIcon = () => {
+  return (
+    <svg width="325" height="54" viewBox="0 0 325 54" fill="none">
+      <path d="M0 48.5H322.5L213.5 5" stroke="white" strokeWidth="10" />
+    </svg>
+  );
+};

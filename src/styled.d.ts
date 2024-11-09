@@ -23,6 +23,7 @@ declare module "styled-components" {
       lightBorder: string;
       itemsBorder: string;
       dividerBorder: string;
+      cardBadgeBorder: string;
     };
     opacity: {
       default: number;

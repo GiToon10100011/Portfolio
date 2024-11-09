@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
 import { isFullscreenStore } from "../stores";
 import FullScreenGuide from "./FullScreenGuide";
 import GlobalStyles from "../styles/globalstyles.styles";
 import { AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import Cursor from "./Cursor";
+import AnimatedOutlet from "./AnimatedOutlet";
 
 interface CursorPosition {
   x: number;
@@ -48,7 +48,6 @@ const Layout = () => {
     };
   }, []);
 
-  const location = useLocation();
   return (
     <>
       <GlobalStyles />
@@ -58,7 +57,7 @@ const Layout = () => {
       <Cursor {...cursorPos} />
       <Header />
       <AnimatePresence mode="wait">
-        <Outlet key={location.pathname} />
+        <AnimatedOutlet />
       </AnimatePresence>
     </>
   );

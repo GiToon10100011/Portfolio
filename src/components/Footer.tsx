@@ -17,6 +17,7 @@ const Container = styled.footer`
   width: 100%;
   height: 80px;
   background: ${({ theme }) => theme.colors.background};
+  z-index: 2;
 `;
 
 const InnerContainer = styled.div`
@@ -116,5 +117,5 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     </Container>
   );
 };
-
+  
 export default Footer;
