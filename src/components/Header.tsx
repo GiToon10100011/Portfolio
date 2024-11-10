@@ -4,7 +4,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "styled-components";
 import FadeLoader from "react-spinners/FadeLoader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
 
 const override: CSSProperties = {
@@ -13,6 +13,7 @@ const override: CSSProperties = {
 
 interface IProfileInfoProps {
   $isProfilePage: boolean;
+  $isCommentsPage?: boolean;
 }
 
 const Container = styled.header<IProfileInfoProps>`
@@ -39,6 +40,8 @@ const InnerContainer = styled.div<IProfileInfoProps>`
   ${({ $isProfilePage, theme }) =>
     $isProfilePage &&
     `border-bottom: 1px solid ${theme.colors.lightBorder}; padding-bottom: 20px`}
+  ${({ $isCommentsPage, theme }) =>
+    $isCommentsPage && `border-bottom: 1px solid ${theme.colors.lightBorder};`}
 `;
 
 const LeftSide = styled.div`
@@ -112,13 +115,14 @@ const LoadingProfileIcon = styled(motion.div)`
 const Header = () => {
   const location = useLocation();
   const isProfilePage = location.pathname.split("/")[1] === "profile";
+  const isCommentsPage = location.pathname.split("/")[1] === "comments";
   const theme = useTheme();
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [navigateProfile, setNavigateProfile] = useState(false);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true); 
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
   const [time, period] = currentTime
     .toLocaleTimeString("en-US", {
@@ -176,7 +180,10 @@ const Header = () => {
         )}
       </AnimatePresence>
       <Container $isProfilePage={isProfilePage}>
-        <InnerContainer $isProfilePage={isProfilePage}>
+        <InnerContainer
+          $isProfilePage={isProfilePage}
+          $isCommentsPage={isCommentsPage}
+        >
           <LeftSide>
             <ProfileIcon
               initial={{ scale: 1, rotate: 0, borderRadius: "50%" }}
@@ -191,8 +198,12 @@ const Header = () => {
               onClick={!isProfilePage ? handleNavigateProfile : undefined}
               layoutId="profile"
               $isProfilePage={isProfilePage}
-              onMouseEnter={!isProfilePage ? () => setCursorChanging(true) : undefined}
-              onMouseLeave={!isProfilePage ? () => setCursorChanging(false) : undefined}
+              onMouseEnter={
+                !isProfilePage ? () => setCursorChanging(true) : undefined
+              }
+              onMouseLeave={
+                !isProfilePage ? () => setCursorChanging(false) : undefined
+              }
             >
               <ProfilePic src="/profile.png" />
             </ProfileIcon>

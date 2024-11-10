@@ -6,8 +6,9 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import Typescript from "../../svgs/skills/Typescript.svg";
-import { CheckIcon, NavigateArrowIcon } from "../../Icons";
+import { CheckIcon, NavigateArrowIcon, popupStyle } from "../../Icons";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 const Container = styled.main`
   display: flex;
   flex-direction: column;
@@ -378,27 +379,90 @@ const ContentFooter = styled.section``;
 const FooterContent = styled.div`
   margin-bottom: 240px;
 `;
-const FooterText = styled.span`
+const FooterText = styled.a`
+  display: inline-block;
+  position: relative;
   font-size: 120px;
   color: ${({ theme }) => theme.colors.text};
   font-weight: 700;
   line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.3s ease;
   svg {
     display: inline-block;
     margin-left: 30px;
+    path {
+      transition: stroke 0.3s;
+    }
+  }
+  &:hover {
+    color: ${({ theme }) => theme.colors.icons};
+    path {
+      stroke: ${({ theme }) => theme.colors.icons};
+    }
+    &::before {
+      color: ${({ theme }) => theme.colors.text};
+    }
+  }
+  ${popupStyle(20)}
+  &::before {
+    content: "방명록을 통해 피드백 등을 남기실 수 있습니다.";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 40px;
+    bottom: -140px;
+    width: 280px;
+    height: 90px;
+    font-size: 22px;
+    word-break: keep-all;
+    line-height: 1.5;
+    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  &::after {
+    bottom: -20px;
+    left: 120px;
+    opacity: 0;
+    transform: scaleY(-1);
   }
 `;
 const FooterIndicator = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-  width: 100%;
   text-align: right;
   font-size: 40px;
   color: ${({ theme }) => theme.colors.subText};
   font-weight: 550;
   padding-right: 40px;
+  pointer-events: none;
+  span {
+    pointer-events: auto;
+  }
+  ${popupStyle(12)}
+  &::before {
+    content: "Go back and check out my projects";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 120%;
+    width: 160px;
+    height: 40px;
+    font-size: 14px;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  &::after {
+    top: -12px;
+    right: 160px;
+    opacity: 0;
+  }
 `;
 
 const technologies = [
@@ -424,6 +488,7 @@ const technologies = [
 ];
 
 const Content = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <ContentIntroduce id="top">
@@ -586,6 +651,7 @@ const Content = () => {
           modules={[Pagination, Grid]}
           pagination={{ clickable: true }}
           grid={{ rows: 2, fill: "column" }}
+          grabCursor={true}
         >
           <SkillCard>
             <img src={Typescript} alt="Typescript" />
@@ -710,12 +776,12 @@ const Content = () => {
       </ContentContact>
       <ContentFooter>
         <FooterContent>
-          <FooterText>
+          <FooterText onClick={() => navigate("/comments")}>
             Make My Projects Better <NavigateArrowIcon />
           </FooterText>
         </FooterContent>
         <FooterIndicator>
-          Or..?{" "}
+          <span>Or..?</span>
           <motion.img
             src={"/images/icons/IndicatorArrowIcon.png"}
             alt="Arrow"

@@ -7,6 +7,41 @@ interface IHelpIconProps {
   $isHovering?: boolean;
 }
 
+export const popupStyle = (pointSize?: number) => `
+  &::before {
+    z-index: 2;
+    position: absolute;
+    padding: 20px;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    text-align: left;
+    background-color: black;
+    transform-origin: top;
+    transition: all 0.3s;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    border-left: ${pointSize ?? 6}px solid transparent;
+    border-right: ${pointSize ?? 6}px solid transparent;
+    border-top: ${pointSize ?? 6}px solid black;
+    z-index: 2;
+    
+    transition: all 0.3s;
+  }
+  &:hover {
+    &::before {
+      transform: scale(1);
+      filter: brightness(1);
+      opacity: 1;
+    }
+    &::after {
+      opacity: 1;
+    }
+  }
+`;
+
 const HelpIconContainer = styled.div<IHelpIconProps>`
   all: initial;
   color: white;
@@ -340,6 +375,19 @@ export const NavigateArrowIcon = () => {
   return (
     <svg width="325" height="54" viewBox="0 0 325 54" fill="none">
       <path d="M0 48.5H322.5L213.5 5" stroke="white" strokeWidth="10" />
+    </svg>
+  );
+};
+export const WriteIcon = () => {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M16.6168 3.75204C16.8552 3.51361 17.1383 3.32448 17.4498 3.19545C17.7613 3.06641 18.0952 3 18.4324 3C18.7696 3 19.1035 3.06641 19.415 3.19545C19.7265 3.32448 20.0095 3.51361 20.248 3.75204C20.4864 3.99046 20.6755 4.27351 20.8046 4.58503C20.9336 4.89655 21 5.23043 21 5.56761C21 5.90479 20.9336 6.23868 20.8046 6.55019C20.6755 6.86171 20.4864 7.14476 20.248 7.38319L7.99283 19.6383L3 21L4.36168 16.0072L16.6168 3.75204Z"
+        stroke="white"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };

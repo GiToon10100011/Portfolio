@@ -205,7 +205,7 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const pagers = {
     clickable: true,
-    renderBullet: (index: number, className: string) => {
+    renderBullet: (_: number, className: string) => {
       return `<Pager class="${className}"></Pager>`;
     },
   };

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HomeIcon, MenuIcon, ProfileIcon } from "../Icons";
+import { HomeIcon, MenuIcon, ProfileIcon, WriteIcon } from "../Icons";
 import { useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
@@ -83,6 +83,9 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     case "profile":
       IconSwitcher = <ProfileIcon />;
       break;
+    case "write":
+      IconSwitcher = <WriteIcon />;
+      break;
     default:
       IconSwitcher = <></>;
   }
@@ -117,5 +120,5 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     </Container>
   );
 };
-  
+
 export default Footer;
