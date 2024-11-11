@@ -5,6 +5,8 @@ import NotFound from "./routes/NotFound";
 import Comments from "./routes/Comments";
 import Layout from "./components/Layout";
 import GameLoading from "./components/GameLoading";
+import GlobalStyles from "./styles/globalstyles.styles";
+import { AnimatePresence } from "framer-motion";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
         element: <Comments />,
       },
     ],
-    errorElement: <NotFound />,
+    errorElement: <Layout />,
   },
 ]);
 

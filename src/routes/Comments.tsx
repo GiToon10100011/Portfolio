@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ProjectList from "../components/comments/ProjectList";
 import CommentsList from "../components/comments/CommentsList";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import WriteCommentsModal from "../components/comments/WriteCommentsModal";
 
 const Container = styled(motion.div)`
   width: 100%;
@@ -33,8 +34,6 @@ const LeftArea = styled.div`
 const RightArea = styled.div`
   width: calc(100% - 640px);
   height: 800px;
-  overflow-y: scroll;
-  scrollbar-width: none;
 `;
 
 const containerVariants = {
@@ -45,24 +44,35 @@ const containerVariants = {
 
 const Comments = () => {
   const [mode, setMode] = useState<string>("write");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  useEffect(() => {
+    return () => {
+      setIsModalOpen(false);
+    };
+  }, []);
   return (
-    <Container
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={containerVariants}
-      transition={{ duration: 0.2 }}
-    >
-      <InnerContainer>
-        <LeftArea>
-          <ProjectList />
-        </LeftArea>
-        <RightArea>
-          <CommentsList />
-        </RightArea>
-      </InnerContainer>
-      <Footer icon="menu" mode={mode} />
-    </Container>
+    <>
+      <AnimatePresence>
+        {isModalOpen && <WriteCommentsModal setIsModalOpen={setIsModalOpen} />}
+      </AnimatePresence>
+      <Container
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={containerVariants}
+        transition={{ duration: 0.2 }}
+      >
+        <InnerContainer>
+          <LeftArea>
+            <ProjectList />
+          </LeftArea>
+          <RightArea>
+            <CommentsList />
+          </RightArea>
+        </InnerContainer>
+        <Footer icon="menu" mode={mode} setIsModalOpen={setIsModalOpen} />
+      </Container>
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ interface IFooter {
   icon?: string;
   mode?: string;
   setMode?: Dispatch<SetStateAction<string>>;
+  setIsModalOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const Container = styled.footer`
@@ -63,7 +64,7 @@ const IconContainer = styled.div`
 
 let IconSwitcher: JSX.Element;
 
-const Footer = ({ icon, mode, setMode }: IFooter) => {
+const Footer = ({ icon, mode, setMode, setIsModalOpen }: IFooter) => {
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
 
@@ -73,6 +74,9 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     }
     if (mode === "menu" && setMode) {
       setMode("profile");
+    }
+    if (mode === "write" && setIsModalOpen) {
+      setIsModalOpen(true);
     }
   };
 
@@ -97,14 +101,16 @@ const Footer = ({ icon, mode, setMode }: IFooter) => {
     <Container>
       <InnerContainer>
         <NavigationMenu>
-          <NavigationItem
-            onClick={mode ? changeMenuModes : undefined}
-            onMouseEnter={() => setCursorChanging(true)}
-            onMouseLeave={() => setCursorChanging(false)}
-          >
-            <IconContainer>{IconSwitcher}</IconContainer>
-            {mode ? mode : icon}
-          </NavigationItem>
+          {mode && (
+            <NavigationItem
+              onClick={mode ? changeMenuModes : undefined}
+              onMouseEnter={() => setCursorChanging(true)}
+              onMouseLeave={() => setCursorChanging(false)}
+            >
+              <IconContainer>{IconSwitcher}</IconContainer>
+              {mode ? mode : icon}
+            </NavigationItem>
+          )}
           <NavigationItem
             onClick={() => navigate("/")}
             onMouseEnter={() => setCursorChanging(true)}

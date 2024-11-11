@@ -96,6 +96,7 @@ const CurrentTime = styled.p`
 
 const ProfileLoading = styled(motion.div)`
   position: fixed;
+  top: 0;
   width: 100%;
   height: 100vh;
   background: ${({ theme }) => theme.colors.subBackground};

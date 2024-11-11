@@ -9,6 +9,7 @@ import Button from "./Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
 import { useState } from "react";
 import { cursorChangingStore } from "../stores";
+import { useNavigate } from "react-router-dom";
 
 interface IDetailModalProps {
   setIsDetailModalOpen: (value: boolean) => void;
@@ -200,6 +201,7 @@ const CloseModal = styled.button`
 `;
 
 const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { setCursorChanging } = cursorChangingStore();
   const [isHovering, setIsHovering] = useState(false);
@@ -214,6 +216,9 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
   };
   const whileHoverExit = () => {
     setIsHovering(false);
+  };
+  const navigateComments = () => {
+    navigate("/comments");
   };
   return (
     <>
@@ -315,6 +320,7 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
                 $scale="1"
                 $brightness="1"
                 $customHover={`background: white; color: black; path{stroke: black;}`}
+                onClick={navigateComments}
               />
             </ButtonContainer>
           </RightArea>
