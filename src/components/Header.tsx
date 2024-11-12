@@ -4,7 +4,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "styled-components";
 import FadeLoader from "react-spinners/FadeLoader";
-import { useLocation, useMatch, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
 
 const override: CSSProperties = {
@@ -140,8 +140,10 @@ const Header = () => {
     setIsLoadingProfile(true);
     setTimeout(() => {
       navigate("/profile");
-      setIsLoadingProfile(false);
-      setNavigateProfile(false);
+      setTimeout(() => {
+        setIsLoadingProfile(false);
+        setNavigateProfile(false);
+      }, 100);
     }, 1400);
   };
 

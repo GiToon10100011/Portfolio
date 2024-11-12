@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";
 import { useState } from "react";
 import { isPlayingStore } from "../stores";
+import Skeleton from "react-loading-skeleton";
 
 const testKey = "tloztotk";
 
@@ -91,7 +92,9 @@ const Main = () => {
       </AnimatePresence>
       <Container>
         <InnerContainer>
-          <GameTitle>The Legend of Zelda: Tears of the Kingdom</GameTitle>
+          <GameTitle>
+            {"The Legend of Zelda: Tears of the Kingdom" || <Skeleton />}
+          </GameTitle>
           <ButtonsContainer>
             <Button
               text="Play"

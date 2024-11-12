@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { CommentIcons } from "../../Icons";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   position: relative;
@@ -96,7 +97,11 @@ const CommentInfo = styled.div`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const CommentsList = () => {
+const CommentsList = ({
+  setIsModalOpen,
+}: {
+  setIsModalOpen: (value: boolean) => void;
+}) => {
   return (
     <Container>
       <CommentsHeader>Comments</CommentsHeader>
@@ -104,7 +109,8 @@ const CommentsList = () => {
         <NoComments>
           {CommentIcons.noComments()}
           <p>
-            No Comments... <span>Write One?</span>
+            No Comments...{" "}
+            <span onClick={() => setIsModalOpen(true)}>Write One?</span>
           </p>
         </NoComments>
         {/* {Array.from({ length: 20 }).map((_, index) => (

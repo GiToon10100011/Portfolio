@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { HomeIcon, MenuIcon, ProfileIcon, WriteIcon } from "../Icons";
 import { useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface IFooter {

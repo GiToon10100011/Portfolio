@@ -67,7 +67,7 @@ const Comments = () => {
             <ProjectList />
           </LeftArea>
           <RightArea>
-            <CommentsList />
+            <CommentsList setIsModalOpen={setIsModalOpen} />
           </RightArea>
         </InnerContainer>
         <Footer icon="menu" mode={mode} setIsModalOpen={setIsModalOpen} />
