@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import nintendoLogo from "../svgs/NintendoLogo.svg";
 import { motion } from "framer-motion";
+import { isPlayingStore, projectIdStore } from "../stores";
+import projects from "../projects.json";
 import { useNavigate } from "react-router-dom";
-
 const Container = styled(motion.div)`
   position: relative;
   width: 100%;
@@ -65,8 +66,11 @@ const letterVariants = {
 };
 
 const GameLoading = () => {
+  const { projectId } = projectIdStore();
   const navigate = useNavigate();
+  const idMatchData = projects.find((project) => project.id === projectId);
   setTimeout(() => {
+    window.open(idMatchData?.deploymentUrl ?? "/", "_blank");
     navigate("/");
   }, 6000);
   return (

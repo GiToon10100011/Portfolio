@@ -6,12 +6,13 @@ import { MoreInfoIcon, PlayIcon } from "../Icons";
 import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { isPlayingStore, projectIdStore } from "../stores";
+import projects from "../projects.json";
+import { IProject } from "../types";
 
-const testKey = "tloztotk";
-
-const Container = styled.div`
+const Container = styled.div<{ $mainBg?: string }>`
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -23,7 +24,7 @@ const Container = styled.div`
       rgba(0, 0, 0, 0.3) 12%,
       transparent
     ),
-    url("/images/TotkBg.jpeg") center/cover no-repeat !important;
+    url(${({ $mainBg }) => $mainBg}) center/cover no-repeat !important;
 `;
 
 const SliderMenu = styled(motion.section)`
@@ -51,7 +52,7 @@ const SliderInnerContainer = styled(InnerContainer)`
 `;
 
 const GameTitle = styled.h1`
-  width: 675px;
+  width: 720px;
   font-family: ${({ theme }) => theme.fonts.text};
   font-size: 60px;
   font-weight: bold;
@@ -67,17 +68,22 @@ const ButtonsContainer = styled.div`
 const Main = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { setIsPlaying } = isPlayingStore();
-  const { projectId } = projectIdStore();
+  const { projectId, setProjectId } = projectIdStore();
   const theme = useTheme();
   const navigate = useNavigate();
-
+  const idMatchData = projects.find((project) => project.id === projectId);
+  console.log(idMatchData);
   const onHandlePlay = () => {
     setIsPlaying(true);
     setTimeout(() => {
-      navigate(`/redirect/${testKey}`);
+      navigate(`/redirect/${idMatchData?.id}`);
       setIsPlaying(false);
     }, 600);
   };
+
+  useEffect(() => {
+    setProjectId(projects[0].id);
+  }, []);
 
   return (
     <>
@@ -87,12 +93,15 @@ const Main = () => {
             key="detailModal"
             setIsDetailModalOpen={setIsDetailModalOpen}
             onPlay={onHandlePlay}
+            {...(idMatchData as IProject)}
           />
         )}
       </AnimatePresence>
-      <Container>
+      <Container $mainBg={idMatchData?.mainBg}>
         <InnerContainer>
-          <GameTitle>{"The Legend of Zelda: Tears of the Kingdom"}</GameTitle>
+          <GameTitle>
+            {idMatchData?.title + " " + idMatchData?.subtitle || <Skeleton />}
+          </GameTitle>
           <ButtonsContainer>
             <Button
               text="Play"

@@ -2,21 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import { sliderAnimations } from "../../styles/animations";
 import { AnimatePresence, motion } from "framer-motion";
-import { cursorChangingStore, isPlayingStore } from "../../stores";
+import {
+  cursorChangingStore,
+  isPlayingStore,
+  projectIdStore,
+} from "../../stores";
+import { IProject } from "../../types";
 
 // const text = "Fullpage.JS를 활용한\n사이드 프로젝트";
 
-interface ISliderProps {
+interface ISliderProps extends IProject {
   isActive?: string;
 }
 
-const Item = styled(motion.div)`
+interface IItemProps {
+  $thumbnailImg: string;
+  $id: string;
+}
+
+const Item = styled(motion.div)<IItemProps>`
   overflow: hidden;
   width: 260px;
   height: 346px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   cursor: pointer;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+    url(${({ $thumbnailImg }) => $thumbnailImg}) no-repeat center/cover;
+  transition: all 0.3s ease-in-out;
   &.active {
     position: relative;
     width: 300px;
@@ -27,7 +40,8 @@ const Item = styled(motion.div)`
         rgba(0, 0, 0, 0.2),
         rgba(0, 0, 0, 0.2)
       ),
-      url("/images/zeldaProjectThumbnail.png") no-repeat center/cover;
+      url(${({ $thumbnailImg }) => $thumbnailImg}) no-repeat center/cover;
+    transition: all 0.3s ease-in-out;
     cursor: default;
     &::before {
       content: attr(data-content);
@@ -51,25 +65,28 @@ const Item = styled(motion.div)`
   }
 `;
 
-const SliderItem = ({ isActive }: ISliderProps) => {
+const SliderItem = ({ thumbnailContent, thumbnailImg, id }: ISliderProps) => {
   const { isPlaying } = isPlayingStore();
+  const { projectId, setProjectId } = projectIdStore();
   const { setCursorChanging } = cursorChangingStore();
+  const idMatch = id === projectId;
   return (
     <Item
-      data-content={"Fullpage.JS를 활용한\n사이드 프로젝트"}
-      className={isActive ?? ""}
+      className={idMatch ? "active" : ""}
+      data-content={thumbnailContent}
       animate={{
-        scale: isPlaying && isActive === "active" ? [0.9, 1] : 1,
+        scale: isPlaying && idMatch ? [0.5, 1] : 1,
       }}
       transition={{
         duration: 0.3,
       }}
-      onMouseEnter={
-        isActive !== "active" ? () => setCursorChanging(true) : undefined
-      }
-      onMouseLeave={
-        isActive !== "active" ? () => setCursorChanging(false) : undefined
-      }
+      onMouseEnter={!idMatch ? () => setCursorChanging(true) : undefined}
+      onMouseLeave={!idMatch ? () => setCursorChanging(false) : undefined}
+      onClick={() => {
+        setProjectId(id as string);
+      }}
+      $thumbnailImg={thumbnailImg}
+      $id={id}
     />
   );
 };

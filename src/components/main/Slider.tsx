@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import SliderItem from "./SliderItem";
-import { data as projects } from "../../projects.json";
+import projects from "../../projects.json";
 
 const Container = styled(motion.div)`
   overflow: visible;
@@ -15,6 +15,19 @@ const Container = styled(motion.div)`
 
 const Slider = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [dragConstraints, setDragConstraints] = useState({ right: 0, left: 0 });
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.scrollWidth;
+      const windowWidth = window.innerWidth;
+      setDragConstraints({
+        right: 0,
+        left: -(containerWidth - windowWidth) - 150,
+      });
+    }
+  }, []);
+
   return (
     <Container
       ref={containerRef}
@@ -22,10 +35,7 @@ const Slider = () => {
       transition={{ duration: 2, ease: [0.68, -0.6, 0.32, 1.6] }}
       animate={{ x: 0 }}
       drag="x"
-      dragConstraints={{
-        right: 0,
-        left: containerRef.current?.getBoundingClientRect().width,
-      }}
+      dragConstraints={dragConstraints}
     >
       {projects.map((project) => (
         <SliderItem key={project.id} {...project} />

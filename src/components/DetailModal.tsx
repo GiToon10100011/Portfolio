@@ -1,17 +1,19 @@
 import styled, { useTheme } from "styled-components";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination } from "swiper/modules";
+import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import Button from "./Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { cursorChangingStore } from "../stores";
 import { useNavigate } from "react-router-dom";
+import { IProject } from "../types";
 
-interface IDetailModalProps {
+interface IDetailModalProps extends IProject {
   setIsDetailModalOpen: (value: boolean) => void;
   onPlay: () => void;
 }
@@ -86,7 +88,7 @@ const DescTitle = styled.h4`
 `;
 const DescContent = styled.p`
   font-size: 20px;
-  line-height: 1.2;
+  line-height: 1.4;
 `;
 
 const Slider = styled(Swiper)`
@@ -107,12 +109,25 @@ const Slider = styled(Swiper)`
   .swiper-pagination-bullet-active {
     background: ${({ theme }) => theme.colors.text};
   }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: ${({ theme }) => theme.colors.text};
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const SliderItem = styled(SwiperSlide)`
-  border: 1px solid;
   width: 500px !important;
   height: 300px;
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: all;
+  }
 `;
 
 const Pager = styled.span`
@@ -135,11 +150,12 @@ const TroubleshootingTitle = styled.h4`
 
 const TroubleshootingContent = styled.div`
   counter-reset: paragraph;
+  z-index: 2;
 `;
 
 const TroubleshootingItem = styled.p`
   font-size: 22px;
-  line-height: 1.2;
+  line-height: 1.5;
   margin-bottom: 40px;
   display: flex;
   &::before {
@@ -200,11 +216,33 @@ const CloseModal = styled.button`
   }
 `;
 
-const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
+const Detail = ({
+  setIsDetailModalOpen,
+  onPlay,
+  modalImg,
+  modalTroubleshooting,
+  pages,
+  title,
+  subtitle,
+}: IDetailModalProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { setCursorChanging } = cursorChangingStore();
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const videoRefs = [
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+  ];
   const pagers = {
     clickable: true,
     renderBullet: (_: number, className: string) => {
@@ -231,25 +269,21 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
         <Modal>
           <LeftArea>
             <ModalHeader>
-              <GameTitle>The Legend of Zelda:</GameTitle>
-              <GameSubtitle>Tears of the Kingdom</GameSubtitle>
+              <GameTitle>{title}</GameTitle>
+              <GameSubtitle>{subtitle}</GameSubtitle>
             </ModalHeader>
             <ModalDesc>
-              <DescTitle>Subtitle</DescTitle>
-              <DescContent>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam soluta blanditiis mollitia atque officiis. Distinctio
-                officia ea eveniet quibusdam pariatur, earum natus dolorem
-                exercitationem, voluptatibus quos temporibus aperiam? Qui, aut.
-                Ullam aut iusto autem tempore quos, dignissimos sint odio
-                molestias atque quod debitis nihil in cupiditate nam enim
-              </DescContent>
+              <DescTitle>{pages[currentIdx]?.title}</DescTitle>
+              <DescContent>{pages[currentIdx]?.content}</DescContent>
             </ModalDesc>
             <Slider
+              onMouseOver={() => setCursorChanging(true)}
+              onMouseOut={() => setCursorChanging(false)}
               effect="coverflow"
               spaceBetween={30}
               slidesPerView={"auto"}
-              modules={[EffectCoverflow, Pagination]}
+              modules={[EffectCoverflow, Pagination, Navigation]}
+              navigation={true}
               coverflowEffect={{
                 stretch: -20,
                 rotate: 0,
@@ -258,42 +292,49 @@ const Detail = ({ setIsDetailModalOpen, onPlay }: IDetailModalProps) => {
               grabCursor={true}
               loop={true}
               centeredSlides={true}
+              onSlideChange={(swiper) => {
+                setCurrentIdx(swiper.realIndex);
+                videoRefs.forEach((ref) => {
+                  ref.current?.load();
+                });
+                videoRefs[swiper.realIndex].current?.play();
+              }}
             >
-              <SliderItem>Slide1</SliderItem>
-              <SliderItem>Slide2</SliderItem>
-              <SliderItem>Slide3</SliderItem>
-              <SliderItem>Slide4</SliderItem>
-              <SliderItem>Slide4</SliderItem>
-              <SliderItem>Slide4</SliderItem>
-              <SliderItem>Slide4</SliderItem>
-              <SliderItem>Slide4</SliderItem>
+              {pages.map((page, idx) => (
+                <SliderItem
+                  key={idx}
+                  onDoubleClick={() => {
+                    videoRefs[idx].current?.requestFullscreen();
+                  }}
+                  onClick={() => {
+                    if (videoRefs[idx].current?.paused) {
+                      videoRefs[idx].current?.play();
+                    } else {
+                      videoRefs[idx].current?.pause();
+                    }
+                  }}
+                >
+                  <video
+                    ref={videoRefs[idx]}
+                    src={page.video}
+                    loop
+                    muted
+                    poster={page.poster}
+                  />
+                </SliderItem>
+              ))}
             </Slider>
             <ModalTroubleshooting>
               <TroubleshootingTitle>Troubleshooting</TroubleshootingTitle>
               <TroubleshootingContent>
-                <TroubleshootingItem>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis deserunt aperiam aliquam similique accusantium id
-                  dolores tenetur sunt ad perspiciatis dolor modi, debitis
-                  veniam explicabo rem. Laudantium alias id earum!
-                </TroubleshootingItem>
-                <TroubleshootingItem>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis deserunt aperiam aliquam similique accusantium id
-                  dolores tenetur sunt ad perspiciatis dolor modi, debitis
-                  veniam explicabo rem. Laudantium alias id earum!
-                </TroubleshootingItem>
-                <TroubleshootingItem>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis deserunt aperiam aliquam similique accusantium id
-                  dolores tenetur sunt ad perspiciatis dolor modi, debitis
-                  veniam explicabo rem. Laudantium alias id earum!
-                </TroubleshootingItem>
+                {modalTroubleshooting.map((content, idx) => (
+                  <TroubleshootingItem key={idx}>{content}</TroubleshootingItem>
+                ))}
               </TroubleshootingContent>
             </ModalTroubleshooting>
           </LeftArea>
           <RightArea>
-            <ModalImg src="/images/zeldaProjectModal.png" />
+            <ModalImg src={modalImg} />
             <ButtonContainer>
               <Button
                 icon={<PlayIcon />}
