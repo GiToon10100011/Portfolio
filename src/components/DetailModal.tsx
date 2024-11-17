@@ -119,14 +119,37 @@ const Slider = styled(Swiper)`
 `;
 
 const SliderItem = styled(SwiperSlide)`
+  position: relative;
   width: 500px !important;
   height: 300px;
   video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
     pointer-events: all;
+  }
+  &::before {
+    content: attr(data-content);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: ${({ theme }) => theme.colors.darkBackground};
+    border-radius: 50%;
+    opacity: 0;
+  }
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
   }
 `;
 
@@ -230,6 +253,7 @@ const Detail = ({
   const { setCursorChanging } = cursorChangingStore();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isPlaying, setIsPlaying] = useState("||");
   const videoRefs = [
     useRef<HTMLVideoElement>(null),
     useRef<HTMLVideoElement>(null),
@@ -258,6 +282,7 @@ const Detail = ({
   const navigateComments = () => {
     navigate("/comments");
   };
+  console.log(isPlaying);
   return (
     <>
       <Wrapper
@@ -277,7 +302,10 @@ const Detail = ({
               <DescContent>{pages[currentIdx]?.content}</DescContent>
             </ModalDesc>
             <Slider
-              onMouseOver={() => setCursorChanging(true)}
+              onMouseOver={() => {
+                console.log("over");
+                setCursorChanging(true);
+              }}
               onMouseOut={() => setCursorChanging(false)}
               effect="coverflow"
               spaceBetween={30}
@@ -293,26 +321,40 @@ const Detail = ({
               loop={true}
               centeredSlides={true}
               onSlideChange={(swiper) => {
+                console.log(swiper);
                 setCurrentIdx(swiper.realIndex);
-                videoRefs.forEach((ref) => {
-                  ref.current?.load();
-                });
-                videoRefs[swiper.realIndex].current?.play();
+                if (currentIdx === swiper.realIndex) {
+                  videoRefs.forEach((ref) => {
+                    ref.current?.pause();
+                  });
+                  videoRefs[currentIdx].current?.play();
+                  setIsPlaying("||");
+                }
               }}
             >
               {pages.map((page, idx) => (
                 <SliderItem
                   key={idx}
+                  data-content={isPlaying}
                   onDoubleClick={() => {
                     videoRefs[idx].current?.requestFullscreen();
                   }}
-                  onClick={() => {
-                    if (videoRefs[idx].current?.paused) {
-                      videoRefs[idx].current?.play();
-                    } else {
-                      videoRefs[idx].current?.pause();
-                    }
-                  }}
+                  onClick={
+                    currentIdx === idx
+                      ? () => {
+                          const video = videoRefs[idx].current;
+                          if (!video) return;
+
+                          if (video.paused) {
+                            video.play();
+                            setIsPlaying("||");
+                          } else {
+                            video.pause();
+                            setIsPlaying("\u25B6");
+                          }
+                        }
+                      : undefined
+                  }
                 >
                   <video
                     ref={videoRefs[idx]}
