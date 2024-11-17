@@ -7,8 +7,7 @@ import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DetailModal from "../components/DetailModal";
 import { useState } from "react";
-import { isPlayingStore } from "../stores";
-import Skeleton from "react-loading-skeleton";
+import { isPlayingStore, projectIdStore } from "../stores";
 
 const testKey = "tloztotk";
 
@@ -24,7 +23,7 @@ const Container = styled.div`
       rgba(0, 0, 0, 0.3) 12%,
       transparent
     ),
-    url("/images/TotkBg.jpeg") center/cover no-repeat;
+    url("/images/TotkBg.jpeg") center/cover no-repeat !important;
 `;
 
 const SliderMenu = styled(motion.section)`
@@ -68,6 +67,7 @@ const ButtonsContainer = styled.div`
 const Main = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { setIsPlaying } = isPlayingStore();
+  const { projectId } = projectIdStore();
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -92,9 +92,7 @@ const Main = () => {
       </AnimatePresence>
       <Container>
         <InnerContainer>
-          <GameTitle>
-            {"The Legend of Zelda: Tears of the Kingdom" || <Skeleton />}
-          </GameTitle>
+          <GameTitle>{"The Legend of Zelda: Tears of the Kingdom"}</GameTitle>
           <ButtonsContainer>
             <Button
               text="Play"

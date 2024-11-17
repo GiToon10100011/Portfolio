@@ -23,6 +23,11 @@ interface IsFullscreenStore {
   setIsFullscreen: (isFullscreen: boolean) => void;
 }
 
+interface ProjectIdStore {
+  projectId: string;
+  setProjectId: (projectId: string) => void;
+}
+
 interface IsPlayingStore {
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
@@ -49,6 +54,13 @@ export const isFullscreenStore = create<IsFullscreenStore>()(
   devtools((set) => ({
     isFullscreen: false,
     setIsFullscreen: (isFullscreen) => set({ isFullscreen }),
+  }))
+);
+
+export const projectIdStore = create<ProjectIdStore>()(
+  devtools((set) => ({
+    projectId: "tloztotk1",
+    setProjectId: (projectId) => set({ projectId }),
   }))
 );
 
