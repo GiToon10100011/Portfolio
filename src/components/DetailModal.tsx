@@ -197,12 +197,14 @@ const RightArea = styled.div`
 
 const ModalImg = styled.img`
   position: absolute;
+  z-index: 1;
   left: 50%;
   top: -40px;
   transform: translateX(-50%);
   width: 680px;
   height: 730px;
   object-fit: cover;
+  pointer-events: none;
 `;
 
 const ButtonContainer = styled.div`
@@ -301,71 +303,75 @@ const Detail = ({
               <DescTitle>{pages[currentIdx]?.title}</DescTitle>
               <DescContent>{pages[currentIdx]?.content}</DescContent>
             </ModalDesc>
-            <Slider
-              onMouseOver={() => {
-                console.log("over");
-                setCursorChanging(true);
-              }}
-              onMouseOut={() => setCursorChanging(false)}
-              effect="coverflow"
-              spaceBetween={30}
-              slidesPerView={"auto"}
-              modules={[EffectCoverflow, Pagination, Navigation]}
-              navigation={true}
-              coverflowEffect={{
-                stretch: -20,
-                rotate: 0,
-              }}
-              pagination={pagers}
-              grabCursor={true}
-              loop={true}
-              centeredSlides={true}
-              onSlideChange={(swiper) => {
-                console.log(swiper);
-                setCurrentIdx(swiper.realIndex);
-                if (currentIdx === swiper.realIndex) {
+            <div
+              onMouseEnter={() => setCursorChanging(true)}
+              onMouseLeave={() => setCursorChanging(false)}
+            >
+              <Slider
+                effect="coverflow"
+                spaceBetween={30}
+                slidesPerView={"auto"}
+                modules={[EffectCoverflow, Pagination, Navigation]}
+                navigation={true}
+                coverflowEffect={{
+                  stretch: -20,
+                  rotate: 0,
+                }}
+                pagination={pagers}
+                grabCursor={true}
+                loop={true}
+                centeredSlides={true}
+                onSwiper={(swiper) => {
+                  videoRefs[swiper.realIndex].current?.play();
+                  setIsPlaying("||");
+                }}
+                onSlideChange={(swiper) => {
+                  setCurrentIdx(swiper.realIndex);
+                }}
+                onRealIndexChange={(swiper) => {
+                  console.log(videoRefs[swiper.realIndex]);
                   videoRefs.forEach((ref) => {
                     ref.current?.pause();
+                    videoRefs[swiper.realIndex].current?.play();
+                    setIsPlaying("||");
                   });
-                  videoRefs[currentIdx].current?.play();
-                  setIsPlaying("||");
-                }
-              }}
-            >
-              {pages.map((page, idx) => (
-                <SliderItem
-                  key={idx}
-                  data-content={isPlaying}
-                  onDoubleClick={() => {
-                    videoRefs[idx].current?.requestFullscreen();
-                  }}
-                  onClick={
-                    currentIdx === idx
-                      ? () => {
-                          const video = videoRefs[idx].current;
-                          if (!video) return;
+                }}
+              >
+                {pages.map((page, idx) => (
+                  <SliderItem
+                    key={idx}
+                    data-content={isPlaying}
+                    onDoubleClick={() => {
+                      videoRefs[idx].current?.requestFullscreen();
+                    }}
+                    onClick={
+                      currentIdx === idx
+                        ? () => {
+                            const video = videoRefs[idx].current;
+                            if (!video) return;
 
-                          if (video.paused) {
-                            video.play();
-                            setIsPlaying("||");
-                          } else {
-                            video.pause();
-                            setIsPlaying("\u25B6");
+                            if (video.paused) {
+                              video.play();
+                              setIsPlaying("||");
+                            } else {
+                              video.pause();
+                              setIsPlaying("\u25B6");
+                            }
                           }
-                        }
-                      : undefined
-                  }
-                >
-                  <video
-                    ref={videoRefs[idx]}
-                    src={page.video}
-                    loop
-                    muted
-                    poster={page.poster}
-                  />
-                </SliderItem>
-              ))}
-            </Slider>
+                        : undefined
+                    }
+                  >
+                    <video
+                      ref={videoRefs[idx]}
+                      src={page.video}
+                      loop
+                      muted
+                      poster={page.poster}
+                    />
+                  </SliderItem>
+                ))}
+              </Slider>
+            </div>
             <ModalTroubleshooting>
               <TroubleshootingTitle>Troubleshooting</TroubleshootingTitle>
               <TroubleshootingContent>

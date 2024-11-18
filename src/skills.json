@@ -1,0 +1,8 @@
+[
+  {
+    "title": "React",
+    "description": "React is a JavaScript library for building user interfaces. It is maintained by Meta and a community of individual developers and companies.",
+    "icon": "react.svg",
+    "linkedProjects": ["project1", "project2", "project3"]
+  }
+]
