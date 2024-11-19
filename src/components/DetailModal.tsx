@@ -47,12 +47,14 @@ const Modal = styled.div`
 `;
 
 const LeftArea = styled.div`
+  position: relative;
   background: ${({ theme }) => theme.colors.darkBackground};
   width: calc(100% - 440px);
   border-radius: 20px 0 0 20px;
   padding: 40px;
   overflow-y: scroll;
-  scrollbar-width: none;
+  scrollbar-color: ${({ theme }) =>
+    `${theme.colors.itemsBorder} ${theme.colors.darkerBackground}`};
 `;
 
 const ModalHeader = styled.header`
@@ -62,17 +64,23 @@ const ModalHeader = styled.header`
   gap: 10px;
   padding-bottom: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.text};
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 `;
 
 const GameTitle = styled.h1`
   font-size: 40px;
   font-weight: bold;
+  &::selection {
+    color: ${({ theme }) => theme.colors.textPoint};
+  }
 `;
 
 const GameSubtitle = styled.h2`
   font-size: 30px;
   font-weight: normal;
+  &::selection {
+    color: ${({ theme }) => theme.colors.textPoint};
+  }
 `;
 
 const ModalDesc = styled.section`
@@ -81,6 +89,24 @@ const ModalDesc = styled.section`
   gap: 14px;
   width: 850px;
   margin-bottom: 60px;
+`;
+const DescStacks = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 40px;
+`;
+const StackItem = styled.span`
+  padding: 6px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.itemsBorder};
+  border-radius: ${({ theme }) => theme.borderRadius.light};
 `;
 const DescTitle = styled.h4`
   font-size: 32px;
@@ -205,6 +231,7 @@ const ModalImg = styled.img`
   height: 730px;
   object-fit: cover;
   pointer-events: none;
+  opacity: 0.9;
 `;
 
 const ButtonContainer = styled.div`
@@ -241,6 +268,22 @@ const CloseModal = styled.button`
   }
 `;
 
+const BlurIndicator = styled.div`
+  z-index: 9;
+  position: sticky;
+  left: -40px;
+  bottom: -40px;
+  filter: blur(14px);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    ${({ theme }) => theme.colors.background}
+  );
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+`;
+
 const Detail = ({
   setIsDetailModalOpen,
   onPlay,
@@ -249,6 +292,7 @@ const Detail = ({
   pages,
   title,
   subtitle,
+  stacks,
 }: IDetailModalProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -300,6 +344,11 @@ const Detail = ({
               <GameSubtitle>{subtitle}</GameSubtitle>
             </ModalHeader>
             <ModalDesc>
+              <DescStacks>
+                {stacks.map((stack, idx) => (
+                  <StackItem key={idx}>{stack}</StackItem>
+                ))}
+              </DescStacks>
               <DescTitle>{pages[currentIdx]?.title}</DescTitle>
               <DescContent>{pages[currentIdx]?.content}</DescContent>
             </ModalDesc>
@@ -380,6 +429,7 @@ const Detail = ({
                 ))}
               </TroubleshootingContent>
             </ModalTroubleshooting>
+            <BlurIndicator />
           </LeftArea>
           <RightArea>
             <ModalImg src={modalImg} />

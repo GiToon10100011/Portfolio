@@ -64,7 +64,13 @@
         "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": [
+      "Javascript",
+      "SCSS",
+      "Fullpage.js",
+      "FeatherLight",
+      "SlickSlider"
+    ],
     "comments": [
       {
         "id": "",
