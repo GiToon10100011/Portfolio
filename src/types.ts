@@ -2,6 +2,7 @@ export interface IProject {
   id: string;
   date: string;
   deploymentUrl: string;
+  repoURL: string;
   title: string;
   subtitle: string;
   mainBg: string;
@@ -27,4 +28,3 @@ interface IComment {
   content: string;
   password: string;
 }
-

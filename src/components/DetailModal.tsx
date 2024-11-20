@@ -60,11 +60,17 @@ const LeftArea = styled.div`
 const ModalHeader = styled.header`
   width: 650px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
+`;
+
+const MainTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const GameTitle = styled.h1`
@@ -83,12 +89,47 @@ const GameSubtitle = styled.h2`
   }
 `;
 
+const GithubLink = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.6s;
+  &:hover {
+    text-decoration: underline;
+    img {
+      transform: scale(1.1);
+    }
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    filter: grayscale(0);
+    transition: all 0.6s;
+  }
+`;
+
 const ModalDesc = styled.section`
   display: flex;
   flex-direction: column;
   gap: 14px;
   width: 850px;
   margin-bottom: 60px;
+`;
+const HeaderBadge = styled.div`
+  height: 1em;
+  width: 6px;
+  background: ${({ theme }) => theme.colors.dividerBorder};
+`;
+const StacksHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+  color: ${({ theme }) => theme.colors.text};
+  padding-bottom: 14px;
 `;
 const DescStacks = styled.div`
   width: 100%;
@@ -293,6 +334,7 @@ const Detail = ({
   title,
   subtitle,
   stacks,
+  repoURL,
 }: IDetailModalProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -340,10 +382,25 @@ const Detail = ({
         <Modal>
           <LeftArea>
             <ModalHeader>
-              <GameTitle>{title}</GameTitle>
-              <GameSubtitle>{subtitle}</GameSubtitle>
+              <MainTitle>
+                <GameTitle>{title}</GameTitle>
+                <GameSubtitle>{subtitle}</GameSubtitle>
+              </MainTitle>
+              <GithubLink
+                href={repoURL}
+                target="_blank"
+                onMouseEnter={() => setCursorChanging(true)}
+                onMouseLeave={() => setCursorChanging(false)}
+              >
+                <img src="/images/icons/GithubIcon.png" alt="Github" />
+                Repository
+              </GithubLink>
             </ModalHeader>
             <ModalDesc>
+              <StacksHeader>
+                <HeaderBadge></HeaderBadge>
+                Stacks
+              </StacksHeader>
               <DescStacks>
                 {stacks.map((stack, idx) => (
                   <StackItem key={idx}>{stack}</StackItem>

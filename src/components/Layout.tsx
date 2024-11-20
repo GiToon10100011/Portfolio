@@ -6,6 +6,25 @@ import { AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import Cursor from "./Cursor";
 import AnimatedOutlet from "./AnimatedOutlet";
+import chalk from "chalk";
+import { useTheme } from "styled-components";
+
+const welcomeText = `
+         ,---._      ,----..            ,--.                 ,---._                   ,--.               
+       .-- -.' \\    /   /   \\         ,--.'|               .-- -.' \\    ,---,       ,--.'|               
+       |    |   :  /   .     :    ,--,:  : |               |    |   :,\`--.' |   ,--,:  : |         ,--,  
+       :    ;   | .   /   ;.  \\,\`--.'\`|  ' :               :    ;   ||   :  :,\`--.'\`|  ' :       ,'_ /|  
+       :        |.   ;   /  \` ;|   :  :  | |               :        |:   |  '|   :  :  | |  .--. |  | :  
+       |    :   :;   |  ; \\ ; |:   |   \\ | :               |    :   :|   :  |:   |   \\ | :,'_ /| :  . |  
+       :         |   :  | ; | '|   : '  '; |               :         '   '  ;|   : '  '; ||  ' | |  . .  
+       |    ;   |.   |  ' ' ' :'   ' ;.    ;               |    ;   ||   |  |'   ' ;.    ;|  | ' |  | |  
+   ___ l         '   ;  \\; /  ||   | | \\   |           ___ l         '   :  ;|   | | \\   |:  | | :  ' ;  
+ /    /\\    J   : \\   \\  ',  / '   : |  ; .'         /    /\\    J   :|   |  ''   : |  ; .'|  ; ' |  | '  
+/  ../  \`..-    ,  ;   :    /  |   | \`--'          /  ../  \`..-    ,'   :  ||   | \`--'  :  | : ;  ; |  
+\\    \\         ;    \\   \\ .'   '   : |              \\    \\         ; ;   |.' '   : |      '  :  \`--'   \\ 
+ \\    \\      ,'      \`---\`     ;   |.'               \\    \\      ,'  '---'   ;   |.'      :  ,      .-./ 
+  "---....--'                  '---'                  "---....--'            '---'         \`--\`----'     
+`;
 
 interface CursorPosition {
   x: number;
@@ -13,6 +32,7 @@ interface CursorPosition {
 }
 
 const Layout = () => {
+  const theme = useTheme();
   const [cursorPos, setCursorPos] = useState<CursorPosition>({
     x: 0,
     y: 0,
@@ -46,6 +66,10 @@ const Layout = () => {
         handleFullScreenChange
       );
     };
+  }, []);
+
+  useEffect(() => {
+    console.log(chalk.hex(theme.colors.textPoint)(welcomeText));
   }, []);
 
   return (

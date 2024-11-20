@@ -2,6 +2,7 @@
   {
     "title": "React",
     "description": "React is a JavaScript library for building user interfaces. It is maintained by Meta and a community of individual developers and companies.",
-    "icon": "react.svg"
+    "icon": "react.svg",
+    "category": "Frontend"
   }
 ]

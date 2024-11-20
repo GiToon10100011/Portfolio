@@ -1,12 +1,9 @@
 import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
 import Profile from "./routes/Profile";
-import NotFound from "./routes/NotFound";
 import Comments from "./routes/Comments";
 import Layout from "./components/Layout";
 import GameLoading from "./components/GameLoading";
-import GlobalStyles from "./styles/globalstyles.styles";
-import { AnimatePresence } from "framer-motion";
 
 const router = createBrowserRouter([
   {

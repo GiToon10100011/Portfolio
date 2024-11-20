@@ -466,25 +466,26 @@ const FooterIndicator = styled.div`
 `;
 
 const technologies = [
+  "Babel",
+  "Vite",
   "Framer Motion",
   "React-Beautiful-DND",
   "React Bootstrap",
+  "Morgan",
   "ApexCharts",
-  "Vite",
-  "The Movie Database",
+  "Pug.js",
   "React Router DOM",
+  "React Hook Form",
   "Open Weather",
   "Redux Thunk",
   "Google Translate",
   "Swiper",
   "Google GeoLocation",
   "Axios",
-  "Canvas",
   "Unsplash",
   "Navigator",
   "Kakao",
   "Web APIs",
-  "Firebase",
 ];
 
 const Content = () => {
@@ -709,7 +710,7 @@ const Content = () => {
           </ToolsSegment>
           <ToolsSegment>
             {technologies
-              .slice(technologies.length / 2 + 1)
+              .slice(technologies.length / 2)
               .map((technology, index) => (
                 <ToolsItem key={index}>
                   <CheckIcon />

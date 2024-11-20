@@ -9,8 +9,6 @@ import {
 } from "../../stores";
 import { IProject } from "../../types";
 
-// const text = "Fullpage.JS를 활용한\n사이드 프로젝트";
-
 interface ISliderProps extends IProject {
   isActive?: string;
 }
