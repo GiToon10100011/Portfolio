@@ -1,14 +1,15 @@
-import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Grid, Pagination } from "swiper/modules";
+import { Grid, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
-import Typescript from "../../svgs/skills/Typescript.svg";
+import "swiper/css/navigation";
 import { CheckIcon, NavigateArrowIcon, popupStyle } from "../../Icons";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import skills from "../../skills.json";
+import { useEffect, useState } from "react";
 const Container = styled.main`
   display: flex;
   flex-direction: column;
@@ -216,12 +217,15 @@ const SkillsFilter = styled.ul`
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
+  z-index: 4;
 `;
 const FilterItem = styled.li`
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.colors.lightBorder};
   border-radius: ${({ theme }) => theme.borderRadius.main};
   color: ${({ theme }) => theme.colors.text};
+  transition: background 0.3s ease;
+  cursor: pointer;
   &.active {
     background: ${({ theme }) => theme.colors.point};
   }
@@ -229,6 +233,7 @@ const FilterItem = styled.li`
 
 const SkillSlider = styled(Swiper)`
   height: 700px;
+  overflow: visible;
   .swiper-wrapper {
     width: 100% !important;
     height: 100% !important;
@@ -243,9 +248,28 @@ const SkillSlider = styled(Swiper)`
   .swiper-pagination-bullet-active {
     background: ${({ theme }) => theme.colors.textPoint};
   }
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: ${({ theme }) => theme.colors.textPoint};
+    top: 0px;
+    left: 0;
+    width: 1100px;
+    display: flex;
+    justify-content: flex-end;
+    height: 0;
+    &::after {
+      font-size: 24px;
+      margin-bottom: 60px;
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+  }
+  .swiper-button-prev {
+    padding-right: 50px;
+  }
 `;
 
-const SkillCard = styled(SwiperSlide)`
+const SkillCard = styled.div`
   height: 300px !important;
   margin-top: 0 !important;
   margin-bottom: 40px !important;
@@ -259,6 +283,49 @@ const SkillCard = styled(SwiperSlide)`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+  perspective: 1000px;
+  transition: transform 0.6s ease;
+  & > * {
+    transition: opacity 0.3s ease;
+  }
+`;
+
+const SkillCardWrapper = styled(SwiperSlide)`
+  &::before,
+  &::after {
+    position: absolute;
+    width: calc(100% - 56px);
+    left: 50%;
+    /* height: calc(100% - 88px); */
+    text-align: center;
+    color: ${({ theme }) => theme.colors.text};
+    font-size: 14px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.6s ease;
+  }
+  &::before {
+    content: attr(data-title);
+    top: 70px;
+    font-size: 24px;
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  }
+  &::after {
+    content: attr(data-content);
+    bottom: 70px;
+  }
+  &:hover {
+    &::before,
+    &::after {
+      opacity: 1;
+    }
+    ${SkillCard} {
+      transform: rotateY(180deg);
+      & > * {
+        opacity: 0;
+      }
+    }
+  }
 `;
 
 const ContentTools = styled.section``;
@@ -490,6 +557,18 @@ const technologies = [
 
 const Content = () => {
   const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeSkills, setActiveSkills] = useState(skills);
+  const filters = new Set(skills.map((skill) => skill.category));
+  useEffect(() => {
+    if (activeFilter === "All") {
+      setActiveSkills(skills);
+    } else {
+      setActiveSkills(
+        skills.filter((skill) => skill.category === activeFilter)
+      );
+    }
+  }, [activeFilter]);
   return (
     <Container>
       <ContentIntroduce id="top">
@@ -637,59 +716,42 @@ const Content = () => {
         </SkillsHeader>
         <SkillsTitle>Technology Stack</SkillsTitle>
         <SkillsFilter>
-          <FilterItem className="active">All</FilterItem>
-          <FilterItem>FrontEnd</FilterItem>
-          <FilterItem>BackEnd</FilterItem>
-          <FilterItem>Collab</FilterItem>
-          <FilterItem>Ai</FilterItem>
-          <FilterItem>Cloud/Server</FilterItem>
-          <FilterItem>CS</FilterItem>
+          {["All", ...Array.from(filters)].map((filter, index) => (
+            <FilterItem
+              key={index}
+              onClick={() => setActiveFilter(filter)}
+              className={activeFilter === filter ? "active" : ""}
+            >
+              {filter}
+            </FilterItem>
+          ))}
         </SkillsFilter>
         <SkillSlider
-          slidesPerView={4}
-          slidesPerGroup={8}
+          slidesPerView={
+            activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+          }
+          slidesPerGroup={
+            activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+          }
           spaceBetween={35}
-          modules={[Pagination, Grid]}
+          modules={[Pagination, Grid, Navigation]}
+          navigation
           pagination={{ clickable: true }}
           grid={{ rows: 2, fill: "column" }}
           grabCursor={true}
         >
-          <SkillCard>
-            <img src={Typescript} alt="Typescript" />
-            Typescript
-          </SkillCard>
-          <SkillCard>2</SkillCard>
-          <SkillCard>3</SkillCard>
-          <SkillCard>4</SkillCard>
-          <SkillCard>5</SkillCard>
-          <SkillCard>6</SkillCard>
-          <SkillCard>7</SkillCard>
-          <SkillCard>8</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
-          <SkillCard>10</SkillCard>
-          <SkillCard>9</SkillCard>
+          {activeSkills.map((skill, index) => (
+            <SkillCardWrapper
+              key={index}
+              data-title={skill.title}
+              data-content={skill.description}
+            >
+              <SkillCard>
+                <img src={skill.icon} alt={skill.title} />
+                <span>{skill.title}</span>
+              </SkillCard>
+            </SkillCardWrapper>
+          ))}
         </SkillSlider>
       </ContentSkills>
       <ContentTools>

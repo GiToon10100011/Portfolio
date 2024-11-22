@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import nintendoLogo from "../svgs/NintendoLogo.svg";
+import nintendoLogo from "/svgs/NintendoLogo.svg";
 import { motion } from "framer-motion";
-import { isPlayingStore, projectIdStore } from "../stores";
+import { projectIdStore } from "../stores";
 import projects from "../projects.json";
 import { useNavigate } from "react-router-dom";
 const Container = styled(motion.div)`

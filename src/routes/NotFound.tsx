@@ -110,7 +110,6 @@ const NotFound = () => {
 
   return (
     <Container exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
-      <Header />
       <AnimatePresence>
         {isModalOpen && (
           <PageNotFound

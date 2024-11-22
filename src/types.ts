@@ -28,3 +28,10 @@ interface IComment {
   content: string;
   password: string;
 }
+
+export interface ISkill {
+  title: string;
+  description: string;
+  icon: string;
+  category: string;
+}

@@ -1,8 +1,218 @@
 [
   {
-    "title": "React",
-    "description": "React is a JavaScript library for building user interfaces. It is maintained by Meta and a community of individual developers and companies.",
-    "icon": "react.svg",
+    "title": "Next.js",
+    "description": "SEO가 중요한 블로그, 뉴스 사이트, 전자상거래 사이트 등을 서버 사이드 렌더링을 통해 최적화할 수 있습니다. Next.js의 서버 사이드 렌더링(SSR) 및 정적 사이트 생성(SSG) 기능을 활용한 빠르고 SEO 친화적인 웹앱 구현이 가능합니다.",
+    "icon": "/svgs/skills/Next.svg",
     "category": "Frontend"
+  },
+  {
+    "title": "React",
+    "description": "컴포넌트 기반 아키텍쳐를 통해 재사용 가능한 ui요소들을 제작할 수 있으며 이를 활용하여 대화형 사용자 인터페이스를 구축할 수 있습니다.  SPA 웹앱 구현 및 컴포넌트 기반의 ui를 통한 재사용성 향상이 가능합니다. ",
+    "icon": "/svgs/skills/React.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "TypeScript",
+    "description": "자바스크립트에 타입을 추가하여 애플리케이션에서 높은 타입안정성을 통한 코드의 안정성과 유지보수성을 높일 수 있습니다. ",
+    "icon": "/svgs/skills/Typescript.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Express.js",
+    "description": "간단한 웹서버 구축, RESTful API를 구축하여 미들웨어를 통한 효율적인 데이터처리 로직을 관리하여 모바일 앱이나 웹 애플리케이션의 백엔드를 개발할 수 있습니다.",
+    "icon": "/svgs/skills/Express.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "GraphQL",
+    "description": "클라이언트가 필요한 데이터만 요청할 수 있는 API를 구축하여 데이터 전송을 최적화할 수 있습니다.",
+    "icon": "/svgs/skills/GraphQL.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Node.js",
+    "description": "JS를 통한 서버 로직 작성, REST API 구축을 통한 클라이언트와 서버 간의 데이터 통신 처리로 실시간 채팅 애플리케이션이나 스트리밍 서비스와 같은 비동기 이벤트 기반 서버를 구축할 수 있습니다.",
+    "icon": "/svgs/skills/Node.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Recoil",
+    "description": "React에서 전역 상태를 관리할 수 있습니다. 간단한 상태 관리가 필요한 프로젝트에서 컴포넌트 간의 상태 공유를 쉽게 구현할 수 있습니다.",
+    "icon": "/svgs/skills/Recoil.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Redux",
+    "description": "애플리케이션의 상태를 중앙에서 관리하여 상태가 복잡한 프로젝트에서 상태의 흐름을 추적하고 디버깅을 쉽게 할 수 있습니다.",
+    "icon": "/svgs/skills/Redux.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Zustand",
+    "description": "경량 상태 관리 라이브러리로, 간단한API를 통해 상태를 관리할 수 있습니다. 작은 규모의 프로젝트에서 빠르게 상태관리를 구현할 수 있습니다.",
+    "icon": "/svgs/skills/Zustand.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Apollo Server",
+    "description": "GraphQL API를 쉽게 구축하여 클라이언트와 서버 간의 데이터 통신을 효율적으로 관리할 수 있습니다.",
+    "icon": "/svgs/skills/ApolloServer.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Mongoose",
+    "description": "MongoDB와의 상호작용하여 MongoDB에 데이터를 저장하고, 검색하고, 업데이트하는 기본적인 CRUD작업을 쉽게 수행할 수 있습니다.",
+    "icon": "/svgs/skills/Mongoose.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Prisma",
+    "description": "간단한 데이터베이스 스키마를 정의하고, 데이터베이스와 상호작용하여 데이터 중심의 애플리케이션을 개발할 수 있습니다.",
+    "icon": "/svgs/skills/Prisma.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "MongoDB",
+    "description": "비정형 데이터를 저장하고 관리할 수 있는 데이터베이스로, 소셜 네트워크나 콘텐츠 관리 시스템을 구축할 수 있습니다.",
+    "icon": "/svgs/skills/MongoDB.svg",
+    "category": "Database"
+  },
+  {
+    "title": "Supabase",
+    "description": "실시간 데이터베이스와 인증 기능을 통해 빠르게 프로토타입을 개발할 수 있습니다.",
+    "icon": "/svgs/skills/Supabase.svg",
+    "category": "Database"
+  },
+  {
+    "title": "C",
+    "description": "기초적인 알고리즘과 데이터구조를 구현할 수 있습니다. 효율적인 메모리 관리를 통해 기본적인 파일 입출력 작업을 수행할 수 있습니다.",
+    "icon": "/svgs/skills/C.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "C++",
+    "description": "C의 기초를 바탕으로 객체 지향 프로그래밍의 기본 개념을 이해할 수 있습니다. 간단한 클래스와 객체를 사용하여 기본적인 프로그램을 작성할 수 있습니다.",
+    "icon": "/svgs/skills/C++.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Python",
+    "description": "간단한 스크립트 작성이나 데이터 처리 작업을 수행할 수 있습니다. 파일 읽기/쓰기, 판다스를 활용한 데이터 정리, 간단한 웹 크롤링 등을 할 수 있습니다.",
+    "icon": "/svgs/skills/Python.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "PHP",
+    "description": "간단한 웹 서버나 사이드스크립트를 작성하여 간단한 폼처리 및 데이터베이스와의 기본적인 상호작용을 구현할 수 있습니다.",
+    "icon": "/svgs/skills/PHP.svg",
+    "category": "Backend"
+  },
+  {
+    "title": "Vercel",
+    "description": "정적 사이트와 서버리스 애플리케이션을 쉽게 배포하여 빠른 프로덕션 환경을 구축할 수 있습니다. Next.js의 애플리케이션을 쉽게 배포하고, 서버리스 기능을 통해 백엔드 로직을 간단하게 구현할 수 있습니다.",
+    "icon": "/svgs/skills/Vercel.svg",
+    "category": "Cloud/Server"
+  },
+  {
+    "title": "Netlify",
+    "description": "정적 웹사이트와 서버리스 백엔드를 쉽게 배포하여 빠르게 프로덕션 환경을 구축할 수 있습니다.",
+    "icon": "/svgs/skills/Netlify.svg",
+    "category": "Cloud/Server"
+  },
+  {
+    "title": "Styled-Components",
+    "description": "CSS-in-JS 접근 방식을 통해 컴포넌트 기반의 스타일 관리를 통해 효율적인 스타일링이 가능합니다.",
+    "icon": "/svgs/skills/StyledComponents.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Tailwind CSS",
+    "description": "Utility-First CSS 프레임워크를 통한 빠른 ui개발 및 일관된 디자인 시스템 구축이 가능합니다.",
+    "icon": "/svgs/skills/Tailwind.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Three.js",
+    "description": "웹 기반의 3D 그래픽/애니메이션 구현, 게임이나 인터랙티브한 3D 시각화를 구현할 수 있습니다.",
+    "icon": "/svgs/skills/Three.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "HTML",
+    "description": "웹 페이지의 컨텐츠들을 구조화하여 웹페이지를 설계할 수 있습니다.",
+    "icon": "/svgs/skills/HTML.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "CSS",
+    "description": "웹페이지의 스타일을 정의하여 사용자 경험을 향상시킵니다. CSS를 통한 반응형 디자인을 구현하고, 다양한 디바이스에서 일관된 사용자 경험을 제공할 수 있습니다.",
+    "icon": "/svgs/skills/CSS.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "SCSS",
+    "description": "변수, 중첩, 믹스인 등을 사용하여 복잡한 스타일링의 효율적인 관리 및 CSS의 유지보수성을 향상한 스타일링을 구현합니다.",
+    "icon": "/svgs/skills/SCSS.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Microsoft Teams",
+    "description": "팀 내 커뮤니케이션과 협업을 위한 도구로, 채팅과 화상 회의를 통해 원격 협업을 효율적으로 할 수 있습니다. 프로젝트 관리와 팀 커뮤니케이션을 통합할 수 있습니다.",
+    "icon": "/svgs/skills/MicrosoftTeams.svg",
+    "category": "ETC"
+  },
+  {
+    "title": "Slack",
+    "description": "실시간 메시징과 파일 공유를 통해 팀 내 커뮤니케이션을 강화할 수 있습니다. 다양한 채널을 통해 프로젝트별로 대화를 조직화할 수 있습니다.",
+    "icon": "/svgs/skills/Slack.svg",
+    "category": "Collaboration"
+  },
+  {
+    "title": "Git",
+    "description": "협업 환경에서의 코드 버전 관리 및 브랜칭을 통한 효율적인 프로젝트 관리를 합니다.",
+    "icon": "/svgs/skills/Git.svg",
+    "category": "Collaboration"
+  },
+  {
+    "title": "Github",
+    "description": "오픈소스 프로젝트 및 팀 협업을 위한 소스 코드 저장소 관리 및 코드 리뷰가 가능합니다. 이슈트래킹과 풀리퀘스트 기능을 통해 팀 협업을 효율적으로 관리할 수 있습니다.",
+    "icon": "/svgs/skills/Github.svg",
+    "category": "ETC"
+  },
+  {
+    "title": "Figma",
+    "description": "Agile방식의 협업을 통한 디자인 시스템으로 UI/UX 디자인의 원활한 진행을 통해 사용자 친화적인 인터페이스를 설계할 수 있습니다.",
+    "icon": "/svgs/skills/Figma.svg",
+    "category": "Collaboration"
+  },
+  {
+    "title": "ChatGPT",
+    "description": "대화형 인터페이스 및 AI 기술을 활용한 빠른 문제 해결 솔루션을 제공할 수 있습니다.",
+    "icon": "/svgs/skills/ChatGPT.svg",
+    "category": "ETC"
+  },
+  {
+    "title": "Javascript",
+    "description": "JavaScript를 통해 DOM 조작, 비동기 처리, API 호출 등 핵심 기능을 구현하며, 동적인 UI와 데이터 처리를 효과적으로 수행할 수 있습니다.",
+    "icon": "/svgs/skills/Javascript.svg",
+    "category": "Frontend"
+  },
+  {
+    "title": "Firebase",
+    "description": "로그인과 회원가입 같은 인증 기능을 쉽게 구현할 수 있고, 데이터베이스에서 정보를 저장하고 불러올 수 있습니다. 채팅처럼 실시간으로 데이터가 변경되는 기능도 만들 수 있으며, 이미지나 파일을 저장소에 업로드할 수 있습니다.",
+    "icon": "/svgs/skills/Firebase.svg",
+    "category": "Cloud/Server"
+  },
+  {
+    "title": "AWS",
+    "description": "AWS에서는 S3 서비스를 통해 이미지나 파일을 업로드하고 URL을 받아서 사용할 수 있습니다. 또한 간단한 서버를 배포하고 도메인을 연결하는 정도의 기본적인 작업을 수행할 수 있습니다.",
+    "icon": "/svgs/skills/AWS.svg",
+    "category": "Cloud/Server"
+  },
+  {
+    "title": "Claude",
+    "description": "자연어 처리 작업에서 도움을 받을 수 있습니다. 문서의 요약을 생성하거나, 간단한 텍스트 분석을 수행하는 데 도움을 받을 수 있습니다.",
+    "icon": "/svgs/skills/Claude.svg",
+    "category": "ETC"
   }
 ]
