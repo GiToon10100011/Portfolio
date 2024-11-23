@@ -6,15 +6,54 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { CheckIcon, NavigateArrowIcon, popupStyle } from "../../Icons";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import skills from "../../skills.json";
-import { useEffect, useState } from "react";
-const Container = styled.main`
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+
+const containerStyle = {
+  height: "500px",
+  borderRadius: "20px",
+  filter: "grayscale(0.6)",
+};
+
+const center = {
+  lat: 37.5398708,
+  lng: 127.1452641,
+};
+
+const Container = styled.main<{ $isBottom: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 130px;
   padding-bottom: 110px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  &::before {
+    content: "";
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    bottom: 80px;
+    filter: blur(14px);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      ${({ theme }) => theme.colors.background}
+    );
+    width: 100%;
+    height: 60px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    opacity: ${({ $isBottom }) => ($isBottom ? 0 : 1)};
+  }
 `;
 
 const ContentIntroduce = styled.section`
@@ -51,6 +90,7 @@ const IntroduceInfo = styled.p`
   font-family: ${({ theme }) => theme.fonts.krText};
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.5;
+  margin-bottom: -50px;
 `;
 
 const ContentStrengths = styled.section`
@@ -101,7 +141,7 @@ const Strength = styled.div`
   }
 `;
 
-const ContentAbout = styled.section``;
+const ContentAbout = styled(motion.section)``;
 const AboutHeader = styled(StrengthsHeader)`
   margin-bottom: 30px;
   border: none;
@@ -208,7 +248,7 @@ const CardDescription = styled.p`
   word-break: keep-all;
 `;
 
-const ContentSkills = styled.section``;
+const ContentSkills = styled(motion.section)``;
 const SkillsHeader = styled(AboutHeader)``;
 const SkillsTitle = styled(AboutTitle)`
   margin-bottom: 40px;
@@ -234,9 +274,13 @@ const FilterItem = styled.li`
 const SkillSlider = styled(Swiper)`
   height: 700px;
   overflow: visible;
+  scrollbar-width: none;
   .swiper-wrapper {
     width: 100% !important;
     height: 100% !important;
+  }
+  .swiper-pagination {
+    bottom: -20px;
   }
   .swiper-pagination-bullet {
     width: 10px;
@@ -290,33 +334,38 @@ const SkillCard = styled.div`
   }
 `;
 
-const SkillCardWrapper = styled(SwiperSlide)`
-  &::before,
-  &::after {
-    position: absolute;
-    width: calc(100% - 56px);
-    left: 50%;
-    /* height: calc(100% - 88px); */
-    text-align: center;
-    color: ${({ theme }) => theme.colors.text};
-    font-size: 14px;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.6s ease;
-  }
-  &::before {
-    content: attr(data-title);
-    top: 70px;
+const SkillCardBack = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 35px);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  span {
     font-size: 24px;
     font-weight: ${({ theme }) => theme.fontWeight.bold};
+    color: ${({ theme }) => theme.colors.textPoint};
   }
-  &::after {
-    content: attr(data-content);
-    bottom: 70px;
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: keep-all;
   }
+`;
+
+const SkillCardWrapper = styled(SwiperSlide)`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 14px;
   &:hover {
-    &::before,
-    &::after {
+    ${SkillCardBack} {
       opacity: 1;
     }
     ${SkillCard} {
@@ -435,9 +484,8 @@ const ContactInfo = styled.div`
 const ContactAddress = styled(ContactItem)`
   width: 100%;
 `;
-const ContactMap = styled.div`
+const ContactMap = styled(GoogleMap)`
   height: 500px;
-  border-radius: ${({ theme }) => theme.borderRadius.main};
   overflow: hidden;
   background: #333;
   margin-bottom: 40px;
@@ -555,10 +603,55 @@ const technologies = [
   "Web APIs",
 ];
 
-const Content = () => {
+const Content = ({ setSection }: { setSection: (section: string) => void }) => {
   const navigate = useNavigate();
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(
+    null
+  );
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeSkills, setActiveSkills] = useState(skills);
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string,
+  });
+  const onLoad = useCallback(function callback(map: google.maps.Map) {
+    map.setCenter(center);
+    map.setZoom(15);
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback(function callback(map: google.maps.Map) {
+    setMap(null);
+  }, []);
+
+  const viewRefs = {
+    profile: useRef(null),
+    about: useRef(null),
+    skills: useRef(null),
+    contact: useRef(null),
+    footer: useRef(null),
+  };
+
+  const inViews = {
+    profile: useInView(viewRefs.profile),
+    about: useInView(viewRefs.about, {
+      amount: 0.5,
+    }),
+    skills: useInView(viewRefs.skills, {
+      amount: 0.9,
+      margin: "0px 0px 200px 0px",
+    }),
+    contact: useInView(viewRefs.contact, {
+      amount: 0.5,
+    }),
+    footer: useInView(viewRefs.footer, {
+      amount: 0.5,
+    }),
+  };
+
+  console.log(inViews);
+
   const filters = new Set(skills.map((skill) => skill.category));
   useEffect(() => {
     if (activeFilter === "All") {
@@ -569,9 +662,20 @@ const Content = () => {
       );
     }
   }, [activeFilter]);
+  useEffect(() => {
+    if (inViews.about) {
+      setSection("about");
+    } else if (inViews.skills) {
+      setSection("skills");
+    } else if (inViews.contact) {
+      setSection("contact");
+    } else if (inViews.profile) {
+      setSection("profile");
+    }
+  }, [inViews]);
   return (
-    <Container>
-      <ContentIntroduce id="top">
+    <Container $isBottom={inViews.footer}>
+      <ContentIntroduce id="top" ref={viewRefs.profile}>
         <IntroduceHeader>
           <IntroduceSubtitle>
             안녕하세요, I'm <span>Jon Jinu</span>
@@ -619,7 +723,7 @@ const Content = () => {
           </StrengthItem>
         </Strengths>
       </ContentStrengths>
-      <ContentAbout id="about">
+      <ContentAbout id="about" ref={viewRefs.about}>
         <AboutHeader>
           <HeaderBadge />
           About
@@ -640,7 +744,7 @@ const Content = () => {
               데이터를 가공하고 효율적인 웹 애플리케이션을 개발하는 데 큰 흥미를
               느꼈습니다. 이를 통해 안정적인 코드 작성과 실무 중심의 문제 해결
               능력을 갖추었으며, 새로운 문제에 도전하고 해결하는 과정을
-              즐깁니다. 앞으로도 데이터와 문제 해결을 통해 사용자 경험을
+              즐깁니다. 앞으로도 데이터와 문제 해결을 통해 사���자 경험을
               개선하는 프론트엔드 개발자로 꾸준히 성장해 나가겠습니다.
             </CardDescription>
           </MainCard>
@@ -709,7 +813,7 @@ const Content = () => {
           </SubCardContainer>
         </AboutCards>
       </ContentAbout>
-      <ContentSkills id="skills">
+      <ContentSkills id="skills" ref={viewRefs.skills}>
         <SkillsHeader>
           <HeaderBadge />
           Skills
@@ -746,6 +850,10 @@ const Content = () => {
               data-title={skill.title}
               data-content={skill.description}
             >
+              <SkillCardBack>
+                <span>{skill.title}</span>
+                <p>{skill.description}</p>
+              </SkillCardBack>
               <SkillCard>
                 <img src={skill.icon} alt={skill.title} />
                 <span>{skill.title}</span>
@@ -805,7 +913,7 @@ const Content = () => {
           </CertificateItem>
         </CertificatesContent>
       </ContentCertificates>
-      <ContentContact id="contact">
+      <ContentContact id="contact" ref={viewRefs.contact}>
         <ContactHeader>
           <HeaderBadge />
           Contact
@@ -832,12 +940,26 @@ const Content = () => {
               <img src={"/images/icons/MapIcon.png"} alt="Address" />
               Location
             </ContactInfo>
-            <span>서울특별시 강동구 천호대로 1239 강동자이아파트</span>
+            <span>서울특별시 강동구 천호대로</span>
           </ContactAddress>
-          <ContactMap></ContactMap>
+          {isLoaded && (
+            <ContactMap
+              onLoad={onLoad}
+              onUnmount={onUnmount}
+              options={{
+                zoom: 15,
+                center: center,
+                disableDefaultUI: true,
+                zoomControl: true,
+              }}
+              mapContainerStyle={containerStyle}
+            >
+              <Marker position={center} />
+            </ContactMap>
+          )}
         </ContactContent>
       </ContentContact>
-      <ContentFooter>
+      <ContentFooter ref={viewRefs.footer}>
         <FooterContent>
           <FooterText onClick={() => navigate("/comments")}>
             Make My Projects Better <NavigateArrowIcon />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
@@ -216,6 +216,7 @@ const MenuItem = styled(motion.a)`
   padding: 30px;
   font-size: 32px;
   color: ${({ theme }) => theme.colors.text};
+  border: 4px solid transparent;
   border-radius: ${({ theme }) => theme.borderRadius.light};
   transition: border 0.3s, color 0.3s;
   &.active {
@@ -359,8 +360,10 @@ const menuItemVariants = {
 
 const Profile = () => {
   const [mode, setMode] = useState<string>("menu");
+  const [section, setSection] = useState<string>("profile");
   const { setTriggerMain } = triggerMainStore();
   const { setCursorChanging } = cursorChangingStore();
+  const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     return () => {
       setTriggerMain(true);
@@ -439,10 +442,11 @@ const Profile = () => {
               >
                 <MenuItem
                   href="#top"
-                  className="active"
+                  className={section === "profile" ? "active" : ""}
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
+                  onClick={() => setSection("profile")}
                 >
                   <MenuBadge />
                   Profile
@@ -450,27 +454,33 @@ const Profile = () => {
                 <MenuDivider exit={{ opacity: 0, x: -100 }} />
                 <MenuItem
                   href="#about"
+                  className={section === "about" ? "active" : ""}
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
+                  onClick={() => setSection("about")}
                 >
                   <MenuBadge />
                   About
                 </MenuItem>
                 <MenuItem
                   href="#skills"
+                  className={section === "skills" ? "active" : ""}
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
+                  onClick={() => setSection("skills")}
                 >
                   <MenuBadge />
                   Skills
                 </MenuItem>
                 <MenuItem
                   href="#contact"
+                  className={section === "contact" ? "active" : ""}
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
+                  onClick={() => setSection("contact")}
                 >
                   <MenuBadge />
                   Contact
@@ -479,8 +489,8 @@ const Profile = () => {
             )}
           </AnimatePresence>
         </LeftArea>
-        <RightArea>
-          <Content />
+        <RightArea ref={containerRef}>
+          <Content setSection={setSection} />
         </RightArea>
       </InnerContainer>
       <Footer icon="menu" mode={mode} setMode={setMode} />

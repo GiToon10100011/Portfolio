@@ -156,40 +156,16 @@
     "category": "Frontend"
   },
   {
-    "title": "Microsoft Teams",
-    "description": "팀 내 커뮤니케이션과 협업을 위한 도구로, 채팅과 화상 회의를 통해 원격 협업을 효율적으로 할 수 있습니다. 프로젝트 관리와 팀 커뮤니케이션을 통합할 수 있습니다.",
-    "icon": "/svgs/skills/MicrosoftTeams.svg",
-    "category": "ETC"
-  },
-  {
-    "title": "Slack",
-    "description": "실시간 메시징과 파일 공유를 통해 팀 내 커뮤니케이션을 강화할 수 있습니다. 다양한 채널을 통해 프로젝트별로 대화를 조직화할 수 있습니다.",
-    "icon": "/svgs/skills/Slack.svg",
-    "category": "Collaboration"
-  },
-  {
     "title": "Git",
     "description": "협업 환경에서의 코드 버전 관리 및 브랜칭을 통한 효율적인 프로젝트 관리를 합니다.",
     "icon": "/svgs/skills/Git.svg",
     "category": "Collaboration"
   },
   {
-    "title": "Github",
-    "description": "오픈소스 프로젝트 및 팀 협업을 위한 소스 코드 저장소 관리 및 코드 리뷰가 가능합니다. 이슈트래킹과 풀리퀘스트 기능을 통해 팀 협업을 효율적으로 관리할 수 있습니다.",
-    "icon": "/svgs/skills/Github.svg",
-    "category": "ETC"
-  },
-  {
     "title": "Figma",
     "description": "Agile방식의 협업을 통한 디자인 시스템으로 UI/UX 디자인의 원활한 진행을 통해 사용자 친화적인 인터페이스를 설계할 수 있습니다.",
     "icon": "/svgs/skills/Figma.svg",
     "category": "Collaboration"
-  },
-  {
-    "title": "ChatGPT",
-    "description": "대화형 인터페이스 및 AI 기술을 활용한 빠른 문제 해결 솔루션을 제공할 수 있습니다.",
-    "icon": "/svgs/skills/ChatGPT.svg",
-    "category": "ETC"
   },
   {
     "title": "Javascript",
@@ -208,6 +184,30 @@
     "description": "AWS에서는 S3 서비스를 통해 이미지나 파일을 업로드하고 URL을 받아서 사용할 수 있습니다. 또한 간단한 서버를 배포하고 도메인을 연결하는 정도의 기본적인 작업을 수행할 수 있습니다.",
     "icon": "/svgs/skills/AWS.svg",
     "category": "Cloud/Server"
+  },
+  {
+    "title": "Github",
+    "description": "오픈소스 프로젝트 및 팀 협업을 위한 소스 코드 저장소 관리 및 코드 리뷰가 가능합니다. 이슈트래킹과 풀리퀘스트 기능을 통해 팀 협업을 효율적으로 관리할 수 있습니다.",
+    "icon": "/svgs/skills/Github.svg",
+    "category": "Collaboration"
+  },
+  {
+    "title": "Microsoft Teams",
+    "description": "팀 내 커뮤니케이션과 협업을 위한 도구로, 채팅과 화상 회의를 통해 원격 협업을 효율적으로 할 수 있습니다. 프로젝트 관리와 팀 커뮤니케이션을 통합할 수 있습니다.",
+    "icon": "/svgs/skills/MicrosoftTeams.svg",
+    "category": "ETC"
+  },
+  {
+    "title": "Slack",
+    "description": "실시간 메시징과 파일 공유를 통해 팀 내 커뮤니케이션을 강화할 수 있습니다. 다양한 채널을 통해 프로젝트별로 대화를 조직화할 수 있습니다.",
+    "icon": "/svgs/skills/Slack.svg",
+    "category": "ETC"
+  },
+  {
+    "title": "ChatGPT",
+    "description": "대화형 인터페이스 및 AI 기술을 활용한 빠른 문제 해결 솔루션을 제공할 수 있습니다.",
+    "icon": "/svgs/skills/ChatGPT.svg",
+    "category": "ETC"
   },
   {
     "title": "Claude",
