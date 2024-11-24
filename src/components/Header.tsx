@@ -6,6 +6,7 @@ import { useTheme } from "styled-components";
 import FadeLoader from "react-spinners/FadeLoader";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cursorChangingStore } from "../stores";
+import Time from "./Time";
 
 const override: CSSProperties = {
   scale: 2,
@@ -85,14 +86,6 @@ const RightSide = styled.div`
   gap: 10px;
 `;
 
-const CurrentTime = styled.p`
-  font-size: 24px;
-  display: flex;
-  align-items: flex-end;
-  span {
-    font-size: 10px;
-  }
-`;
 
 const ProfileLoading = styled(motion.div)`
   position: fixed;
@@ -121,19 +114,8 @@ const Header = () => {
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
 
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [navigateProfile, setNavigateProfile] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
-
-  const [time, period] = currentTime
-    .toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    })
-    .split(" ");
-
-  const [firstPeriod, secondPeriod] = period.split("");
 
   const handleNavigateProfile = () => {
     setNavigateProfile(true);
@@ -146,13 +128,6 @@ const Header = () => {
       }, 100);
     }, 1400);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -218,12 +193,7 @@ const Header = () => {
             </ProfileInfo>
           </LeftSide>
           <RightSide>
-            <CurrentTime>
-              {time}
-              <span>
-                {firstPeriod}.{secondPeriod}.
-              </span>
-            </CurrentTime>
+            <Time />
             <NetworkStatusIcon />
           </RightSide>
         </InnerContainer>

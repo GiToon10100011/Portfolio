@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { cursorChangingStore, hideCursorStore } from "../stores";
 import { motion } from "framer-motion";
+import React from "react";
 
 interface ICursor {
   x: number;
@@ -56,4 +57,4 @@ const Cursor = ({ x, y }: ICursor) => {
   );
 };
 
-export default Cursor;
+export default React.memo(Cursor);

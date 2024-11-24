@@ -6,16 +6,18 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { CheckIcon, NavigateArrowIcon, popupStyle } from "../../Icons";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import skills from "../../skills.json";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import IntroduceText from "./IntroduceText";
+import { profileAnimationVariants } from "./profileAnimationVariants";
 
 const containerStyle = {
   height: "500px",
@@ -76,6 +78,8 @@ const IntroduceSubtitle = styled.p`
   font-size: 24px;
   color: ${({ theme }) => theme.colors.text};
   span {
+    position: relative;
+    display: inline-block;
     color: ${({ theme }) => theme.colors.textPoint};
   }
 `;
@@ -93,7 +97,7 @@ const IntroduceInfo = styled.p`
   margin-bottom: -50px;
 `;
 
-const ContentStrengths = styled.section`
+const ContentStrengths = styled(motion.section)`
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -120,7 +124,7 @@ const Strengths = styled.ul`
   gap: 40px;
   align-items: center;
 `;
-const StrengthItem = styled.li`
+const StrengthItem = styled(motion.li)`
   display: flex;
   align-items: center;
   gap: 14px;
@@ -158,7 +162,7 @@ const AboutCards = styled.div`
   gap: 40px;
 `;
 
-const MainCard = styled.div`
+const MainCard = styled(motion.div)`
   padding: 30px;
   border: 2px solid ${({ theme }) => theme.colors.textPoint};
   border-radius: ${({ theme }) => theme.borderRadius.main};
@@ -194,7 +198,7 @@ const SubCardTimeline = styled.div`
   }
 `;
 
-const SubCardContainer = styled.div`
+const SubCardContainer = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   gap: 130px;
@@ -250,7 +254,7 @@ const CardDescription = styled.p`
 
 const ContentSkills = styled(motion.section)``;
 const SkillsHeader = styled(AboutHeader)``;
-const SkillsTitle = styled(AboutTitle)`
+const SkillsTitle = styled(motion(AboutTitle))`
   margin-bottom: 40px;
 `;
 const SkillsFilter = styled.ul`
@@ -377,7 +381,7 @@ const SkillCardWrapper = styled(SwiperSlide)`
   }
 `;
 
-const ContentTools = styled.section``;
+const ContentTools = styled(motion.section)``;
 const ToolsHeader = styled(StrengthsHeader)`
   margin-bottom: 30px;
 `;
@@ -408,7 +412,7 @@ const ToolsItem = styled.li`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const ContentCertificates = styled.section``;
+const ContentCertificates = styled(motion.section)``;
 const CertificatesHeader = styled(ToolsHeader)``;
 const CertificatesContent = styled.ul`
   display: flex;
@@ -453,7 +457,7 @@ const CertificateCredit = styled.span`
 const ContentContact = styled.section``;
 const ContactHeader = styled(CertificatesHeader)``;
 const ContactTitle = styled(SkillsTitle)``;
-const ContactContent = styled(CertificatesContent)`
+const ContactContent = styled(motion(CertificatesContent))`
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -490,8 +494,8 @@ const ContactMap = styled(GoogleMap)`
   background: #333;
   margin-bottom: 40px;
 `;
-const ContentFooter = styled.section``;
-const FooterContent = styled.div`
+const ContentFooter = styled(motion.section)``;
+const FooterContent = styled(motion.div)`
   margin-bottom: 240px;
 `;
 const FooterText = styled.a`
@@ -650,9 +654,54 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
     }),
   };
 
-  console.log(inViews);
+  const animationRefs = {
+    strengths: useRef(null),
+    aboutMainCard: useRef(null),
+    aboutSubCard: useRef(null),
+    skills: useRef(null),
+    tools: useRef(null),
+    certificates: useRef(null),
+    contact: useRef(null),
+    footer: useRef(null),
+  };
+
+  const InViewAnimations = {
+    strengths: useInView(animationRefs.strengths, {
+      amount: 0.9,
+      once: true,
+    }),
+    aboutMainCard: useInView(animationRefs.aboutMainCard, {
+      amount: 0.9,
+      once: true,
+    }),
+    aboutSubCard: useInView(animationRefs.aboutSubCard, {
+      amount: 0.5,
+      once: true,
+    }),
+    skills: useInView(animationRefs.skills, {
+      amount: 0.5,
+      once: true,
+    }),
+    tools: useInView(animationRefs.tools, {
+      amount: 0.5,
+      once: true,
+    }),
+    certificates: useInView(animationRefs.certificates, {
+      amount: 0.5,
+      once: true,
+    }),
+    contact: useInView(animationRefs.contact, {
+      amount: 0.5,
+      once: true,
+    }),
+    footer: useInView(animationRefs.footer, {
+      amount: 0.5,
+      once: true,
+    }),
+  };
 
   const filters = new Set(skills.map((skill) => skill.category));
+
   useEffect(() => {
     if (activeFilter === "All") {
       setActiveSkills(skills);
@@ -662,6 +711,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       );
     }
   }, [activeFilter]);
+
   useEffect(() => {
     if (inViews.about) {
       setSection("about");
@@ -673,12 +723,13 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       setSection("profile");
     }
   }, [inViews]);
+
   return (
     <Container $isBottom={inViews.footer}>
       <ContentIntroduce id="top" ref={viewRefs.profile}>
         <IntroduceHeader>
           <IntroduceSubtitle>
-            안녕하세요, I'm <span>Jon Jinu</span>
+            안녕하세요, I'm <IntroduceText />
           </IntroduceSubtitle>
           <IntroduceTitle>
             Frontend Developer Based in
@@ -694,27 +745,31 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <br />을 바탕으로 새로운 도전에 빠르게 적응하며 성장하고 있습니다.
         </IntroduceInfo>
       </ContentIntroduce>
-      <ContentStrengths>
+      <ContentStrengths
+        animate={InViewAnimations.strengths ? "strengths" : undefined}
+        variants={profileAnimationVariants.strengths}
+        ref={animationRefs.strengths}
+      >
         <StrengthsHeader>
           <HeaderBadge></HeaderBadge>
           Strengths
         </StrengthsHeader>
         <Strengths>
-          <StrengthItem>
+          <StrengthItem variants={profileAnimationVariants.strengthsChildren}>
             <StrengthNumbering>1</StrengthNumbering>
             <Strength>
               <span>문제해결을 즐깁니다.</span>
               <span>Problem Solving</span>
             </Strength>
           </StrengthItem>
-          <StrengthItem>
+          <StrengthItem variants={profileAnimationVariants.strengthsChildren}>
             <StrengthNumbering>2</StrengthNumbering>
             <Strength>
               <span>영어에 능통합니다.</span>
               <span>Fluent English</span>
             </Strength>
           </StrengthItem>
-          <StrengthItem>
+          <StrengthItem variants={profileAnimationVariants.strengthsChildren}>
             <StrengthNumbering>3</StrengthNumbering>
             <Strength>
               <span>지속적인 학습을 추구합니다.</span>
@@ -730,7 +785,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
         </AboutHeader>
         <AboutTitle>Work Experience & Education</AboutTitle>
         <AboutCards>
-          <MainCard>
+          <MainCard ref={animationRefs.aboutMainCard}>
             <CardBadge>2024</CardBadge>
             <CardTitle>
               K-Digital Training(KDT) 기업연계 프론트엔드 개발자 과정
@@ -744,11 +799,11 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
               데이터를 가공하고 효율적인 웹 애플리케이션을 개발하는 데 큰 흥미를
               느꼈습니다. 이를 통해 안정적인 코드 작성과 실무 중심의 문제 해결
               능력을 갖추었으며, 새로운 문제에 도전하고 해결하는 과정을
-              즐깁니다. 앞으로도 데이터와 문제 해결을 통해 사���자 경험을
-              개선하는 프론트엔드 개발자로 꾸준히 성장해 나가겠습니다.
+              즐깁니다. 앞으로도 데이터와 문제 해결을 통해 사자 경험을 개선하는
+              프론트엔드 개발자로 꾸준히 성장해 나가겠습니다.
             </CardDescription>
           </MainCard>
-          <SubCardContainer>
+          <SubCardContainer ref={animationRefs.aboutSubCard}>
             <SubCardContent>
               <SubCardTimeline />
               <EduCards>
@@ -818,7 +873,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <HeaderBadge />
           Skills
         </SkillsHeader>
-        <SkillsTitle>Technology Stack</SkillsTitle>
+        <SkillsTitle ref={animationRefs.skills}>Technology Stack</SkillsTitle>
         <SkillsFilter>
           {["All", ...Array.from(filters)].map((filter, index) => (
             <FilterItem
@@ -862,7 +917,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           ))}
         </SkillSlider>
       </ContentSkills>
-      <ContentTools>
+      <ContentTools ref={animationRefs.tools}>
         <ToolsHeader>
           <HeaderBadge />
           Tools
@@ -891,7 +946,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <span>And more...</span>
         </ToolsContent>
       </ContentTools>
-      <ContentCertificates>
+      <ContentCertificates ref={animationRefs.certificates}>
         <CertificatesHeader>
           <HeaderBadge />
           Certificates
@@ -919,7 +974,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           Contact
         </ContactHeader>
         <ContactTitle>Contact Me</ContactTitle>
-        <ContactContent>
+        <ContactContent ref={animationRefs.contact}>
           <ContactItems>
             <ContactItem>
               <ContactInfo>
@@ -960,7 +1015,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
         </ContactContent>
       </ContentContact>
       <ContentFooter ref={viewRefs.footer}>
-        <FooterContent>
+        <FooterContent ref={animationRefs.footer}>
           <FooterText onClick={() => navigate("/comments")}>
             Make My Projects Better <NavigateArrowIcon />
           </FooterText>

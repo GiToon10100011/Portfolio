@@ -5,6 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Content from "../components/profile/Content";
 import { glitchAnimations } from "../styles/animations";
 import { cursorChangingStore, triggerMainStore } from "../stores";
+import Typewriter from "typewriter-effect";
+
+const profileText = "Frontend Developer_";
 
 const Container = styled(motion.div)`
   padding-top: 140px;
@@ -369,6 +372,8 @@ const Profile = () => {
       setTriggerMain(true);
     };
   }, []);
+
+  console.log("Frontend Developer".split(""));
   return (
     <Container
       initial={{ opacity: 0, scale: 1 }}
@@ -393,7 +398,15 @@ const Profile = () => {
                     <NoiseOverlay />
                   </ProfilePicture>
                   <ProfileInfo variants={childVariants}>
-                    <ProfileSubtitle>Frontend Developer_</ProfileSubtitle>
+                    <ProfileSubtitle>
+                      <Typewriter
+                        options={{
+                          strings: ["Frontend Developer_", "Computer Science_"],
+                          autoStart: true,
+                          loop: true,
+                        }}
+                      />
+                    </ProfileSubtitle>
                     <ProfileName>JON JINU</ProfileName>
                   </ProfileInfo>
                   <SNSMenu variants={childVariants}>
