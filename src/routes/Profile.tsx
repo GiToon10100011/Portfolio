@@ -373,7 +373,6 @@ const Profile = () => {
     };
   }, []);
 
-  console.log("Frontend Developer".split(""));
   return (
     <Container
       initial={{ opacity: 0, scale: 1 }}

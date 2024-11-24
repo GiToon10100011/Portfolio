@@ -119,7 +119,7 @@ const StrengthsHeader = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.dividerBorder};
   padding-bottom: 14px;
 `;
-const Strengths = styled.ul`
+const Strengths = styled(motion.ul)`
   display: flex;
   gap: 40px;
   align-items: center;
@@ -172,7 +172,7 @@ const MainCard = styled(motion.div)`
   align-items: flex-start;
 `;
 
-const SubCardTimeline = styled.div`
+const SubCardTimeline = styled(motion.div)`
   position: relative;
   width: 1px;
   height: 600px;
@@ -208,13 +208,13 @@ const SubCardContent = styled.div`
   gap: 30px;
 `;
 
-const EduCards = styled.div`
+const EduCards = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 80px;
 `;
 const JobCards = styled(EduCards)``;
-const SubCard = styled(MainCard)`
+const SubCard = styled(motion(MainCard))`
   width: 460px;
   height: 320px;
   border: 1px solid ${({ theme }) => theme.colors.itemsBorder};
@@ -397,14 +397,14 @@ const ToolsContent = styled.div`
     color: ${({ theme }) => theme.colors.subText};
   }
 `;
-const ToolsSegment = styled.ul`
+const ToolsSegment = styled(motion.ul)`
   width: 530px;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
 `;
-const ToolsItem = styled.li`
+const ToolsItem = styled(motion.li)`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -414,11 +414,11 @@ const ToolsItem = styled.li`
 
 const ContentCertificates = styled(motion.section)``;
 const CertificatesHeader = styled(ToolsHeader)``;
-const CertificatesContent = styled.ul`
+const CertificatesContent = styled(motion.ul)`
   display: flex;
   justify-content: space-between;
 `;
-const CertificateItem = styled.li`
+const CertificateItem = styled(motion.li)`
   width: 530px;
   padding: 30px;
   display: flex;
@@ -462,13 +462,13 @@ const ContactContent = styled(motion(CertificatesContent))`
   flex-direction: column;
   gap: 30px;
 `;
-const ContactItems = styled.ul`
+const ContactItems = styled(motion.ul)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 30px;
 `;
-const ContactItem = styled(CertificateItem)`
+const ContactItem = styled(motion(CertificateItem))`
   padding: 50px 40px;
   justify-content: space-between;
   flex-direction: row;
@@ -498,7 +498,7 @@ const ContentFooter = styled(motion.section)``;
 const FooterContent = styled(motion.div)`
   margin-bottom: 240px;
 `;
-const FooterText = styled.a`
+const FooterText = styled(motion.a)`
   display: inline-block;
   position: relative;
   font-size: 120px;
@@ -658,7 +658,6 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
     strengths: useRef(null),
     aboutMainCard: useRef(null),
     aboutSubCard: useRef(null),
-    skills: useRef(null),
     tools: useRef(null),
     certificates: useRef(null),
     contact: useRef(null),
@@ -668,17 +667,12 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
   const InViewAnimations = {
     strengths: useInView(animationRefs.strengths, {
       amount: 0.9,
-      once: true,
     }),
     aboutMainCard: useInView(animationRefs.aboutMainCard, {
-      amount: 0.9,
-      once: true,
-    }),
-    aboutSubCard: useInView(animationRefs.aboutSubCard, {
       amount: 0.5,
       once: true,
     }),
-    skills: useInView(animationRefs.skills, {
+    aboutSubCard: useInView(animationRefs.aboutSubCard, {
       amount: 0.5,
       once: true,
     }),
@@ -687,15 +681,15 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       once: true,
     }),
     certificates: useInView(animationRefs.certificates, {
-      amount: 0.5,
+      amount: 0.9,
       once: true,
     }),
     contact: useInView(animationRefs.contact, {
-      amount: 0.5,
+      amount: 0.3,
       once: true,
     }),
     footer: useInView(animationRefs.footer, {
-      amount: 0.5,
+      amount: 0.9,
       once: true,
     }),
   };
@@ -724,6 +718,10 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
     }
   }, [inViews]);
 
+  useEffect(() => {
+    console.log(InViewAnimations);
+  }, [InViewAnimations]);
+
   return (
     <Container $isBottom={inViews.footer}>
       <ContentIntroduce id="top" ref={viewRefs.profile}>
@@ -745,16 +743,16 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <br />을 바탕으로 새로운 도전에 빠르게 적응하며 성장하고 있습니다.
         </IntroduceInfo>
       </ContentIntroduce>
-      <ContentStrengths
-        animate={InViewAnimations.strengths ? "strengths" : undefined}
-        variants={profileAnimationVariants.strengths}
-        ref={animationRefs.strengths}
-      >
+      <ContentStrengths ref={animationRefs.strengths}>
         <StrengthsHeader>
           <HeaderBadge></HeaderBadge>
           Strengths
         </StrengthsHeader>
-        <Strengths>
+        <Strengths
+          initial="hidden"
+          animate={InViewAnimations.strengths ? "visible" : undefined}
+          variants={profileAnimationVariants.strengths}
+        >
           <StrengthItem variants={profileAnimationVariants.strengthsChildren}>
             <StrengthNumbering>1</StrengthNumbering>
             <Strength>
@@ -785,7 +783,12 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
         </AboutHeader>
         <AboutTitle>Work Experience & Education</AboutTitle>
         <AboutCards>
-          <MainCard ref={animationRefs.aboutMainCard}>
+          <MainCard
+            ref={animationRefs.aboutMainCard}
+            initial="hidden"
+            animate={InViewAnimations.aboutMainCard ? "visible" : undefined}
+            variants={profileAnimationVariants.aboutMainCard}
+          >
             <CardBadge>2024</CardBadge>
             <CardTitle>
               K-Digital Training(KDT) 기업연계 프론트엔드 개발자 과정
@@ -805,9 +808,21 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           </MainCard>
           <SubCardContainer ref={animationRefs.aboutSubCard}>
             <SubCardContent>
-              <SubCardTimeline />
-              <EduCards>
-                <SubCard>
+              <SubCardTimeline
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: InViewAnimations.aboutSubCard ? 1 : 0,
+                }}
+                transition={{ duration: 0.3, type: "tween", delay: 0.4 }}
+              />
+              <EduCards
+                initial="hidden"
+                animate={InViewAnimations.aboutSubCard ? "visible" : undefined}
+                variants={profileAnimationVariants.aboutSubCard}
+              >
+                <SubCard
+                  variants={profileAnimationVariants.aboutSubCardChildren}
+                >
                   <CardBadge>2022 ~ 현재</CardBadge>
                   <CardTitle>
                     전남대학교 컴퓨터공학전공
@@ -820,7 +835,9 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
                     프로그래밍 역량을 쌓아왔습니다.
                   </CardDescription>
                 </SubCard>
-                <SubCard>
+                <SubCard
+                  variants={profileAnimationVariants.aboutSubCardChildren}
+                >
                   <CardBadge>2019 ~ 2022</CardBadge>
                   <CardTitle>
                     금호고등학교
@@ -835,9 +852,21 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
               </EduCards>
             </SubCardContent>
             <SubCardContent>
-              <SubCardTimeline />
-              <JobCards>
-                <SubCard>
+              <SubCardTimeline
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: InViewAnimations.aboutSubCard ? 1 : 0,
+                }}
+                transition={{ duration: 0.3, type: "tween", delay: 0.4 }}
+              />
+              <JobCards
+                initial="hidden"
+                animate={InViewAnimations.aboutSubCard ? "visible" : undefined}
+                variants={profileAnimationVariants.aboutSubCard}
+              >
+                <SubCard
+                  variants={profileAnimationVariants.aboutSubCardChildren}
+                >
                   <CardBadge>2024</CardBadge>
                   <CardTitle>
                     트러스톤자산운용
@@ -850,7 +879,9 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
                     키웠으며, 책임감을 갖고 업무를 수행했습니다.
                   </CardDescription>
                 </SubCard>
-                <SubCard>
+                <SubCard
+                  variants={profileAnimationVariants.aboutSubCardChildren}
+                >
                   <CardBadge>2022 ~ 2024</CardBadge>
                   <CardTitle>
                     HR골든브릿지
@@ -873,7 +904,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <HeaderBadge />
           Skills
         </SkillsHeader>
-        <SkillsTitle ref={animationRefs.skills}>Technology Stack</SkillsTitle>
+        <SkillsTitle>Technology Stack</SkillsTitle>
         <SkillsFilter>
           {["All", ...Array.from(filters)].map((filter, index) => (
             <FilterItem
@@ -923,21 +954,35 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           Tools
         </ToolsHeader>
         <ToolsContent>
-          <ToolsSegment>
+          <ToolsSegment
+            initial="hidden"
+            animate={InViewAnimations.tools ? "visible" : undefined}
+            variants={profileAnimationVariants.tools}
+          >
             {technologies
               .slice(0, technologies.length / 2 + 1)
               .map((technology, index) => (
-                <ToolsItem key={index}>
+                <ToolsItem
+                  key={index}
+                  variants={profileAnimationVariants.toolsChildren}
+                >
                   <CheckIcon />
                   {technology}
                 </ToolsItem>
               ))}
           </ToolsSegment>
-          <ToolsSegment>
+          <ToolsSegment
+            initial="hidden"
+            animate={InViewAnimations.tools ? "visible" : undefined}
+            variants={profileAnimationVariants.tools}
+          >
             {technologies
               .slice(technologies.length / 2)
               .map((technology, index) => (
-                <ToolsItem key={index}>
+                <ToolsItem
+                  key={index}
+                  variants={profileAnimationVariants.toolsChildren}
+                >
                   <CheckIcon />
                   {technology}
                 </ToolsItem>
@@ -951,15 +996,23 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           <HeaderBadge />
           Certificates
         </CertificatesHeader>
-        <CertificatesContent>
-          <CertificateItem>
+        <CertificatesContent
+          initial="hidden"
+          animate={InViewAnimations.certificates ? "visible" : undefined}
+          variants={profileAnimationVariants.certificates}
+        >
+          <CertificateItem
+            variants={profileAnimationVariants.certificatesChildren}
+          >
             <CertificateTitle>
               TOEIC <span>2023.11.12 취득</span>
             </CertificateTitle>
             <CertificateGrade>950점</CertificateGrade>
-            <CertificateCredit>한국 TOEIC 위원회 주최</CertificateCredit>
+            <CertificateCredit>한 TOEIC 위원회 주최</CertificateCredit>
           </CertificateItem>
-          <CertificateItem>
+          <CertificateItem
+            variants={profileAnimationVariants.certificatesChildren}
+          >
             <CertificateTitle>
               Big Data Expert <span>2022.10.08 취득</span>
             </CertificateTitle>
@@ -974,23 +1027,34 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           Contact
         </ContactHeader>
         <ContactTitle>Contact Me</ContactTitle>
-        <ContactContent ref={animationRefs.contact}>
-          <ContactItems>
-            <ContactItem>
+        <ContactContent
+          ref={animationRefs.contact}
+          initial="hidden"
+          animate={InViewAnimations.contact ? "visible" : undefined}
+          variants={profileAnimationVariants.contact}
+        >
+          <ContactItems
+            variants={profileAnimationVariants.certificatesChildren}
+          >
+            <ContactItem
+              variants={profileAnimationVariants.contactChildrenDepth}
+            >
               <ContactInfo>
                 <img src={"/images/icons/PhoneIcon.png"} alt="Mobile" />
                 Mobile
               </ContactInfo>
               <span>+82 10-5107-3861</span>
             </ContactItem>
-            <ContactItem>
+            <ContactItem
+              variants={profileAnimationVariants.contactChildrenDepth}
+            >
               <ContactInfo>
                 <img src={"/images/icons/EmailContactIcon.png"} alt="Email" />
               </ContactInfo>
               <span>boon10034@gmail.com</span>
             </ContactItem>
           </ContactItems>
-          <ContactAddress>
+          <ContactAddress variants={profileAnimationVariants.contactChildren}>
             <ContactInfo>
               <img src={"/images/icons/MapIcon.png"} alt="Address" />
               Location
@@ -1016,7 +1080,12 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       </ContentContact>
       <ContentFooter ref={viewRefs.footer}>
         <FooterContent ref={animationRefs.footer}>
-          <FooterText onClick={() => navigate("/comments")}>
+          <FooterText
+            onClick={() => navigate("/comments")}
+            initial="hidden"
+            animate={InViewAnimations.footer ? "visible" : undefined}
+            variants={profileAnimationVariants.footer}
+          >
             Make My Projects Better <NavigateArrowIcon />
           </FooterText>
         </FooterContent>
