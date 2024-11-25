@@ -5,7 +5,7 @@ import Slider from "../components/main/Slider";
 import { MoreInfoIcon, PlayIcon } from "../Icons";
 import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import DetailModal from "../components/DetailModal";
+import DetailModal from "../components/main/DetailModal";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { isPlayingStore, projectIdStore } from "../stores";

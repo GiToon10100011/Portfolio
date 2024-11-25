@@ -18,6 +18,7 @@ import {
 } from "@react-google-maps/api";
 import IntroduceText from "./IntroduceText";
 import { profileAnimationVariants } from "./profileAnimationVariants";
+import { cursorChangingStore } from "../../stores";
 
 const containerStyle = {
   height: "500px",
@@ -609,10 +610,8 @@ const technologies = [
 
 const Content = ({ setSection }: { setSection: (section: string) => void }) => {
   const navigate = useNavigate();
+  const { setCursorChanging } = cursorChangingStore();
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(
-    null
-  );
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeSkills, setActiveSkills] = useState(skills);
   const { isLoaded } = useJsApiLoader({
@@ -690,7 +689,6 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
     }),
     footer: useInView(animationRefs.footer, {
       amount: 0.9,
-      once: true,
     }),
   };
 
@@ -909,6 +907,8 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
           {["All", ...Array.from(filters)].map((filter, index) => (
             <FilterItem
               key={index}
+              onMouseEnter={() => setCursorChanging(true)}
+              onMouseLeave={() => setCursorChanging(false)}
               onClick={() => setActiveFilter(filter)}
               className={activeFilter === filter ? "active" : ""}
             >
@@ -916,37 +916,42 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
             </FilterItem>
           ))}
         </SkillsFilter>
-        <SkillSlider
-          slidesPerView={
-            activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
-          }
-          slidesPerGroup={
-            activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
-          }
-          spaceBetween={35}
-          modules={[Pagination, Grid, Navigation]}
-          navigation
-          pagination={{ clickable: true }}
-          grid={{ rows: 2, fill: "column" }}
-          grabCursor={true}
+        <div
+          onMouseEnter={() => setCursorChanging(true)}
+          onMouseLeave={() => setCursorChanging(false)}
         >
-          {activeSkills.map((skill, index) => (
-            <SkillCardWrapper
-              key={index}
-              data-title={skill.title}
-              data-content={skill.description}
-            >
-              <SkillCardBack>
-                <span>{skill.title}</span>
-                <p>{skill.description}</p>
-              </SkillCardBack>
-              <SkillCard>
-                <img src={skill.icon} alt={skill.title} />
-                <span>{skill.title}</span>
-              </SkillCard>
-            </SkillCardWrapper>
-          ))}
-        </SkillSlider>
+          <SkillSlider
+            slidesPerView={
+              activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+            }
+            slidesPerGroup={
+              activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+            }
+            spaceBetween={35}
+            modules={[Pagination, Grid, Navigation]}
+            navigation
+            pagination={{ clickable: true }}
+            grid={{ rows: 2, fill: "column" }}
+            grabCursor={true}
+          >
+            {activeSkills.map((skill, index) => (
+              <SkillCardWrapper
+                key={index}
+                data-title={skill.title}
+                data-content={skill.description}
+              >
+                <SkillCardBack>
+                  <span>{skill.title}</span>
+                  <p>{skill.description}</p>
+                </SkillCardBack>
+                <SkillCard>
+                  <img src={skill.icon} alt={skill.title} />
+                  <span>{skill.title}</span>
+                </SkillCard>
+              </SkillCardWrapper>
+            ))}
+          </SkillSlider>
+        </div>
       </ContentSkills>
       <ContentTools ref={animationRefs.tools}>
         <ToolsHeader>
@@ -1061,27 +1066,34 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
             </ContactInfo>
             <span>서울특별시 강동구 천호대로</span>
           </ContactAddress>
-          {isLoaded && (
-            <ContactMap
-              onLoad={onLoad}
-              onUnmount={onUnmount}
-              options={{
-                zoom: 15,
-                center: center,
-                disableDefaultUI: true,
-                zoomControl: true,
-              }}
-              mapContainerStyle={containerStyle}
-            >
-              <Marker position={center} />
-            </ContactMap>
-          )}
+          <div
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
+          >
+            {isLoaded && (
+              <ContactMap
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+                options={{
+                  zoom: 15,
+                  center: center,
+                  disableDefaultUI: true,
+                  zoomControl: true,
+                }}
+                mapContainerStyle={containerStyle}
+              >
+                <Marker position={center} />
+              </ContactMap>
+            )}
+          </div>
         </ContactContent>
       </ContentContact>
       <ContentFooter ref={viewRefs.footer}>
         <FooterContent ref={animationRefs.footer}>
           <FooterText
             onClick={() => navigate("/comments")}
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
             initial="hidden"
             animate={InViewAnimations.footer ? "visible" : undefined}
             variants={profileAnimationVariants.footer}

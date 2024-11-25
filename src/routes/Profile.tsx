@@ -7,8 +7,6 @@ import { glitchAnimations } from "../styles/animations";
 import { cursorChangingStore, triggerMainStore } from "../stores";
 import Typewriter from "typewriter-effect";
 
-const profileText = "Frontend Developer_";
-
 const Container = styled(motion.div)`
   padding-top: 140px;
   width: 100%;
@@ -409,22 +407,42 @@ const Profile = () => {
                     <ProfileName>JON JINU</ProfileName>
                   </ProfileInfo>
                   <SNSMenu variants={childVariants}>
-                    <SNSItem href="mailto:boon10034@gmail.com" target="_blank">
+                    <SNSItem
+                      onMouseEnter={() => setCursorChanging(true)}
+                      onMouseLeave={() => setCursorChanging(false)}
+                      href="mailto:boon10034@gmail.com"
+                      target="_blank"
+                    >
                       <SNSIcon src="/images/icons/EmailIcon.png" alt="Email" />
                     </SNSItem>
-                    <SNSItem>
+                    <SNSItem
+                      onMouseEnter={() => setCursorChanging(true)}
+                      onMouseLeave={() => setCursorChanging(false)}
+                      href="https://www.linkedin.com/in/jin-u-jon/"
+                      target="_blank"
+                    >
                       <SNSIcon
                         src="/images/icons/LinkedInIcon.png"
                         alt="LinkedIn"
                       />
                     </SNSItem>
-                    <SNSItem>
+                    <SNSItem
+                      onMouseEnter={() => setCursorChanging(true)}
+                      onMouseLeave={() => setCursorChanging(false)}
+                      href="https://discord.gg/jinu"
+                      target="_blank"
+                    >
                       <SNSIcon
                         src="/images/icons/DiscordIcon.png"
                         alt="Discord"
                       />
                     </SNSItem>
-                    <SNSItem>
+                    <SNSItem
+                      onMouseEnter={() => setCursorChanging(true)}
+                      onMouseLeave={() => setCursorChanging(false)}
+                      href="https://github.com/JINU-JON"
+                      target="_blank"
+                    >
                       <SNSIcon
                         src="/images/icons/GithubIcon.png"
                         alt="Github"
@@ -438,10 +456,21 @@ const Profile = () => {
                   animate="animate"
                   exit="exit"
                 >
-                  <ContactItem href="/resume.pdf" target="_blank">
+                  <ContactItem
+                    onMouseEnter={() => setCursorChanging(true)}
+                    onMouseLeave={() => setCursorChanging(false)}
+                    href="/resume.pdf"
+                    target="_blank"
+                  >
                     Download CV
                   </ContactItem>
-                  <ContactItem href="#contact">Contact Me</ContactItem>
+                  <ContactItem
+                    onMouseEnter={() => setCursorChanging(true)}
+                    onMouseLeave={() => setCursorChanging(false)}
+                    href="#contact"
+                  >
+                    Contact Me
+                  </ContactItem>
                 </ContactMenu>
               </>
             ) : (

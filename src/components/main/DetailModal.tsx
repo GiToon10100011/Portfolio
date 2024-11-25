@@ -1,17 +1,18 @@
 import styled, { useTheme } from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import Button from "./Button";
-import { BackIcon, HelpIcon, PlayIcon } from "../Icons";
+import Button from "../Button";
+import { BackIcon, HelpIcon, PlayIcon } from "../../Icons";
 import { useRef, useState } from "react";
-import { cursorChangingStore } from "../stores";
+import { cursorChangingStore } from "../../stores";
 import { useNavigate } from "react-router-dom";
-import { IProject } from "../types";
+import { IProject } from "../../types";
+import { modalAnimationVariants } from "./detailModalVariants";
 
 interface IDetailModalProps extends IProject {
   setIsDetailModalOpen: (value: boolean) => void;
@@ -57,7 +58,7 @@ const LeftArea = styled.div`
     `${theme.colors.itemsBorder} ${theme.colors.darkerBackground}`};
 `;
 
-const ModalHeader = styled.header`
+const ModalHeader = styled(motion.header)`
   width: 650px;
   display: flex;
   justify-content: space-between;
@@ -131,7 +132,7 @@ const StacksHeader = styled.div`
   color: ${({ theme }) => theme.colors.text};
   padding-bottom: 14px;
 `;
-const DescStacks = styled.div`
+const DescStacks = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -139,7 +140,7 @@ const DescStacks = styled.div`
   align-items: center;
   margin-bottom: 40px;
 `;
-const StackItem = styled.span`
+const StackItem = styled(motion.span)`
   padding: 6px 14px;
   display: flex;
   justify-content: center;
@@ -238,12 +239,12 @@ const TroubleshootingTitle = styled.h4`
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
 `;
 
-const TroubleshootingContent = styled.div`
+const TroubleshootingContent = styled(motion.div)`
   counter-reset: paragraph;
   z-index: 2;
 `;
 
-const TroubleshootingItem = styled.p`
+const TroubleshootingItem = styled(motion.p)`
   font-size: 22px;
   line-height: 1.5;
   margin-bottom: 40px;
@@ -262,12 +263,11 @@ const RightArea = styled.div`
   border-radius: 0 20px 20px 0;
 `;
 
-const ModalImg = styled.img`
+const ModalImg = styled(motion.img)`
   position: absolute;
   z-index: 1;
   left: 50%;
   top: -40px;
-  transform: translateX(-50%);
   width: 680px;
   height: 730px;
   object-fit: cover;
@@ -342,6 +342,10 @@ const Detail = ({
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isPlaying, setIsPlaying] = useState("||");
+  const troubleshootingRef = useRef<HTMLDivElement>(null);
+  const isTroubleShootingInView = useInView(troubleshootingRef, {
+    amount: 0.5,
+  });
   const videoRefs = [
     useRef<HTMLVideoElement>(null),
     useRef<HTMLVideoElement>(null),
@@ -370,7 +374,6 @@ const Detail = ({
   const navigateComments = () => {
     navigate("/comments");
   };
-  console.log(isPlaying);
   return (
     <>
       <Wrapper
@@ -381,7 +384,11 @@ const Detail = ({
         <Overlay onClick={() => setIsDetailModalOpen(false)} />
         <Modal>
           <LeftArea>
-            <ModalHeader>
+            <ModalHeader
+              initial="hidden"
+              animate="visible"
+              variants={modalAnimationVariants.title}
+            >
               <MainTitle>
                 <GameTitle>{title}</GameTitle>
                 <GameSubtitle>{subtitle}</GameSubtitle>
@@ -401,9 +408,18 @@ const Detail = ({
                 <HeaderBadge></HeaderBadge>
                 Stacks
               </StacksHeader>
-              <DescStacks>
+              <DescStacks
+                initial="hidden"
+                animate="visible"
+                variants={modalAnimationVariants.stacks}
+              >
                 {stacks.map((stack, idx) => (
-                  <StackItem key={idx}>{stack}</StackItem>
+                  <StackItem
+                    key={idx}
+                    variants={modalAnimationVariants.stacksChildren}
+                  >
+                    {stack}
+                  </StackItem>
                 ))}
               </DescStacks>
               <DescTitle>{pages[currentIdx]?.title}</DescTitle>
@@ -478,18 +494,32 @@ const Detail = ({
                 ))}
               </Slider>
             </div>
-            <ModalTroubleshooting>
+            <ModalTroubleshooting ref={troubleshootingRef}>
               <TroubleshootingTitle>Troubleshooting</TroubleshootingTitle>
-              <TroubleshootingContent>
+              <TroubleshootingContent
+                initial="hidden"
+                animate={isTroubleShootingInView ? "visible" : undefined}
+                variants={modalAnimationVariants.troubleshooting}
+              >
                 {modalTroubleshooting.map((content, idx) => (
-                  <TroubleshootingItem key={idx}>{content}</TroubleshootingItem>
+                  <TroubleshootingItem
+                    key={idx}
+                    variants={modalAnimationVariants.troubleshootingChildren}
+                  >
+                    {content}
+                  </TroubleshootingItem>
                 ))}
               </TroubleshootingContent>
             </ModalTroubleshooting>
             <BlurIndicator />
           </LeftArea>
           <RightArea>
-            <ModalImg src={modalImg} />
+            <ModalImg
+              initial="hidden"
+              animate="visible"
+              variants={modalAnimationVariants.img}
+              src={modalImg}
+            />
             <ButtonContainer>
               <Button
                 icon={<PlayIcon />}
