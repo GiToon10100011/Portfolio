@@ -9,7 +9,7 @@ import "swiper/css/effect-coverflow";
 import Button from "../Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../../Icons";
 import { useRef, useState } from "react";
-import { cursorChangingStore } from "../../stores";
+import { commentsProjectStore, cursorChangingStore } from "../../stores";
 import { useNavigate } from "react-router-dom";
 import { IProject } from "../../types";
 import { modalAnimationVariants } from "./detailModalVariants";
@@ -328,6 +328,7 @@ const BlurIndicator = styled.div`
 const Detail = ({
   setIsDetailModalOpen,
   onPlay,
+  id,
   modalImg,
   modalTroubleshooting,
   pages,
@@ -339,6 +340,7 @@ const Detail = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const { setCursorChanging } = cursorChangingStore();
+  const { setCommentsProject } = commentsProjectStore();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isPlaying, setIsPlaying] = useState("||");
@@ -372,7 +374,8 @@ const Detail = ({
     setIsHovering(false);
   };
   const navigateComments = () => {
-    navigate("/comments");
+    setCommentsProject(id);
+    navigate(`/comments#${id}`);
   };
   return (
     <>

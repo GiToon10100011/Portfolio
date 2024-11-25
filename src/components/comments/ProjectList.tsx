@@ -1,8 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Badge } from "react-bootstrap";
 import { motion } from "framer-motion";
-import { triggerMainStore } from "../../stores";
+import {
+  commentsProjectStore,
+  cursorChangingStore,
+  triggerMainStore,
+} from "../../stores";
+import projects from "../../projects.json";
 
 const Container = styled(motion.div)`
   width: 100%;
@@ -70,6 +75,7 @@ const ProjectItem = styled(motion.div)`
   transition: all 0.3s ease;
   cursor: pointer;
   &.active {
+    padding-top: 20px;
     background: ${({ theme }) => theme.colors.darkerBackground};
     border: 4px solid ${({ theme }) => theme.colors.textPoint};
     border-radius: ${({ theme }) => theme.borderRadius.sub};
@@ -102,75 +108,72 @@ const ProjectItem = styled(motion.div)`
 `;
 
 const projectListVariants = {
-  initial: { opacity: 0, y: 10 },
+  initial: { opacity: 1 },
   animate: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.2,
-      type: "spring",
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      duration: 0.3,
+      type: "tween",
+      staggerChildren: 0.06,
     },
   },
 };
 
 const projectItemVariants = {
-  initial: { opacity: 0, y: 10 },
+  initial: { opacity: 0, x: -50 },
   animate: {
     opacity: 1,
-    y: 0,
+    x: 0,
   },
-  tap: {
-    scale: 0.9,
-    transition: {
-      duration: 0.3,
-    },
+};
+
+const tapAnimation = {
+  scale: 0.9,
+  transition: {
+    duration: 0.3,
   },
 };
 
 const ProjectList = () => {
+  const { setCursorChanging } = cursorChangingStore();
   const { setTriggerMain } = triggerMainStore();
+  const { commentsProject, setCommentsProject } = commentsProjectStore();
   useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      setTimeout(() => {
+        element?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
     return () => {
       setTriggerMain(true);
     };
   }, []);
+
   return (
     <Container
       initial="initial"
       animate="animate"
       variants={projectListVariants}
     >
-      <ProjectItem
-        className="active"
-        variants={projectItemVariants}
-        whileTap="tap"
-      >
-        <ProjectPic></ProjectPic>
-        <ProjectContent>
-          <ProjectTitle>
-            The Legend of Zelda: Tears of the Kingdom
-            <ProjectDate>2024.11.10</ProjectDate>
-          </ProjectTitle>
-          <ProjectCategories>
-            <Badge>TypeScript</Badge>
-            <Badge>React</Badge>
-          </ProjectCategories>
-        </ProjectContent>
-      </ProjectItem>
-      {Array.from({ length: 20 }).map((_, index) => (
-        <ProjectItem key={index} variants={projectItemVariants} whileTap="tap">
+      {projects.map((project, index) => (
+        <ProjectItem
+          id={project.id}
+          key={index}
+          variants={projectItemVariants}
+          onMouseEnter={() => setCursorChanging(true)}
+          onMouseLeave={() => setCursorChanging(false)}
+          whileTap={tapAnimation}
+          onClick={() => setCommentsProject(project.id)}
+          className={commentsProject === project.id ? "active" : undefined}
+        >
           <ProjectPic></ProjectPic>
           <ProjectContent>
             <ProjectTitle>
-              The Legend of Zelda: Tears of the Kingdom
-              <ProjectDate>2024.11.10</ProjectDate>
+              {project.title + " " + project.subtitle}
+              <ProjectDate>{project.date}</ProjectDate>
             </ProjectTitle>
-            <ProjectCategories>
-              <Badge>TypeScript</Badge>
-              <Badge>React</Badge>
-            </ProjectCategories>
           </ProjectContent>
         </ProjectItem>
       ))}

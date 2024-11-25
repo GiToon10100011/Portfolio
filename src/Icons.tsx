@@ -432,9 +432,9 @@ export const CommentIcons = {
       </svg>
     );
   },
-  delete: () => {
+  delete: (props: { onClick: () => void }) => {
     return (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
         <path
           d="M2.5 5H4.16667H17.5"
           stroke="#FF3A3A"
@@ -466,9 +466,9 @@ export const CommentIcons = {
       </svg>
     );
   },
-  edit: () => {
+  edit: (props: { onClick: () => void }) => {
     return (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
         <g clipPath="url(#clip0_421_877)">
           <path
             d="M9.1665 3.33325H3.33317C2.89114 3.33325 2.46722 3.50885 2.15466 3.82141C1.8421 4.13397 1.6665 4.55789 1.6665 4.99992V16.6666C1.6665 17.1086 1.8421 17.5325 2.15466 17.8451C2.46722 18.1577 2.89114 18.3333 3.33317 18.3333H14.9998C15.4419 18.3333 15.8658 18.1577 16.1783 17.8451C16.4909 17.5325 16.6665 17.1086 16.6665 16.6666V10.8333"
@@ -493,13 +493,13 @@ export const CommentIcons = {
       </svg>
     );
   },
-  share: () => {
+  share: (props: { onClick: () => void }) => {
     return (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
         <path
           d="M15 6.66675C16.3807 6.66675 17.5 5.54746 17.5 4.16675C17.5 2.78604 16.3807 1.66675 15 1.66675C13.6193 1.66675 12.5 2.78604 12.5 4.16675C12.5 5.54746 13.6193 6.66675 15 6.66675Z"
           stroke="#AAAAAA"
-          stroke-width="1.4"
+          strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />

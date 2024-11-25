@@ -18,7 +18,8 @@ import {
 } from "@react-google-maps/api";
 import IntroduceText from "./IntroduceText";
 import { profileAnimationVariants } from "./profileAnimationVariants";
-import { cursorChangingStore } from "../../stores";
+import { commentsProjectStore, cursorChangingStore } from "../../stores";
+import projects from "../../projects.json";
 
 const containerStyle = {
   height: "500px",
@@ -611,6 +612,7 @@ const technologies = [
 const Content = ({ setSection }: { setSection: (section: string) => void }) => {
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
+  const { setCommentsProject } = commentsProjectStore();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeSkills, setActiveSkills] = useState(skills);
@@ -1091,7 +1093,10 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       <ContentFooter ref={viewRefs.footer}>
         <FooterContent ref={animationRefs.footer}>
           <FooterText
-            onClick={() => navigate("/comments")}
+            onClick={() => {
+              navigate(`/comments#${projects[0].id}`);
+              setCommentsProject(projects[0].id);
+            }}
             onMouseEnter={() => setCursorChanging(true)}
             onMouseLeave={() => setCursorChanging(false)}
             initial="hidden"

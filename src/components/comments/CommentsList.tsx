@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { CommentIcons } from "../../Icons";
 import { useNavigate } from "react-router-dom";
+import { commentsProjectStore } from "../../stores";
 
 const Container = styled.div`
   position: relative;
@@ -102,18 +103,42 @@ const CommentsList = ({
 }: {
   setIsModalOpen: (value: boolean) => void;
 }) => {
+  const { commentsProject } = commentsProjectStore();
+  const [commentEditId, setCommentEditId] = useState<number | null>(null);
+  const [menuMode, setMenuMode] = useState<string | null>(null);
+
+  const handleShare = (id: number) => {
+    setCommentEditId(id);
+    setMenuMode("share");
+  };
+
+  const handleEdit = (id: number) => {
+    setCommentEditId(id);
+    setMenuMode("edit");
+  };
+
+  const handleDelete = (id: number) => {
+    setCommentEditId(id);
+    setMenuMode("delete");
+  };
+
   return (
     <Container>
       <CommentsHeader>Comments</CommentsHeader>
       <CommentsContent>
-        <NoComments>
+        {/* <NoComments>
           {CommentIcons.noComments()}
           <p>
             No Comments...{" "}
             <span onClick={() => setIsModalOpen(true)}>Write One?</span>
           </p>
-        </NoComments>
-        {/* {Array.from({ length: 20 }).map((_, index) => (
+        </NoComments> */}
+        {Array.from({ length: 20 }, (_, index) => ({
+          id: index,
+          username: "Username_User",
+          profileImage: "/images/DefaultProfile.jpg",
+          content: "Lorem ipsum dolor sit amet...",
+        })).map((comment, index) => (
           <CommentItem key={index}>
             <CommentHeader>
               <CommentProfile>
@@ -124,9 +149,18 @@ const CommentsList = ({
                 <ProfileName>Username_User</ProfileName>
               </CommentProfile>
               <CommentMenu>
-                {CommentIcons.delete()}
-                {CommentIcons.edit()}
-                {CommentIcons.share()}
+                {CommentIcons.delete({
+                  onClick: () => {
+                    handleDelete(comment.id);
+                    console.log(comment.id);
+                  },
+                })}
+                {CommentIcons.edit({
+                  onClick: () => handleEdit(comment.id),
+                })}
+                {CommentIcons.share({
+                  onClick: () => handleShare(comment.id),
+                })}
               </CommentMenu>
             </CommentHeader>
             <CommentInfo>
@@ -139,7 +173,7 @@ const CommentsList = ({
               fugiat temporibus expedita. Non qui voluptatibus aperiam id.
             </CommentInfo>
           </CommentItem>
-        ))} */}
+        ))}
       </CommentsContent>
     </Container>
   );

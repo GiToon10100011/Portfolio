@@ -43,6 +43,11 @@ interface IHideCursorStore {
   setHideCursor: (hideCursor: boolean) => void;
 }
 
+interface ICommentsProjectStore {
+  commentsProject: string;
+  setCommentsProject: (commentsProject: string) => void;
+}
+
 export const triggerMainStore = create<TriggerMainStore>()(
   devtools((set) => ({
     triggerMain: false,
@@ -82,5 +87,12 @@ export const hideCursorStore = create<IHideCursorStore>()(
   devtools((set) => ({
     hideCursor: false,
     setHideCursor: (hideCursor) => set({ hideCursor }),
+  }))
+);
+
+export const commentsProjectStore = create<ICommentsProjectStore>()(
+  devtools((set) => ({
+    commentsProject: "tloztotk1",
+    setCommentsProject: (commentsProject) => set({ commentsProject }),
   }))
 );
