@@ -32,8 +32,22 @@ const LeftArea = styled.div`
 `;
 
 const RightArea = styled.div`
+  position: relative;
   width: calc(100% - 640px);
   height: 800px;
+  &::before {
+    content: "";
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    filter: blur(14px);
+    background: linear-gradient(to bottom, transparent, #000);
+    width: 100%;
+    height: 60px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
 `;
 
 const containerVariants = {
@@ -45,6 +59,8 @@ const containerVariants = {
 const Comments = () => {
   const [mode, setMode] = useState<string>("write");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [commentEditId, setCommentEditId] = useState<number | null>(null);
+
   useEffect(() => {
     return () => {
       setIsModalOpen(false);
@@ -67,7 +83,11 @@ const Comments = () => {
             <ProjectList />
           </LeftArea>
           <RightArea>
-            <CommentsList setIsModalOpen={setIsModalOpen} />
+            <CommentsList
+              setIsModalOpen={setIsModalOpen}
+              setCommentEditId={setCommentEditId}
+              commentEditId={commentEditId}
+            />
           </RightArea>
         </InnerContainer>
         <Footer icon="menu" mode={mode} setIsModalOpen={setIsModalOpen} />
