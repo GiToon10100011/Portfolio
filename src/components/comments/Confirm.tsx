@@ -1,12 +1,17 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { IComment, INode } from "../../routes/Comments";
+import { deleteComment } from "../../api";
+import { commentsProjectStore } from "../../stores";
 
 interface IConfirm {
-  setDeleteConfirmation: (confirmation: boolean) => void;
   setIsConfirmOpen: (isOpen: boolean) => void;
+  currentComment: string | null;
+  head: INode | null;
+  setHead: Dispatch<SetStateAction<INode | null>>;
+  setCommentEditId: (id: string | null) => void;
 }
-
 const Container = styled(motion.div)`
   top: 0;
   left: 0;
@@ -27,16 +32,17 @@ const Overlay = styled.div`
 `;
 
 const ConfirmContent = styled.div`
-  padding: 30px;
+  padding: 60px 100px 120px;
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
-  border: 1px solid ${({ theme }) => theme.colors.text};
+  gap: 30px;
+  /* background: #000;
+  border-radius: ${({ theme }) => theme.borderRadius.light}; */
+  backdrop-filter: blur(20px);
   span {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
   }
 `;
@@ -44,22 +50,33 @@ const ConfirmContent = styled.div`
 const StyledSvg = styled(motion.svg)``;
 
 const Button = styled.button`
-  width: 100px;
-  height: 40px;
-  border-radius: 10px;
+  flex: 1;
+  width: 100%;
+  height: 60px;
   border: none;
-  background-color: ${({ theme }) => theme.colors.point};
+  background-color: ${({ theme }) => theme.colors.itemsBorder};
+  font-size: 18px;
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
+  &:first-child {
+    background-color: ${({ theme }) => theme.colors.alert};
+  }
 `;
 
 const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 0px;
   display: flex;
-  gap: 10px;
+  width: 100%;
 `;
 
 const variants = {
   initial: { opacity: 0, filter: "blur(10px)" },
-  animate: { opacity: 1, filter: "blur(0px)" },
+  animate: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.6 },
+  },
   exit: { opacity: 0 },
 };
 
@@ -74,6 +91,7 @@ const lidVariants = {
     y: [0, -4, 0, -4, 0],
     x: [0, -3, 0, -3, 0],
     transition: {
+      delay: 1,
       duration: 1.2,
       repeat: Infinity,
       repeatDelay: 3,
@@ -83,7 +101,25 @@ const lidVariants = {
   },
 };
 
-const Confirm = ({ setDeleteConfirmation, setIsConfirmOpen }: IConfirm) => {
+const Confirm = ({
+  setIsConfirmOpen,
+  head,
+  setHead,
+  currentComment,
+  setCommentEditId,
+}: IConfirm) => {
+  const { commentsProject } = commentsProjectStore();
+  const handleDelete = async () => {
+    if (currentComment && commentsProject) {
+      const response = await deleteComment(commentsProject, currentComment);
+      setHead(response.head);
+    }
+    setIsConfirmOpen(false);
+  };
+  const handleCancel = () => {
+    setCommentEditId(null);
+    setIsConfirmOpen(false);
+  };
   return (
     <Container
       initial="initial"
@@ -103,7 +139,7 @@ const Confirm = ({ setDeleteConfirmation, setIsConfirmOpen }: IConfirm) => {
             <path
               d="M6.6665 5.00008V3.33341C6.6665 2.89139 6.8421 2.46746 7.15466 2.1549C7.46722 1.84234 7.89114 1.66675 8.33317 1.66675H11.6665C12.1085 1.66675 12.5325 1.84234 12.845 2.1549C13.1576 2.46746 13.3332 2.89139 13.3332 3.33341V5.00008M2.5 5H17.5"
               stroke="#aaa"
-              strokeWidth="0.8"
+              strokeWidth="0.6"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -111,29 +147,29 @@ const Confirm = ({ setDeleteConfirmation, setIsConfirmOpen }: IConfirm) => {
           <path
             d="M15.8332 5.00008V16.6667C15.8332 17.1088 15.6576 17.5327 15.345 17.8453C15.0325 18.1578 14.6085 18.3334 14.1665 18.3334H5.83317C5.39114 18.3334 4.96722 18.1578 4.65466 17.8453C4.3421 17.5327 4.1665 17.1088 4.1665 16.6667V5.00008"
             stroke="#aaa"
-            strokeWidth="0.8"
+            strokeWidth="0.6"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
             d="M8.3335 9.16675V14.1667"
             stroke="#aaa"
-            strokeWidth="0.8"
+            strokeWidth="0.6"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
             d="M11.6665 9.16675V14.1667"
             stroke="#aaa"
-            strokeWidth="0.8"
+            strokeWidth="0.6"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         </StyledSvg>
         <span>정말 삭제하시겠습니까?</span>
         <ButtonContainer>
-          <Button onClick={() => setDeleteConfirmation(true)}>삭제</Button>
-          <Button onClick={() => setDeleteConfirmation(false)}>취소</Button>
+          <Button onClick={handleDelete}>삭제</Button>
+          <Button onClick={handleCancel}>취소</Button>
         </ButtonContainer>
       </ConfirmContent>
     </Container>

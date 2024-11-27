@@ -1,9 +1,17 @@
 import { motion } from "framer-motion";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
+import { IComment, INode } from "../../routes/Comments";
+import { commentsProjectStore } from "../../stores";
+import projects from "../../projects.json";
+import { addComment, editComment } from "../../api";
 
 interface IWriteCommentsModal {
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  setIsModalOpen: (isOpen: boolean) => void;
+  commentEditId: string | null;
+  setCommentEditId: (id: string | null) => void;
+  head: INode | null;
+  setHead: Dispatch<SetStateAction<INode | null>>;
 }
 
 const Container = styled(motion.div)`
@@ -13,7 +21,7 @@ const Container = styled(motion.div)`
   left: 0;
   width: 100vw;
   height: 100vh;
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(40px);
   font-family: ${({ theme }) => theme.fonts.text};
 `;
 
@@ -101,16 +109,75 @@ const SubmitButton = styled(CancelButton)`
   background-color: ${({ theme }) => theme.colors.point};
 `;
 
-const WriteCommentsModal = ({ setIsModalOpen }: IWriteCommentsModal) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const WriteCommentsModal = ({
+  setIsModalOpen,
+  commentEditId,
+  setCommentEditId,
+  head,
+  setHead,
+}: IWriteCommentsModal) => {
+  const { commentsProject } = commentsProjectStore();
+  const currentProject = projects.find(
+    (project) => project.id === commentsProject
+  );
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [content, setContent] = useState("");
+
+  const findComment = (id: string, current: INode | null): IComment | null => {
+    if (!current) return null;
+    if (current.data.id === id) return current.data;
+    return findComment(id, current.next);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (username === "" || password === "" || content === "") {
+      return;
+    }
+
+    if (commentEditId) {
+      const response = await editComment(commentsProject, commentEditId, {
+        username,
+        password,
+        content,
+      });
+      setHead(response.head);
+    } else {
+      const response = await addComment(commentsProject, {
+        username,
+        password,
+        content,
+      });
+      setHead(response.head);
+    }
+
+    setCommentEditId(null);
     setIsModalOpen(false);
   };
-  const handleCancel = () => {
+
+  useEffect(() => {
+    if (commentEditId) {
+      const comment = findComment(commentEditId, head);
+      if (comment) {
+        setUsername(comment.username);
+        setPassword(comment.password);
+        setContent(comment.content);
+      }
+    }
+  }, []);
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (setIsModalOpen) {
       setIsModalOpen(false);
     }
+    setCommentEditId(null);
+    setUsername("");
+    setPassword("");
+    setContent("");
   };
+
   return (
     <Container
       initial={{ opacity: 0 }}
@@ -120,20 +187,36 @@ const WriteCommentsModal = ({ setIsModalOpen }: IWriteCommentsModal) => {
     >
       <FormContainer onSubmit={handleSubmit}>
         <CredentialsContainer>
-          <UsernameInput placeholder="Username" />
-          <PasswordInput placeholder="Password" />
+          <UsernameInput
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <PasswordInput
+            type="password"
+            placeholder="Password(4자 이상)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </CredentialsContainer>
-        <CommentInput as="textarea" placeholder="Leave a comment/feedback..." />
+        <CommentInput
+          as="textarea"
+          placeholder="Leave a comment/feedback..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
         <ModalMenu>
           <SelectedProject>
-            <span>Selected Project:</span> The Legend of Zelda: Tears of the
-            Kingdom
+            <span>Selected Project:</span>{" "}
+            {currentProject?.title + " " + currentProject?.subtitle}
           </SelectedProject>
           <ButtonContainer>
             <CancelButton whileTap={{ scale: 0.9 }} onClick={handleCancel}>
               Cancel
             </CancelButton>
-            <SubmitButton whileTap={{ scale: 0.9 }}>Submit</SubmitButton>
+            <SubmitButton whileTap={{ scale: 0.9 }}>
+              {commentEditId ? "Edit" : "Submit"}
+            </SubmitButton>
           </ButtonContainer>
         </ModalMenu>
       </FormContainer>

@@ -10,6 +10,7 @@ interface IFooter {
   mode?: string;
   setMode?: Dispatch<SetStateAction<string>>;
   setIsModalOpen?: Dispatch<SetStateAction<boolean>>;
+  setCommentEditId?: Dispatch<SetStateAction<string | null>>;
 }
 
 const Container = styled.footer`
@@ -64,7 +65,13 @@ const IconContainer = styled.div`
 
 let IconSwitcher: JSX.Element;
 
-const Footer = ({ icon, mode, setMode, setIsModalOpen }: IFooter) => {
+const Footer = ({
+  icon,
+  mode,
+  setMode,
+  setIsModalOpen,
+  setCommentEditId,
+}: IFooter) => {
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
 
@@ -77,6 +84,9 @@ const Footer = ({ icon, mode, setMode, setIsModalOpen }: IFooter) => {
     }
     if (mode === "write" && setIsModalOpen) {
       setIsModalOpen(true);
+    }
+    if (mode === "write" && setCommentEditId) {
+      setCommentEditId(null);
     }
   };
 

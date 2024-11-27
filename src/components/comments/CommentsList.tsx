@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { styled } from "styled-components";
 import { CommentIcons, popupStyle } from "../../Icons";
 import { useNavigate } from "react-router-dom";
@@ -7,21 +13,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import Alert from "./Alert";
 import WriteCommentsModal from "./WriteCommentsModal";
 import Confirm from "./Confirm";
+import { IComment, INode } from "../../routes/Comments";
 
-interface IComment {
-  id: number;
-  username: string;
-  password: string;
-  content: string;
+interface ICommentsList {
+  setIsModalOpen: (isOpen: boolean) => void;
+  commentEditId: string | null;
+  setCommentEditId: (id: string | null) => void;
+  head: INode | null;
+  setHead: Dispatch<SetStateAction<INode | null>>;
 }
-
-const mockupComments: IComment[] = Array.from({ length: 20 }, (_, index) => ({
-  id: index,
-  username: "Username_User",
-  password: `${index}${index}${index}${index}`,
-  content:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda suscipit ratione autem laboriosam magnam id tempora delectus, voluptatem, nihil optio, doloremque doloribus vero odit adipisci sequi dolor nostrum vitae pariatur. Nisi quisquam, magni excepturi rerum animi unde exercitationem facere illum error obcaecati quasi eum et sint hic cum, sapiente quas voluptas sequi fugiat temporibus expedita. Non qui voluptatibus aperiam id.",
-}));
 
 const Container = styled.div`
   position: relative;
@@ -102,6 +102,14 @@ const ProfileName = styled.span`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   color: ${({ theme }) => theme.colors.textPoint};
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const ProfileCreatedAt = styled.span`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.lightBorder};
 `;
 
 const CommentMenu = styled.div`
@@ -201,6 +209,14 @@ const CommentItemVariants = {
       type: "tween",
     },
   },
+  exit: {
+    opacity: 0,
+    x: -50,
+    transition: {
+      duration: 0.3,
+      type: "tween",
+    },
+  },
 };
 
 const CommentMenuPasswordVariants = {
@@ -230,32 +246,37 @@ const CommentsList = ({
   setIsModalOpen,
   commentEditId,
   setCommentEditId,
-}: {
-  setIsModalOpen: (value: boolean) => void;
-  commentEditId: number | null;
-  setCommentEditId: (value: number | null) => void;
-}) => {
+  head,
+  setHead,
+}: ICommentsList) => {
   const { commentsProject } = commentsProjectStore();
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [menuMode, setMenuMode] = useState<string | null>(null);
   const [inputPassword, setInputPassword] = useState<string>("");
-  const [isDeleteValid, setIsDeleteValid] = useState<boolean>(false);
+  const [menuMode, setMenuMode] = useState<string | null>(null);
+
+  //비번입력 후의 확인/취소 여부
   const [isEditValid, setIsEditValid] = useState<boolean>(false);
+  const [isDeleteValid, setIsDeleteValid] = useState<boolean>(false);
+
   const [isAlert, setIsAlert] = useState<boolean>(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
-  const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
 
-  const handleShare = (id: number) => {
+  const handleShare = (id: string) => {
     setCommentEditId(id);
     setMenuMode("share");
+    const projectId = location.hash.replace("#", "");
+
+    const shareUrl = `${window.location.origin}${location.pathname}${location.hash}?comment=${id}`;
+
+    navigator.clipboard.writeText(shareUrl);
   };
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     setCommentEditId(id);
     setMenuMode("edit");
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     setCommentEditId(id);
     setMenuMode("delete");
   };
@@ -278,6 +299,7 @@ const CommentsList = ({
         setIsEditValid(true);
         setIsModalOpen(true);
       }
+      setMenuMode(null);
     } else {
       setInputPassword("");
       setIsAlert(true);
@@ -297,13 +319,127 @@ const CommentsList = ({
     setInputPassword("");
   }, [menuMode]);
 
+  const renderComments = (
+    current: INode | null
+  ): JSX.Element | JSX.Element[] => {
+    if (!current) {
+      return (
+        <NoComments>
+          {CommentIcons.noComments()}
+          <p>
+            No Comments...{" "}
+            <span onClick={() => setIsModalOpen(true)}>Write One?</span>
+          </p>
+        </NoComments>
+      );
+    }
+
+    return (
+      <AnimatePresence mode="wait">
+        <CommentItem key={current.data.id} variants={CommentItemVariants}>
+          <CommentHeader>
+            <CommentProfile>
+              <ProfileImage src={"/images/DefaultProfile.jpg"} alt="profile" />
+              <ProfileName>
+                {current.data.username}
+                <ProfileCreatedAt>{current.data.createdAt}</ProfileCreatedAt>
+              </ProfileName>
+            </CommentProfile>
+            <CommentMenu>
+              <AnimatePresence mode="wait">
+                {(menuMode === "edit" || menuMode === "delete") &&
+                  commentEditId === current.data.id && (
+                    <CommentMenuPassword
+                      key={menuMode}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={CommentMenuPasswordVariants}
+                      onSubmit={(e) => handleSubmit(e, current.data.password)}
+                    >
+                      <input
+                        type="password"
+                        placeholder="비밀번호"
+                        value={inputPassword}
+                        onChange={(e) => setInputPassword(e.target.value)}
+                        minLength={4}
+                        ref={passwordRef}
+                      />
+                      <div>
+                        <input
+                          type="submit"
+                          value={menuMode === "edit" ? "수정" : "삭제"}
+                        />
+                        <input
+                          type="button"
+                          value="취소"
+                          onClick={handleCancel}
+                        />
+                      </div>
+                    </CommentMenuPassword>
+                  )}
+              </AnimatePresence>
+              {CommentIcons.delete({
+                onClick: () => handleDelete(current.data.id),
+                style: {
+                  stroke:
+                    menuMode === "delete" && commentEditId === current.data.id
+                      ? "#AF53FF"
+                      : "#ff3a3a",
+                  transform:
+                    menuMode === "delete" && commentEditId === current.data.id
+                      ? `scale(1.2)`
+                      : `scale(1)`,
+                  transition: "all 0.3s",
+                },
+              })}
+              {CommentIcons.edit({
+                onClick: () => handleEdit(current.data.id),
+                style: {
+                  stroke:
+                    menuMode === "edit" && commentEditId === current.data.id
+                      ? "#AF53FF"
+                      : "#aaa",
+                  transform:
+                    menuMode === "edit" && commentEditId === current.data.id
+                      ? `scale(1.2)`
+                      : `scale(1)`,
+                  transition: "all 0.3s",
+                },
+              })}
+              {CommentIcons.share({
+                onClick: () => handleShare(current.data.id),
+                style: {
+                  stroke:
+                    menuMode === "share" && commentEditId === current.data.id
+                      ? "#AF53FF"
+                      : "#aaa",
+                  transform:
+                    menuMode === "share" && commentEditId === current.data.id
+                      ? `scale(1.2)`
+                      : `scale(1)`,
+                  transition: "all 0.3s",
+                },
+              })}
+            </CommentMenu>
+          </CommentHeader>
+          <CommentInfo>{current.data.content}</CommentInfo>
+        </CommentItem>
+        {current.next && renderComments(current.next)}
+      </AnimatePresence>
+    );
+  };
+
   return (
     <>
       <AnimatePresence mode="wait">
         {isConfirmOpen && isDeleteValid && (
           <Confirm
-            setDeleteConfirmation={setDeleteConfirmation}
             setIsConfirmOpen={setIsConfirmOpen}
+            currentComment={commentEditId}
+            head={head}
+            setHead={setHead}
+            setCommentEditId={setCommentEditId}
           />
         )}
       </AnimatePresence>
@@ -315,107 +451,7 @@ const CommentsList = ({
           animate="animate"
           variants={commentListVariants}
         >
-          {mockupComments.length > 0 ? (
-            mockupComments.map((comment, index) => (
-              <CommentItem key={index} variants={CommentItemVariants}>
-                <CommentHeader>
-                  <CommentProfile>
-                    <ProfileImage
-                      src={"/images/DefaultProfile.jpg"}
-                      alt="profile"
-                    />
-                    <ProfileName>Username_User</ProfileName>
-                  </CommentProfile>
-                  <CommentMenu>
-                    <AnimatePresence mode="wait">
-                      {(menuMode === "edit" || menuMode === "delete") &&
-                        commentEditId === comment.id && (
-                          <CommentMenuPassword
-                            key={menuMode}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            variants={CommentMenuPasswordVariants}
-                            onSubmit={(e) => handleSubmit(e, comment.password)}
-                          >
-                            <input
-                              type="password"
-                              placeholder="비밀번호"
-                              value={inputPassword}
-                              onChange={(e) => setInputPassword(e.target.value)}
-                              minLength={4}
-                              ref={passwordRef}
-                            />
-                            <div>
-                              <input
-                                type="submit"
-                                value={menuMode === "edit" ? "수정" : "삭제"}
-                              />
-                              <input
-                                type="button"
-                                value="취소"
-                                onClick={handleCancel}
-                              />
-                            </div>
-                          </CommentMenuPassword>
-                        )}
-                    </AnimatePresence>
-                    {CommentIcons.delete({
-                      onClick: () => handleDelete(comment.id),
-                      style: {
-                        stroke:
-                          menuMode === "delete" && commentEditId === comment.id
-                            ? "#AF53FF"
-                            : "#ff3a3a",
-                        transform:
-                          menuMode === "delete" && commentEditId === comment.id
-                            ? `scale(1.2)`
-                            : `scale(1)`,
-                        transition: "all 0.3s",
-                      },
-                    })}
-                    {CommentIcons.edit({
-                      onClick: () => handleEdit(comment.id),
-                      style: {
-                        stroke:
-                          menuMode === "edit" && commentEditId === comment.id
-                            ? "#AF53FF"
-                            : "#aaa",
-                        transform:
-                          menuMode === "edit" && commentEditId === comment.id
-                            ? `scale(1.2)`
-                            : `scale(1)`,
-                        transition: "all 0.3s",
-                      },
-                    })}
-                    {CommentIcons.share({
-                      onClick: () => handleShare(comment.id),
-                      style: {
-                        stroke:
-                          menuMode === "share" && commentEditId === comment.id
-                            ? "#AF53FF"
-                            : "#aaa",
-                        transform:
-                          menuMode === "share" && commentEditId === comment.id
-                            ? `scale(1.2)`
-                            : `scale(1)`,
-                        transition: "all 0.3s",
-                      },
-                    })}
-                  </CommentMenu>
-                </CommentHeader>
-                <CommentInfo>{comment.content}</CommentInfo>
-              </CommentItem>
-            ))
-          ) : (
-            <NoComments>
-              {CommentIcons.noComments()}
-              <p>
-                No Comments...{" "}
-                <span onClick={() => setIsModalOpen(true)}>Write One?</span>
-              </p>
-            </NoComments>
-          )}
+          {renderComments(head)}
         </CommentsContent>
       </Container>
     </>

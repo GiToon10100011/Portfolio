@@ -5,6 +5,20 @@ import CommentsList from "../components/comments/CommentsList";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import WriteCommentsModal from "../components/comments/WriteCommentsModal";
+import { commentsProjectStore } from "../stores";
+import { fetchComments } from "../api";
+
+export interface INode {
+  data: IComment;
+  next: INode | null;
+}
+export interface IComment {
+  id: string;
+  username: string;
+  password: string;
+  content: string;
+  createdAt: string;
+}
 
 const Container = styled(motion.div)`
   width: 100%;
@@ -42,7 +56,7 @@ const RightArea = styled.div`
     left: 0;
     bottom: 0px;
     filter: blur(14px);
-    background: linear-gradient(to bottom, transparent, #000);
+    background: linear-gradient(to bottom, transparent, #111);
     width: 100%;
     height: 60px;
     pointer-events: none;
@@ -57,10 +71,17 @@ const containerVariants = {
 };
 
 const Comments = () => {
+  const { commentsProject } = commentsProjectStore();
   const [mode, setMode] = useState<string>("write");
+  const [head, setHead] = useState<INode | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [commentEditId, setCommentEditId] = useState<number | null>(null);
+  const [commentEditId, setCommentEditId] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetchComments(commentsProject).then((data) => {
+      setHead(data.head);
+    });
+  }, [commentsProject]);
   useEffect(() => {
     return () => {
       setIsModalOpen(false);
@@ -69,7 +90,15 @@ const Comments = () => {
   return (
     <>
       <AnimatePresence>
-        {isModalOpen && <WriteCommentsModal setIsModalOpen={setIsModalOpen} />}
+        {isModalOpen && (
+          <WriteCommentsModal
+            setIsModalOpen={setIsModalOpen}
+            commentEditId={commentEditId}
+            setCommentEditId={setCommentEditId}
+            head={head}
+            setHead={setHead}
+          />
+        )}
       </AnimatePresence>
       <Container
         initial="initial"
@@ -85,12 +114,19 @@ const Comments = () => {
           <RightArea>
             <CommentsList
               setIsModalOpen={setIsModalOpen}
-              setCommentEditId={setCommentEditId}
               commentEditId={commentEditId}
+              setCommentEditId={setCommentEditId}
+              head={head}
+              setHead={setHead}
             />
           </RightArea>
         </InnerContainer>
-        <Footer icon="menu" mode={mode} setIsModalOpen={setIsModalOpen} />
+        <Footer
+          icon="menu"
+          mode={mode}
+          setIsModalOpen={setIsModalOpen}
+          setCommentEditId={setCommentEditId}
+        />
       </Container>
     </>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Badge } from "react-bootstrap";
 import { motion } from "framer-motion";
 import {
   commentsProjectStore,
