@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ProjectList from "../components/comments/ProjectList";
 import CommentsList from "../components/comments/CommentsList";
@@ -76,6 +76,7 @@ const Comments = () => {
   const [head, setHead] = useState<INode | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [commentEditId, setCommentEditId] = useState<string | null>(null);
+  const [isCommentAdded, setIsCommentAdded] = useState<boolean>(false);
 
   useEffect(() => {
     fetchComments(commentsProject).then((data) => {
@@ -97,6 +98,7 @@ const Comments = () => {
             setCommentEditId={setCommentEditId}
             head={head}
             setHead={setHead}
+            setIsCommentAdded={setIsCommentAdded}
           />
         )}
       </AnimatePresence>
@@ -118,6 +120,8 @@ const Comments = () => {
               setCommentEditId={setCommentEditId}
               head={head}
               setHead={setHead}
+              isCommentAdded={isCommentAdded}
+              setIsCommentAdded={setIsCommentAdded}
             />
           </RightArea>
         </InnerContainer>

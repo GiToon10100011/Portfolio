@@ -511,8 +511,8 @@ export const CommentIcons = {
       </IconStyle>
     );
   },
-  share: (props: { onClick: () => void; isShared: boolean }) => {
-    return props.isShared ? (
+  share: (props: { onClick: () => void; $isShared: boolean }) => {
+    return props.$isShared ? (
       <svg width="24" height="17" viewBox="0 0 24 17" fill="none">
         <path
           d="M22.8182 1L7.81818 16L1 9.18182"

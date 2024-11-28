@@ -4,16 +4,17 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
+  ReactNode,
 } from "react";
 import { styled } from "styled-components";
-import { CommentIcons, popupStyle } from "../../Icons";
+import { CommentIcons } from "../../Icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { commentsProjectStore } from "../../stores";
 import { AnimatePresence, motion } from "framer-motion";
 import Alert from "./Alert";
-import WriteCommentsModal from "./WriteCommentsModal";
 import Confirm from "./Confirm";
-import { IComment, INode } from "../../routes/Comments";
+import { INode } from "../../routes/Comments";
+import { PulseLoader } from "react-spinners";
 
 interface ICommentsList {
   setIsModalOpen: (isOpen: boolean) => void;
@@ -21,6 +22,8 @@ interface ICommentsList {
   setCommentEditId: (id: string | null) => void;
   head: INode | null;
   setHead: Dispatch<SetStateAction<INode | null>>;
+  isCommentAdded: boolean;
+  setIsCommentAdded: (isAdded: boolean) => void;
 }
 
 const Container = styled.div`
@@ -40,6 +43,7 @@ const CommentsHeader = styled.div`
   font-size: 40px;
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
 const CommentsContent = styled(motion.div)`
@@ -48,6 +52,9 @@ const CommentsContent = styled(motion.div)`
   overflow-x: visible;
   overflow-y: scroll;
   scrollbar-width: none;
+  &.comments-content {
+    // existing styles remain
+  }
 `;
 
 const NoComments = styled.div`
@@ -155,6 +162,9 @@ const CommentMenuPassword = styled(motion.form)`
         opacity: 0;
       }
     }
+    &::-ms-reveal {
+      display: none;
+    }
   }
   div {
     display: flex;
@@ -243,26 +253,37 @@ const CommentMenuPasswordVariants = {
   },
 };
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+`;
+
 const CommentsList = ({
   setIsModalOpen,
   commentEditId,
   setCommentEditId,
   head,
   setHead,
+  isCommentAdded,
+  setIsCommentAdded,
 }: ICommentsList) => {
-  const { setCommentsProject } = commentsProjectStore();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { commentsProject, setCommentsProject } = commentsProjectStore();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [inputPassword, setInputPassword] = useState<string>("");
   const [menuMode, setMenuMode] = useState<string | null>(null);
   const [isShared, setIsShared] = useState<boolean>(false);
+  const isCommentsRendered = useRef(false);
+  const scrollTimeout = useRef<NodeJS.Timeout>();
 
   //비번입력 후의 확인/취소 여부
   const [isEditValid, setIsEditValid] = useState<boolean>(false);
   const [isDeleteValid, setIsDeleteValid] = useState<boolean>(false);
-
   const [isAlert, setIsAlert] = useState<boolean>(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
+  const [isProjectLoading, setIsProjectLoading] = useState(false);
 
   const handleShare = (id: string) => {
     if (isShared) {
@@ -272,7 +293,11 @@ const CommentsList = ({
     setMenuMode("share");
     setIsShared(true);
 
-    const shareUrl = `${window.location.origin}${location.pathname}${location.hash}?comment=${id}`;
+    // Get the project ID from the current hash
+    const projectId = window.location.hash.split("?")[0].replace("#", "");
+
+    // Create a clean share URL
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${projectId}?comment=${id}`;
 
     navigator.clipboard.writeText(shareUrl);
     setTimeout(() => setIsShared(false), 1000);
@@ -322,31 +347,74 @@ const CommentsList = ({
     setInputPassword("");
   };
 
+  const goToCommentsTop = () => {
+    const commentsContent = document.querySelector(".comments-content");
+    if (commentsContent) {
+      commentsContent.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Extract comment ID from hash if it exists
+  const getCommentIdFromHash = () => {
+    const hash = window.location.hash;
+    const match = hash.match(/comment=([^&]*)/);
+    return match ? match[1] : null;
+  };
+
   useEffect(() => {
     setInputPassword("");
   }, [menuMode]);
 
-  // Add this effect to handle scrolling to shared comment
+  // Cleanup
   useEffect(() => {
-    const commentId = searchParams.get("comment");
-    if (commentId) {
-      setCommentsProject(window.location.hash.replace("#", ""));
-      const element = document.getElementById(`comment-${commentId}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-        // Optionally highlight the comment
-        element.style.backgroundColor = "rgba(175, 83, 255, 0.1)";
-        setTimeout(() => {
-          element.style.backgroundColor = "transparent";
-        }, 2000);
+    return () => {
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
+  }, []);
+
+  // Watch for project changes
+  useEffect(() => {
+    setIsProjectLoading(true);
+  }, [commentsProject]); // Only trigger on project change
+
+  useEffect(() => {
+    if (isCommentAdded) {
+      const commentsContent = document.querySelector(".comments-content");
+      if (commentsContent) {
+        commentsContent.scrollTo({
+          top: commentsContent.scrollHeight,
+          behavior: "smooth",
+        });
+        setIsCommentAdded(false);
       }
     }
-  }, [searchParams, head]); // Add head to dependencies to ensure comments are loaded
+  }, [isCommentAdded]);
 
   const renderComments = (
     current: INode | null,
-    depth: number = 0
-  ): JSX.Element | JSX.Element[] => {
+    depth: number = 0,
+    isLastNode: boolean = true
+  ): ReactNode => {
+    if (!current || isProjectLoading) {
+      if (isLastNode) {
+        // Set project loading to false when recursion is complete
+        setTimeout(() => setIsProjectLoading(false), 300);
+      }
+
+      if (isProjectLoading) {
+        return (
+          <LoadingWrapper>
+            <PulseLoader color="#AF53FF" size={10} />
+          </LoadingWrapper>
+        );
+      }
+    }
+
     if (!current) {
       return (
         <NoComments>
@@ -359,8 +427,8 @@ const CommentsList = ({
       );
     }
 
-    return (
-      <AnimatePresence mode="wait">
+    const result = (
+      <AnimatePresence>
         <CommentItem
           key={current.data.id}
           id={`comment-${current.data.id}`}
@@ -439,7 +507,7 @@ const CommentsList = ({
               })}
               {CommentIcons.share({
                 onClick: () => handleShare(current.data.id),
-                isShared:
+                $isShared:
                   menuMode === "share" &&
                   commentEditId === current.data.id &&
                   isShared,
@@ -448,9 +516,16 @@ const CommentsList = ({
           </CommentHeader>
           <CommentInfo>{current.data.content}</CommentInfo>
         </CommentItem>
-        {current.next && renderComments(current.next, depth + 1)}
+        {current.next && renderComments(current.next, depth + 1, false)}
       </AnimatePresence>
     );
+
+    // If we're at the last node, mark loading as complete
+    if (!current.next && isLastNode) {
+      setIsProjectLoading;
+    }
+
+    return result;
   };
 
   return (
@@ -470,8 +545,10 @@ const CommentsList = ({
         {(isAlert || isShared) && <Alert isShared={isShared} />}
       </AnimatePresence>
       <Container>
-        <CommentsHeader>Comments</CommentsHeader>
+        <CommentsHeader onClick={goToCommentsTop}>Comments</CommentsHeader>
         <CommentsContent
+          key={head?.data.id}
+          className="comments-content"
           initial="initial"
           animate="animate"
           variants={commentListVariants}

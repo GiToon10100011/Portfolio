@@ -5,6 +5,7 @@ import { IComment, INode } from "../../routes/Comments";
 import { commentsProjectStore } from "../../stores";
 import projects from "../../projects.json";
 import { addComment, editComment } from "../../api";
+import { PulseLoader } from "react-spinners";
 
 interface IWriteCommentsModal {
   setIsModalOpen: (isOpen: boolean) => void;
@@ -12,6 +13,7 @@ interface IWriteCommentsModal {
   setCommentEditId: (id: string | null) => void;
   head: INode | null;
   setHead: Dispatch<SetStateAction<INode | null>>;
+  setIsCommentAdded: (isAdded: boolean) => void;
 }
 
 const Container = styled(motion.div)`
@@ -64,7 +66,11 @@ const UsernameInput = styled.input`
     }
   }
 `;
-const PasswordInput = styled(UsernameInput)``;
+const PasswordInput = styled(UsernameInput)`
+  &::-ms-reveal {
+    display: none;
+  }
+`;
 const CommentInput = styled(UsernameInput)`
   width: 100%;
   height: 400px;
@@ -90,7 +96,7 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 20px;
 `;
-const CancelButton = styled(motion.button)`
+const ButtonBase = styled(motion.button)`
   width: 300px;
   height: 100%;
   font-size: 36px;
@@ -104,8 +110,15 @@ const CancelButton = styled(motion.button)`
   &:hover {
     opacity: 0.8;
   }
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 `;
-const SubmitButton = styled(CancelButton)`
+const CancelButton = styled(ButtonBase)`
+  background-color: ${({ theme }) => theme.colors.itemsBorder};
+`;
+const SubmitButton = styled(ButtonBase)`
   background-color: ${({ theme }) => theme.colors.point};
 `;
 
@@ -115,6 +128,7 @@ const WriteCommentsModal = ({
   setCommentEditId,
   head,
   setHead,
+  setIsCommentAdded,
 }: IWriteCommentsModal) => {
   const { commentsProject } = commentsProjectStore();
   const currentProject = projects.find(
@@ -123,6 +137,7 @@ const WriteCommentsModal = ({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const findComment = (id: string, current: INode | null): IComment | null => {
     if (!current) return null;
@@ -132,28 +147,35 @@ const WriteCommentsModal = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (username === "" || password === "" || content === "") {
+    if (isSubmitting || username === "" || password === "" || content === "") {
       return;
     }
 
-    if (commentEditId) {
-      const response = await editComment(commentsProject, commentEditId, {
-        username,
-        password,
-        content,
-      });
-      setHead(response.head);
-    } else {
-      const response = await addComment(commentsProject, {
-        username,
-        password,
-        content,
-      });
-      setHead(response.head);
-    }
+    setIsSubmitting(true);
 
-    setCommentEditId(null);
-    setIsModalOpen(false);
+    try {
+      let response;
+      if (commentEditId) {
+        response = await editComment(commentsProject, commentEditId, {
+          username,
+          password,
+          content,
+        });
+      } else {
+        response = await addComment(commentsProject, {
+          username,
+          password,
+          content,
+        });
+      }
+
+      setHead(response.head);
+      setCommentEditId(null);
+      setIsModalOpen(false);
+      setIsCommentAdded(true);
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
   };
 
   useEffect(() => {
@@ -191,12 +213,15 @@ const WriteCommentsModal = ({
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <PasswordInput
             type="password"
             placeholder="Password(4자 이상)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            minLength={4}
+            required
           />
         </CredentialsContainer>
         <CommentInput
@@ -204,6 +229,7 @@ const WriteCommentsModal = ({
           placeholder="Leave a comment/feedback..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          required
         />
         <ModalMenu>
           <SelectedProject>
@@ -211,11 +237,21 @@ const WriteCommentsModal = ({
             {currentProject?.title + " " + currentProject?.subtitle}
           </SelectedProject>
           <ButtonContainer>
-            <CancelButton whileTap={{ scale: 0.9 }} onClick={handleCancel}>
+            <CancelButton
+              whileTap={{ scale: 0.9 }}
+              onClick={handleCancel}
+              disabled={isSubmitting}
+            >
               Cancel
             </CancelButton>
-            <SubmitButton whileTap={{ scale: 0.9 }}>
-              {commentEditId ? "Edit" : "Submit"}
+            <SubmitButton whileTap={{ scale: 0.9 }} disabled={isSubmitting}>
+              {isSubmitting ? (
+                <PulseLoader color="#ffffff" size={8} />
+              ) : commentEditId ? (
+                "Edit"
+              ) : (
+                "Submit"
+              )}
             </SubmitButton>
           </ButtonContainer>
         </ModalMenu>

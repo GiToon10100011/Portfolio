@@ -138,27 +138,64 @@ const ProjectList = () => {
   const { setCursorChanging } = cursorChangingStore();
   const { setTriggerMain } = triggerMainStore();
   const { commentsProject, setCommentsProject } = commentsProjectStore();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+
+  const handleProjectClick = (projectId: string) => {
+    if (projectId === commentsProject) return;
+
+    setCommentsProject(projectId);
+    window.history.pushState(null, "", `#${projectId}`);
+
+    const element = document.getElementById(projectId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
-    if (searchParams.get("comment")) {
-      setCommentsProject(window.location.hash.replace("#", ""));
+    const projectId = window.location.hash.split("?")[0].replace("#", "");
+    const commentId = searchParams.get("comment");
+
+    if (!projectId && !commentId) {
+      setCommentsProject(projects[0].id);
     }
-    if (window.location.hash) {
-      const id = window.location.hash.replace("#", "");
-      const element = document.getElementById(id);
+
+    if (commentId) {
+      setCommentsProject(projectId);
       setTimeout(() => {
+        const element = document.getElementById(projectId);
         element?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      }, 300);
+    } else if (projectId) {
+      setCommentsProject(projectId);
+      setTimeout(() => {
+        const element = document.getElementById(projectId);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
     }
+
     return () => {
       setTriggerMain(true);
     };
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (window.location.hash.replace("#", "") !== commentsProject) {
-      window.history.replaceState(null, "", `#${commentsProject}`);
-    }
+  }, [commentsProject]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const projectId = window.location.hash.replace("#", "");
+      if (projectId && projectId !== commentsProject) {
+        setCommentsProject(projectId);
+        const element = document.getElementById(projectId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, [commentsProject]);
 
   return (
@@ -175,14 +212,10 @@ const ProjectList = () => {
           onMouseEnter={() => setCursorChanging(true)}
           onMouseLeave={() => setCursorChanging(false)}
           whileTap={tapAnimation}
-          onClick={() => {
-            setCommentsProject(project.id);
-            const element = document.getElementById(project.id);
-            element?.scrollIntoView({ behavior: "smooth" });
-          }}
+          onClick={() => handleProjectClick(project.id)}
           className={commentsProject === project.id ? "active" : undefined}
         >
-          <ProjectPic></ProjectPic>
+          <ProjectPic />
           <ProjectContent>
             <ProjectTitle>
               {project.title + " " + project.subtitle}
