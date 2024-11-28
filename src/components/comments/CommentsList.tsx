@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { styled } from "styled-components";
 import { CommentIcons, popupStyle } from "../../Icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { commentsProjectStore } from "../../stores";
 import { AnimatePresence, motion } from "framer-motion";
 import Alert from "./Alert";
@@ -201,14 +201,15 @@ const CommentItemVariants = {
     opacity: 0,
     x: 50,
   },
-  animate: {
+  animate: (custom: number) => ({
     opacity: 1,
     x: 0,
     transition: {
+      delay: custom * 0.1,
       duration: 0.3,
       type: "tween",
     },
-  },
+  }),
   exit: {
     opacity: 0,
     x: -50,
@@ -249,10 +250,12 @@ const CommentsList = ({
   head,
   setHead,
 }: ICommentsList) => {
-  const { commentsProject } = commentsProjectStore();
+  const { setCommentsProject } = commentsProjectStore();
+  const [searchParams, setSearchParams] = useSearchParams();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [inputPassword, setInputPassword] = useState<string>("");
   const [menuMode, setMenuMode] = useState<string | null>(null);
+  const [isShared, setIsShared] = useState<boolean>(false);
 
   //비번입력 후의 확인/취소 여부
   const [isEditValid, setIsEditValid] = useState<boolean>(false);
@@ -262,13 +265,17 @@ const CommentsList = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
   const handleShare = (id: string) => {
+    if (isShared) {
+      return;
+    }
     setCommentEditId(id);
     setMenuMode("share");
-    const projectId = location.hash.replace("#", "");
+    setIsShared(true);
 
     const shareUrl = `${window.location.origin}${location.pathname}${location.hash}?comment=${id}`;
 
     navigator.clipboard.writeText(shareUrl);
+    setTimeout(() => setIsShared(false), 1000);
   };
 
   const handleEdit = (id: string) => {
@@ -319,8 +326,26 @@ const CommentsList = ({
     setInputPassword("");
   }, [menuMode]);
 
+  // Add this effect to handle scrolling to shared comment
+  useEffect(() => {
+    const commentId = searchParams.get("comment");
+    if (commentId) {
+      setCommentsProject(window.location.hash.replace("#", ""));
+      const element = document.getElementById(`comment-${commentId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Optionally highlight the comment
+        element.style.backgroundColor = "rgba(175, 83, 255, 0.1)";
+        setTimeout(() => {
+          element.style.backgroundColor = "transparent";
+        }, 2000);
+      }
+    }
+  }, [searchParams, head]); // Add head to dependencies to ensure comments are loaded
+
   const renderComments = (
-    current: INode | null
+    current: INode | null,
+    depth: number = 0
   ): JSX.Element | JSX.Element[] => {
     if (!current) {
       return (
@@ -336,7 +361,12 @@ const CommentsList = ({
 
     return (
       <AnimatePresence mode="wait">
-        <CommentItem key={current.data.id} variants={CommentItemVariants}>
+        <CommentItem
+          key={current.data.id}
+          id={`comment-${current.data.id}`}
+          variants={CommentItemVariants}
+          custom={depth}
+        >
           <CommentHeader>
             <CommentProfile>
               <ProfileImage src={"/images/DefaultProfile.jpg"} alt="profile" />
@@ -409,23 +439,16 @@ const CommentsList = ({
               })}
               {CommentIcons.share({
                 onClick: () => handleShare(current.data.id),
-                style: {
-                  stroke:
-                    menuMode === "share" && commentEditId === current.data.id
-                      ? "#AF53FF"
-                      : "#aaa",
-                  transform:
-                    menuMode === "share" && commentEditId === current.data.id
-                      ? `scale(1.2)`
-                      : `scale(1)`,
-                  transition: "all 0.3s",
-                },
+                isShared:
+                  menuMode === "share" &&
+                  commentEditId === current.data.id &&
+                  isShared,
               })}
             </CommentMenu>
           </CommentHeader>
           <CommentInfo>{current.data.content}</CommentInfo>
         </CommentItem>
-        {current.next && renderComments(current.next)}
+        {current.next && renderComments(current.next, depth + 1)}
       </AnimatePresence>
     );
   };
@@ -443,7 +466,9 @@ const CommentsList = ({
           />
         )}
       </AnimatePresence>
-      <AnimatePresence mode="wait">{isAlert && <Alert />}</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {(isAlert || isShared) && <Alert isShared={isShared} />}
+      </AnimatePresence>
       <Container>
         <CommentsHeader>Comments</CommentsHeader>
         <CommentsContent

@@ -7,6 +7,7 @@ import {
   triggerMainStore,
 } from "../../stores";
 import projects from "../../projects.json";
+import { useSearchParams } from "react-router-dom";
 
 const Container = styled(motion.div)`
   width: 100%;
@@ -137,7 +138,11 @@ const ProjectList = () => {
   const { setCursorChanging } = cursorChangingStore();
   const { setTriggerMain } = triggerMainStore();
   const { commentsProject, setCommentsProject } = commentsProjectStore();
+  const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
+    if (searchParams.get("comment")) {
+      setCommentsProject(window.location.hash.replace("#", ""));
+    }
     if (window.location.hash) {
       const id = window.location.hash.replace("#", "");
       const element = document.getElementById(id);
@@ -149,6 +154,12 @@ const ProjectList = () => {
       setTriggerMain(true);
     };
   }, []);
+
+  useEffect(() => {
+    if (window.location.hash.replace("#", "") !== commentsProject) {
+      window.history.replaceState(null, "", `#${commentsProject}`);
+    }
+  }, [commentsProject]);
 
   return (
     <Container
@@ -164,7 +175,11 @@ const ProjectList = () => {
           onMouseEnter={() => setCursorChanging(true)}
           onMouseLeave={() => setCursorChanging(false)}
           whileTap={tapAnimation}
-          onClick={() => setCommentsProject(project.id)}
+          onClick={() => {
+            setCommentsProject(project.id);
+            const element = document.getElementById(project.id);
+            element?.scrollIntoView({ behavior: "smooth" });
+          }}
           className={commentsProject === project.id ? "active" : undefined}
         >
           <ProjectPic></ProjectPic>

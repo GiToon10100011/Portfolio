@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Alert = () => {
+const Alert = ({ isShared }: { isShared: boolean }) => {
   const ErrorMessage = styled(motion.div)`
     position: fixed;
     top: 150px;
@@ -27,7 +27,9 @@ const Alert = () => {
       exit="exit"
       variants={errorMessageVariants}
     >
-      🚫 비밀번호가 일치하지 않습니다.
+      {isShared
+        ? "✅ 링크가 복사되었습니다!"
+        : "🚫 비밀번호가 일치하지 않습니다."}
     </ErrorMessage>
   );
 };

@@ -440,7 +440,13 @@ export const CommentIcons = {
   },
   delete: (props: { onClick: () => void; style: React.CSSProperties }) => {
     return (
-      <IconStyle width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+      <IconStyle
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        {...props}
+      >
         <path
           d="M2.5 5H4.16667H17.5"
           stroke={props.style.stroke}
@@ -474,7 +480,13 @@ export const CommentIcons = {
   },
   edit: (props: { onClick: () => void; style: React.CSSProperties }) => {
     return (
-      <IconStyle width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+      <IconStyle
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        {...props}
+      >
         <g clipPath="url(#clip0_421_877)">
           <path
             d="M9.1665 3.33325H3.33317C2.89114 3.33325 2.46722 3.50885 2.15466 3.82141C1.8421 4.13397 1.6665 4.55789 1.6665 4.99992V16.6666C1.6665 17.1086 1.8421 17.5325 2.15466 17.8451C2.46722 18.1577 2.89114 18.3333 3.33317 18.3333H14.9998C15.4419 18.3333 15.8658 18.1577 16.1783 17.8451C16.4909 17.5325 16.6665 17.1086 16.6665 16.6666V10.8333"
@@ -499,40 +511,56 @@ export const CommentIcons = {
       </IconStyle>
     );
   },
-  share: (props: { onClick: () => void; style: React.CSSProperties }) => {
-    return (
-      <IconStyle width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+  share: (props: { onClick: () => void; isShared: boolean }) => {
+    return props.isShared ? (
+      <svg width="24" height="17" viewBox="0 0 24 17" fill="none">
+        <path
+          d="M22.8182 1L7.81818 16L1 9.18182"
+          stroke="#AF53FF"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ) : (
+      <IconStyle
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        {...props}
+      >
         <path
           d="M15 6.66675C16.3807 6.66675 17.5 5.54746 17.5 4.16675C17.5 2.78604 16.3807 1.66675 15 1.66675C13.6193 1.66675 12.5 2.78604 12.5 4.16675C12.5 5.54746 13.6193 6.66675 15 6.66675Z"
-          stroke={props.style.stroke}
+          stroke="#aaa"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M5 12.5C6.38071 12.5 7.5 11.3807 7.5 10C7.5 8.61929 6.38071 7.5 5 7.5C3.61929 7.5 2.5 8.61929 2.5 10C2.5 11.3807 3.61929 12.5 5 12.5Z"
-          stroke={props.style.stroke}
+          stroke="#aaa"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M15 18.3333C16.3807 18.3333 17.5 17.214 17.5 15.8333C17.5 14.4525 16.3807 13.3333 15 13.3333C13.6193 13.3333 12.5 14.4525 12.5 15.8333C12.5 17.214 13.6193 18.3333 15 18.3333Z"
-          stroke={props.style.stroke}
+          stroke="#aaa"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M7.1582 11.2583L12.8499 14.575"
-          stroke={props.style.stroke}
+          stroke="#aaa"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M12.8415 5.42505L7.1582 8.74172"
-          stroke={props.style.stroke}
+          stroke="#aaa"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
