@@ -1067,7 +1067,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
               Location
             </ContactInfo>
             <span>서울특별시 강동구 천호대로</span>
-          </ContactAddress>
+          </ContactAddress> 
           <div
             onMouseEnter={() => setCursorChanging(true)}
             onMouseLeave={() => setCursorChanging(false)}

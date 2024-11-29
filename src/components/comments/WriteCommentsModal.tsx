@@ -66,9 +66,26 @@ const UsernameInput = styled.input`
     }
   }
 `;
+
+const PasswordContainer = styled.div`
+  position: relative;
+  span {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 32px;
+    color: ${({ theme }) => theme.colors.subText};
+    cursor: pointer;
+  }
+`;
 const PasswordInput = styled(UsernameInput)`
   &::-ms-reveal {
     display: none;
+  }
+  &::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
   }
 `;
 const CommentInput = styled(UsernameInput)`
@@ -138,7 +155,7 @@ const WriteCommentsModal = ({
   const [password, setPassword] = useState("");
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const findComment = (id: string, current: INode | null): IComment | null => {
     if (!current) return null;
     if (current.data.id === id) return current.data;
@@ -187,6 +204,12 @@ const WriteCommentsModal = ({
         setContent(comment.content);
       }
     }
+    return () => {
+      setUsername("");
+      setPassword("");
+      setContent("");
+      setIsPasswordVisible(false);
+    };
   }, []);
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -195,9 +218,6 @@ const WriteCommentsModal = ({
       setIsModalOpen(false);
     }
     setCommentEditId(null);
-    setUsername("");
-    setPassword("");
-    setContent("");
   };
 
   return (
@@ -215,14 +235,22 @@ const WriteCommentsModal = ({
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <PasswordInput
-            type="password"
-            placeholder="Password(4자 이상)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            minLength={4}
-            required
-          />
+          <PasswordContainer>
+            <PasswordInput
+              type={isPasswordVisible ? "text" : "password"}
+              placeholder="Password(4자 이상)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength={4}
+              required
+            />
+            <span
+              className="material-symbols-outlined"
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            >
+              {isPasswordVisible ? "visibility" : "visibility_off"}
+            </span>
+          </PasswordContainer>
         </CredentialsContainer>
         <CommentInput
           as="textarea"
