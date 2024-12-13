@@ -61,6 +61,21 @@ const Item = styled(motion.div)<IItemProps>`
       animation: ${sliderAnimations.slideIn} 0.6s ease-in-out both;
     }
   }
+  @media (max-width: 768px) {
+    width: 130px;
+    height: 200px;
+    &.active {
+      width: 150px;
+      height: 230px;
+      &::before {
+        width: 150px;
+        height: 60px;
+        font-size: 12px;
+        padding-left: 10px;
+        line-height: 18px;
+      }
+    }
+  }
 `;
 
 const SliderItem = ({ thumbnailContent, thumbnailImg, id }: ISliderProps) => {

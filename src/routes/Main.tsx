@@ -12,21 +12,6 @@ import { isPlayingStore, projectIdStore } from "../stores";
 import projects from "../projects.json";
 import { IProject } from "../types";
 
-const Container = styled.div<{ $mainBg?: string }>`
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100vh;
-  padding-top: 190px;
-  background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.8),
-      rgba(0, 0, 0, 0.3) 12%,
-      transparent
-    ),
-    url(${({ $mainBg }) => $mainBg}) center/cover no-repeat !important;
-`;
-
 const SliderMenu = styled(motion.section)`
   position: absolute;
   bottom: 0;
@@ -63,6 +48,55 @@ const GameTitle = styled.h1`
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 20px;
+`;
+
+const Container = styled.div<{ $mainBg?: string }>`
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  padding-top: 190px;
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.3) 12%,
+      transparent
+    ),
+    url(${({ $mainBg }) => $mainBg}) center/cover no-repeat !important;
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+    ${InnerContainer} {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: calc(100% - 40px);
+      ${GameTitle} {
+        width: 100%;
+        font-size: 28px;
+        margin-bottom: 0;
+      }
+      ${ButtonsContainer} {
+        gap: 10px;
+        margin-bottom: 40px;
+        padding-bottom: 330px;
+      }
+      ${SliderMenu} {
+        width: 100vw;
+        height: 330px;
+        left: -20px;
+        bottom: 0;
+        ${SliderInnerContainer} {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
 `;
 
 const Main = () => {

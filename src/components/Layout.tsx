@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isFullscreenStore } from "../stores";
+import { isFullscreenStore, responsiveStore } from "../stores";
 import FullScreenGuide from "./FullScreenGuide";
 import GlobalStyles from "../styles/globalstyles.styles";
 import { AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import Cursor from "./Cursor";
 import AnimatedOutlet from "./AnimatedOutlet";
 import chalk from "chalk";
 import { useTheme } from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 const welcomeText = `
          ,---._      ,----..            ,--.                 ,---._                   ,--.               
@@ -72,13 +73,23 @@ const Layout = () => {
     console.log(chalk.hex(theme.colors.textPoint)(welcomeText));
   }, []);
 
+  const responsive = useMediaQuery({
+    query: "(max-width : 768px)",
+  });
+
+  const { isResponsive, setIsResponsive } = responsiveStore();
+
+  useEffect(() => {
+    setIsResponsive(responsive);
+  }, [responsive]);
+
   return (
     <>
       <GlobalStyles />
       <AnimatePresence mode="wait">
-        {!isFullscreen && <FullScreenGuide key="fullscreen" />}
+        {!isFullscreen && !isResponsive && <FullScreenGuide key="fullscreen" />}
       </AnimatePresence>
-      <Cursor {...cursorPos} />
+      {!isResponsive && <Cursor {...cursorPos} />}
       <Header />
       <AnimatePresence mode="wait">
         <AnimatedOutlet />

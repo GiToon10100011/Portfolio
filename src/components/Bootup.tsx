@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { bootupAnimations } from "../styles/animations";
 import React, { useEffect, useState } from "react";
-import { hideCursorStore, triggerMainStore } from "../stores";
+import { hideCursorStore, responsiveStore, triggerMainStore } from "../stores";
 import { motion } from "framer-motion";
 
 const Container = styled.main`
@@ -136,6 +136,7 @@ function Bootup() {
   const [progressWidth, setProgressWidth] = useState(100);
   const { setTriggerMain } = triggerMainStore();
   const { setHideCursor } = hideCursorStore();
+  const { isResponsive } = responsiveStore();
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === bootupAnimations["initial"].getName()) {
@@ -203,7 +204,11 @@ function Bootup() {
           />
         </ProgressBarContainer>
         <Title>{init ? `${progress}%` : "Loading"}</Title>
-        <Title>{progress === 100 && "Please remain in fullscreen mode"}</Title>
+        <Title>
+          {progress === 100 &&
+            !isResponsive &&
+            "Please remain in fullscreen mode"}
+        </Title>
       </Container>
     </motion.div>
   );

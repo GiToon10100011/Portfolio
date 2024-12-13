@@ -17,20 +17,6 @@ interface IProfileInfoProps {
   $isCommentsPage?: boolean;
 }
 
-const Container = styled.header<IProfileInfoProps>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120px;
-  margin-bottom: 70px;
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.text};
-  z-index: 3;
-  display: flex;
-  align-items: center;
-`;
-
 const InnerContainer = styled.div<IProfileInfoProps>`
   width: 1700px;
   height: ${({ $isProfilePage }) => (!$isProfilePage ? "100%" : "80px")};
@@ -86,7 +72,6 @@ const RightSide = styled.div`
   gap: 10px;
 `;
 
-
 const ProfileLoading = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -104,6 +89,49 @@ const ProfileLoading = styled(motion.div)`
 const LoadingProfileIcon = styled(motion.div)`
   width: 200px;
   height: 200px;
+`;
+
+const Container = styled.header<IProfileInfoProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 70px;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.text};
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  @media (max-width: 768px) {
+    margin-top: 40px;
+    height: 50px;
+    padding: 0 20px;
+    ${InnerContainer} {
+      width: 100%;
+      height: 100%;
+      ${LeftSide} {
+        ${ProfileIcon} {
+          width: 50px;
+          height: 50px;
+        }
+        ${ProfileInfo} {
+          ${ProfileName} {
+            font-size: 20px;
+          }
+          ${ProfileKrName} {
+            font-size: 12px;
+          }
+        }
+      }
+      ${RightSide} {
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
 `;
 
 const Header = () => {

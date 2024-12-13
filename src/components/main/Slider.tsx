@@ -11,6 +11,10 @@ const Container = styled(motion.div)`
   width: fit-content;
   height: 400px;
   align-items: flex-end;
+  @media (max-width: 768px) {
+    height: 100%;
+    gap: 14px;
+  }
 `;
 
 const Slider = () => {

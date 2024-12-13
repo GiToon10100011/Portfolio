@@ -8,6 +8,12 @@ const CurrentTime = styled.p`
   span {
     font-size: 10px;
   }
+  @media (max-width: 768px) {
+    font-size: 20px;
+    span {
+      font-size: 8px;
+    }
+  }
 `;
 
 const Time = () => {

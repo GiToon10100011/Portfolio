@@ -48,6 +48,11 @@ interface ICommentsProjectStore {
   setCommentsProject: (commentsProject: string) => void;
 }
 
+interface IResponsiveStore {
+  isResponsive: boolean;
+  setIsResponsive: (isResponsive: boolean) => void;
+}
+
 export const triggerMainStore = create<TriggerMainStore>()(
   devtools((set) => ({
     triggerMain: false,
@@ -94,5 +99,12 @@ export const commentsProjectStore = create<ICommentsProjectStore>()(
   devtools((set) => ({
     commentsProject: "tloztotk1",
     setCommentsProject: (commentsProject) => set({ commentsProject }),
+  }))
+);
+
+export const responsiveStore = create<IResponsiveStore>()(
+  devtools((set) => ({
+    isResponsive: false,
+    setIsResponsive: (isResponsive) => set({ isResponsive }),
   }))
 );

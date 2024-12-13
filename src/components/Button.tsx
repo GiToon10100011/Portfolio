@@ -41,6 +41,16 @@ const Container = styled(motion.button)<IButtonProps>`
   span {
     order: ${({ $order }) => $order};
   }
+  @media (max-width: 768px) {
+    width: ${({ $width }) => $width ?? "fit-content"};
+    height: 40px;
+    font-size: 16px;
+    padding: 10px 14px;
+    svg{
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
 
 const Button = ({
