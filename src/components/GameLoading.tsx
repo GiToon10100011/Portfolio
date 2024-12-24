@@ -4,15 +4,6 @@ import { motion } from "framer-motion";
 import { projectIdStore } from "../stores";
 import projects from "../projects.json";
 import { useNavigate } from "react-router-dom";
-const Container = styled(motion.div)`
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background-color: #000;
-  font-family: ${({ theme }) => theme.fonts.nintendo};
-  color: ${({ theme }) => theme.colors.text};
-  z-index: 9;
-`;
 
 const NintendoLogo = styled.img`
   position: absolute;
@@ -46,6 +37,45 @@ const LowerText = styled.p`
 const CopyRight = styled.span`
   font-size: 16px;
   letter-spacing: 0;
+`;
+
+const Container = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  font-family: ${({ theme }) => theme.fonts.nintendo};
+  color: ${({ theme }) => theme.colors.text};
+  z-index: 9;
+  @media (max-width: 768px) {
+    ${NintendoLogo} {
+      width: 140px;
+      object-fit: cover;
+      top: 20px;
+      left: 20px;
+    }
+    ${LoadingContainer} {
+      bottom: 20px;
+      right: 20px;
+      ${LeftPart} {
+        width: 25px;
+      }
+      ${RightPart} {
+        width: 25px;
+      }
+    }
+    ${LoadingText} {
+      ${UpperText} {
+        font-size: 20px;
+      }
+      ${LowerText} {
+        font-size: 32px;
+        ${CopyRight} {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 `;
 
 const moveVariants = {

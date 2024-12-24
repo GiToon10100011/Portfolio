@@ -9,7 +9,11 @@ import "swiper/css/effect-coverflow";
 import Button from "../Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../../Icons";
 import { useRef, useState } from "react";
-import { commentsProjectStore, cursorChangingStore } from "../../stores";
+import {
+  commentsProjectStore,
+  cursorChangingStore,
+  responsiveStore,
+} from "../../stores";
 import { useNavigate } from "react-router-dom";
 import { IProject } from "../../types";
 import { modalAnimationVariants } from "./detailModalVariants";
@@ -18,21 +22,6 @@ interface IDetailModalProps extends IProject {
   setIsDetailModalOpen: (value: boolean) => void;
   onPlay: () => void;
 }
-
-const Wrapper = styled(motion.main)`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  backdrop-filter: blur(40px);
-  z-index: 7;
-  top: 0;
-  left: 0;
-  font-family: ${({ theme }) => theme.fonts.text};
-  color: ${({ theme }) => theme.colors.text};
-`;
 
 const Overlay = styled.div`
   position: absolute;
@@ -221,13 +210,6 @@ const SliderItem = styled(SwiperSlide)`
   }
 `;
 
-const Pager = styled.span`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.text};
-`;
-
 const ModalTroubleshooting = styled.section`
   display: flex;
   flex-direction: column;
@@ -323,6 +305,175 @@ const BlurIndicator = styled.div`
   width: 100%;
   height: 60px;
   pointer-events: none;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const Wrapper = styled(motion.main)<{ $background: string; $expand: boolean }>`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(40px);
+  z-index: 7;
+  top: 0;
+  left: 0;
+  font-family: ${({ theme }) => theme.fonts.text};
+  color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 768px) {
+    ${Overlay} {
+      display: none;
+    }
+    ${Modal} {
+      width: 100vw;
+      height: 100%;
+      flex-direction: column;
+      ${LeftArea} {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        overflow-x: hidden;
+        ${ModalHeader} {
+          width: 100%;
+          text-align: center;
+          border: none;
+          padding-bottom: 0;
+          ${MainTitle} {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            &::before {
+              content: "";
+              position: absolute;
+              top: -60px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 100px;
+              height: 100px;
+              border-radius: 20px;
+              background: ${({ $background }) =>
+                `url(${$background}) 64% 10%/350% no-repeat`};
+            }
+            ${GameTitle} {
+              padding-top: 60px;
+              font-size: 20px;
+            }
+            ${GameSubtitle} {
+              font-size: 16px;
+            }
+          }
+          ${GithubLink} {
+            display: none;
+          }
+        }
+        ${ModalDesc} {
+          padding: 0 20px;
+          word-break: keep-all;
+          order: 1;
+          width: 100%;
+          ${StacksHeader} {
+            display: none;
+          }
+          ${DescStacks} {
+            display: none;
+          }
+          ${DescTitle} {
+            font-size: 20px;
+          }
+          ${DescContent} {
+            height: fit-content;
+            position: relative;
+            font-size: 12px;
+            ${({ $expand }) =>
+              $expand &&
+              `
+                display: -webkit-box;
+                -webkit-line-clamp: 5;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                `}
+          }
+        }
+        .slider-container {
+          order: 0;
+          ${Slider} {
+            .swiper-wrapper {
+              height: 190px;
+            }
+            .swiper-button-next,
+            .swiper-button-prev {
+              display: none;
+            }
+            .swiper-pagination-bullet {
+              width: 6px;
+              height: 6px;
+            }
+            ${SliderItem} {
+              width: 250px !important;
+              height: 170px;
+            }
+          }
+        }
+        ${ModalTroubleshooting} {
+          order: 2;
+          padding: 0 20px;
+          ${TroubleshootingTitle} {
+            font-size: 20px;
+          }
+          ${TroubleshootingContent} {
+            ${TroubleshootingItem} {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+      ${RightArea} {
+        border-top: 1px solid ${({ theme }) => theme.colors.itemsBorder};
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 150px;
+        border-radius: 0;
+        background: ${({ theme }) => theme.colors.darkerBackground};
+        ${ModalImg} {
+          display: none;
+        }
+        ${ButtonContainer} {
+        }
+      }
+      ${CloseModal} {
+        position: fixed;
+        top: 20px;
+        bottom: auto;
+        left: 20px;
+        right: auto;
+        font-size: 20px;
+        svg {
+          width: 24px;
+          height: 24px;
+          background: none;
+        }
+      }
+    }
+  }
+`;
+
+//Mobile Style Components
+const ProjectBg = styled.div<{ $background: string }>`
+  width: 100%;
+  min-height: 200px;
+  background: ${({ $background }) =>
+    `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${$background}) 64% 20%/200% no-repeat`};
 `;
 
 const Detail = ({
@@ -336,13 +487,16 @@ const Detail = ({
   subtitle,
   stacks,
   repoURL,
+  mainBg,
 }: IDetailModalProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { isResponsive } = responsiveStore();
   const { setCursorChanging } = cursorChangingStore();
   const { setCommentsProject } = commentsProjectStore();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isDescOpen, setIsDescOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState("||");
   const troubleshootingRef = useRef<HTMLDivElement>(null);
   const isTroubleShootingInView = useInView(troubleshootingRef, {
@@ -383,10 +537,13 @@ const Detail = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        $background={mainBg}
+        $expand={isDescOpen}
       >
         <Overlay onClick={() => setIsDetailModalOpen(false)} />
         <Modal>
-          <LeftArea>
+          <LeftArea className="left-area">
+            {isResponsive && <ProjectBg $background={mainBg} />}
             <ModalHeader
               initial="hidden"
               animate="visible"
@@ -426,9 +583,12 @@ const Detail = ({
                 ))}
               </DescStacks>
               <DescTitle>{pages[currentIdx]?.title}</DescTitle>
-              <DescContent>{pages[currentIdx]?.content}</DescContent>
+              <DescContent onClick={() => setIsDescOpen((current) => !current)}>
+                {pages[currentIdx]?.content}
+              </DescContent>
             </ModalDesc>
             <div
+              className="slider-container"
               onMouseEnter={() => setCursorChanging(true)}
               onMouseLeave={() => setCursorChanging(false)}
             >
@@ -438,10 +598,18 @@ const Detail = ({
                 slidesPerView={"auto"}
                 modules={[EffectCoverflow, Pagination, Navigation]}
                 navigation={true}
-                coverflowEffect={{
-                  stretch: -20,
-                  rotate: 0,
-                }}
+                coverflowEffect={
+                  !isResponsive
+                    ? {
+                        stretch: -20,
+                        rotate: 0,
+                      }
+                    : {
+                        stretch: -10,
+                        rotate: 0,
+                        depth: 200,
+                      }
+                }
                 pagination={pagers}
                 grabCursor={true}
                 loop={true}
@@ -533,13 +701,15 @@ const Detail = ({
               />
               <Button
                 icon={
-                  <HelpIcon
-                    onHover={whileHoverInfo}
-                    onExit={whileHoverExit}
-                    content="방명록을 통해 피드백 등을 
+                  !isResponsive && (
+                    <HelpIcon
+                      onHover={whileHoverInfo}
+                      onExit={whileHoverExit}
+                      content="방명록을 통해 피드백 등을 
                   남기실 수 있습니다. "
-                    $isHovering={isHovering}
-                  />
+                      $isHovering={isHovering}
+                    />
+                  )
                 }
                 text="Review"
                 $width="100%"

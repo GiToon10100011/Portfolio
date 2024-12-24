@@ -66,6 +66,14 @@ const Container = styled.div<{ $mainBg?: string }>`
 
   @media (max-width: 768px) {
     padding-top: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.3) 12%,
+      transparent
+    ),
+    url(${({ $mainBg }) => $mainBg}) 64% center/cover no-repeat !important;
+    background-attachment: fixed;
     ${InnerContainer} {
       position: absolute;
       left: 50%;
