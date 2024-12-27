@@ -13,15 +13,6 @@ interface IFooter {
   setCommentEditId?: Dispatch<SetStateAction<string | null>>;
 }
 
-const Container = styled.footer`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 80px;
-  background: ${({ theme }) => theme.colors.background};
-  z-index: 2;
-`;
-
 const InnerContainer = styled.div`
   width: 1700px;
   height: 100%;
@@ -61,6 +52,28 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+`;
+
+const Container = styled.footer`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: ${({ theme }) => theme.colors.background};
+  z-index: 2;
+  @media (max-width: 768px) {
+    height: 60px;
+    ${InnerContainer} {
+      width: 100%;
+      padding: 0 10px;
+    }
+    ${NavigationMenu} {
+      gap: 20px;
+    }
+    ${NavigationItem} {
+      font-size: 16px;
+    }
+  }
 `;
 
 let IconSwitcher: JSX.Element;
