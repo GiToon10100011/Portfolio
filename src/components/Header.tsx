@@ -104,13 +104,23 @@ const Container = styled.header<IProfileInfoProps>`
   display: flex;
   align-items: center;
   @media (max-width: 768px) {
+    width: 100%;
     margin-top: 40px;
     height: 50px;
     padding: 0 20px;
+    ${({ $isProfilePage, theme }) =>
+      $isProfilePage &&
+      `height: 70px; padding: 0; margin: 0; background: ${theme.colors.background};`}
     ${InnerContainer} {
       width: 100%;
       height: 100%;
+      ${({ $isProfilePage, theme }) =>
+        $isProfilePage && `height: 70px; padding: 0;`}
+      ${({ $isCommentsPage, theme }) =>
+        $isCommentsPage &&
+        `border-bottom: 1px solid ${theme.colors.lightBorder};`}
       ${LeftSide} {
+        ${({ $isProfilePage }) => $isProfilePage && `padding-left: 10px;`}
         ${ProfileIcon} {
           width: 50px;
           height: 50px;
@@ -118,13 +128,16 @@ const Container = styled.header<IProfileInfoProps>`
         ${ProfileInfo} {
           ${ProfileName} {
             font-size: 20px;
+            ${({ $isProfilePage }) => $isProfilePage && `font-size: 18px;`}
           }
           ${ProfileKrName} {
             font-size: 12px;
+            ${({ $isProfilePage }) => $isProfilePage && `font-size: 10px;`}
           }
         }
       }
       ${RightSide} {
+        ${({ $isProfilePage }) => $isProfilePage && `padding-right: 10px;`}
         svg {
           width: 16px;
           height: 16px;

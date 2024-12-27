@@ -7,14 +7,6 @@ import { glitchAnimations } from "../styles/animations";
 import { cursorChangingStore, triggerMainStore } from "../stores";
 import Typewriter from "typewriter-effect";
 
-const Container = styled(motion.div)`
-  padding-top: 140px;
-  width: 100%;
-  height: 100vh;
-  background: ${({ theme }) => theme.colors.background};
-  font-family: ${({ theme }) => theme.fonts.text};
-`;
-
 const InnerContainer = styled.div`
   width: 1700px;
   height: 100%;
@@ -251,6 +243,82 @@ const RightArea = styled.div`
   flex-direction: column;
   gap: 60px;
   scroll-behavior: smooth;
+`;
+
+const Container = styled(motion.div)`
+  padding-top: 140px;
+  width: 100%;
+  height: 100vh;
+  background: ${({ theme }) => theme.colors.background};
+  font-family: ${({ theme }) => theme.fonts.text};
+  @media (max-width: 768px) {
+    width: 100vw;
+    padding-top: 100px;
+    height: 100%;
+    ${InnerContainer} {
+      width: 100%;
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+      ${LeftArea} {
+        overflow: visible;
+        width: 100%;
+        height: 600px;
+        margin-bottom: 140px;
+        ${ProfileCard} {
+          gap: 40px;
+          padding-top: 20px;
+          padding-bottom: 40px;
+          ${ProfilePicture} {
+            width: 90%;
+            object-fit: cover;
+            border-radius: 20px;
+          }
+          ${ProfileInfo} {
+            width: 100%;
+            ${ProfileSubtitle} {
+              font-size: 18px;
+              line-height: 1.4;
+            }
+            ${ProfileName} {
+              font-size: 24px;
+            }
+            ${SNSMenu} {
+              gap: 10px;
+            }
+          }
+        }
+        ${ContactMenu} {
+          height: 60px;
+          ${ContactItem} {
+            font-size: 16px;
+          }
+        }
+        ${MenuCard} {
+          z-index: 2;
+          background: ${({ theme }) => theme.colors.background};
+          position: fixed;
+          top: 70px;
+          width: 100%;
+          padding: 20px;
+          gap: 20px;
+          ${MenuItem} {
+            font-size: 24px;
+            padding: 24px;
+            border: 2px solid transparent;
+            &.active {
+              border: 3px solid ${({ theme }) => theme.colors.textPoint};
+            }
+          }
+        }
+      }
+      ${RightArea} {
+        overflow: visible;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 `;
 
 const profileCardVariants = {

@@ -18,7 +18,11 @@ import {
 } from "@react-google-maps/api";
 import IntroduceText from "./IntroduceText";
 import { profileAnimationVariants } from "./profileAnimationVariants";
-import { commentsProjectStore, cursorChangingStore } from "../../stores";
+import {
+  commentsProjectStore,
+  cursorChangingStore,
+  responsiveStore,
+} from "../../stores";
 import projects from "../../projects.json";
 
 const containerStyle = {
@@ -31,34 +35,6 @@ const center = {
   lat: 37.5398708,
   lng: 127.1452641,
 };
-
-const Container = styled.main<{ $isBottom: boolean }>`
-  display: flex;
-  flex-direction: column;
-  gap: 130px;
-  padding-bottom: 110px;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
-  &::before {
-    content: "";
-    z-index: 2;
-    position: absolute;
-    left: 0;
-    bottom: 80px;
-    filter: blur(14px);
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      ${({ theme }) => theme.colors.background}
-    );
-    width: 100%;
-    height: 60px;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    opacity: ${({ $isBottom }) => ($isBottom ? 0 : 1)};
-  }
-`;
 
 const ContentIntroduce = styled.section`
   display: flex;
@@ -586,6 +562,304 @@ const FooterIndicator = styled.div`
   }
 `;
 
+const Container = styled.main<{ $isBottom: boolean }>`
+  display: flex;
+  flex-direction: column;
+  gap: 130px;
+  padding-bottom: 110px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  &::before {
+    content: "";
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    bottom: 80px;
+    filter: blur(14px);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      ${({ theme }) => theme.colors.background}
+    );
+    width: 100%;
+    height: 60px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    opacity: ${({ $isBottom }) => ($isBottom ? 0 : 1)};
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 80px;
+    padding-bottom: 60px;
+    &::before {
+      display: none;
+    }
+    & > * {
+      padding: 0 20px;
+    }
+    ${ContentIntroduce} {
+      ${IntroduceHeader} {
+        padding: 20px 0;
+        ${IntroduceSubtitle} {
+          line-height: 1.4;
+        }
+        ${IntroduceTitle} {
+          font-size: 30px;
+          word-break: keep-all;
+          line-height: 1.2;
+        }
+      }
+      ${IntroduceInfo} {
+        font-size: 16px;
+        line-height: 1.5;
+        word-break: keep-all;
+        margin-bottom: 20px;
+      }
+    }
+    ${ContentStrengths} {
+      ${StrengthsHeader} {
+        margin-bottom: 0;
+        font-size: 20px;
+      }
+      ${Strengths} {
+        flex-direction: column;
+        align-items: flex-start;
+        ${StrengthItem} {
+          font-size: 18px;
+          ${StrengthNumbering} {
+            font-size: 60px;
+            font-weight: ${({ theme }) => theme.fontWeight.regular};
+          }
+          ${Strength} {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    ${ContentAbout} {
+      ${AboutHeader} {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      ${AboutTitle} {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 40px;
+      }
+      ${AboutCards} {
+        flex-direction: column;
+        gap: 20px;
+        ${MainCard} {
+          width: 100%;
+          margin-bottom: 30px;
+          ${CardBadge} {
+            font-size: 14px;
+          }
+          ${CardTitle} {
+            font-size: 24px;
+            word-break: keep-all;
+            line-height: 1.4;
+          }
+        }
+        ${SubCardContainer} {
+          width: 100%;
+          flex-direction: column;
+          gap: 60px;
+          ${SubCardContent} {
+            gap: 14px;
+            ${SubCardTimeline} {
+              height: 740px;
+              &::before,
+              &::after {
+                width: 10px;
+                height: 10px;
+              }
+              &::after {
+                top: 60%;
+              }
+            }
+            ${EduCards} {
+              gap: 40px;
+              ${SubCard} {
+                width: 100%;
+                height: fit-content;
+                min-height: 360px;
+              }
+            }
+          }
+        }
+      }
+    }
+    ${ContentSkills} {
+      ${SkillsHeader} {
+        font-size: 20px;
+        padding: 0;
+        margin-bottom: 14px;
+      }
+      ${SkillsTitle} {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 30px;
+      }
+      ${SkillsFilter} {
+        overflow-x: scroll;
+        margin-bottom: 40px;
+        gap: 10px;
+        ${FilterItem} {
+          font-size: 14px;
+        }
+      }
+      ${SkillSlider} {
+        height: 540px !important;
+        .swiper-pagination {
+          bottom: -40px;
+        }
+        .swiper-pagination-bullet {
+          width: 8px;
+          height: 8px;
+        }
+      }
+      ${SkillCardWrapper} {
+        width: 100%;
+        ${SkillCardBack} {
+          height: 260px !important;
+          gap: 20px;
+        }
+        ${SkillCard} {
+          height: 260px !important;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+    ${ContentTools} {
+      ${ToolsHeader} {
+        font-size: 20px;
+        margin-bottom: 50px;
+      }
+      ${ToolsContent} {
+        span {
+          font-size: 18px;
+        }
+        ${ToolsSegment} {
+          ${ToolsItem} {
+            font-size: 18px;
+            svg {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+      }
+    }
+    ${ContentCertificates} {
+      ${CertificatesHeader} {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+      ${CertificatesContent} {
+        flex-direction: column;
+        gap: 40px;
+        ${CertificateItem} {
+          width: 100%;
+          ${CertificateTitle} {
+            font-size: 24px;
+            margin-bottom: 12px;
+            span {
+              font-size: 14px;
+            }
+          }
+          ${CertificateGrade} {
+            font-size: 40px;
+            margin-bottom: 20px;
+          }
+          ${CertificateCredit} {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    ${ContentContact} {
+      ${ContactHeader} {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+      ${ContactTitle} {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 30px;
+      }
+      ${ContactContent} {
+        flex-direction: column;
+        gap: 20px;
+        ${ContactItems} {
+          flex-direction: column;
+          gap: 20px;
+          ${ContactItem} {
+            padding: 40px 20px;
+            width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            span {
+              font-size: 20px;
+            }
+            ${ContactInfo} {
+              img {
+                width: 60px;
+                height: 60px;
+              }
+            }
+          }
+        }
+        ${ContactAddress} {
+          flex-direction: column;
+          align-items: start;
+          gap: 20px;
+          padding: 40px 20px;
+          ${ContactInfo} {
+            img {
+              width: 60px;
+              height: 60px;
+            }
+            font-size: 24px;
+          }
+          span {
+            font-size: 20px;
+          }
+        }
+        ${ContactMap} {
+          height: 400px;
+        }
+      }
+    }
+    ${ContentFooter} {
+      ${FooterContent} {
+        ${FooterText} {
+          font-size: 38px;
+          svg {
+            margin-left: 10px;
+            width: 100px;
+            height: 20px;
+          }
+        }
+      }
+      ${FooterIndicator} {
+        padding-right: 0;
+        padding-bottom: 30px;
+        span {
+          font-size: 20px;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+`;
+
 const technologies = [
   "Babel",
   "Vite",
@@ -613,6 +887,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
   const { setCommentsProject } = commentsProjectStore();
+  const { isResponsive } = responsiveStore();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeSkills, setActiveSkills] = useState(skills);
@@ -674,7 +949,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       once: true,
     }),
     aboutSubCard: useInView(animationRefs.aboutSubCard, {
-      amount: 0.5,
+      amount: isResponsive ? 0.1 : 0.5,
       once: true,
     }),
     tools: useInView(animationRefs.tools, {
@@ -924,10 +1199,18 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
         >
           <SkillSlider
             slidesPerView={
-              activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+              !isResponsive && activeSkills.length > 4
+                ? 4
+                : !isResponsive && activeSkills.length > 2
+                ? 2
+                : 1
             }
             slidesPerGroup={
-              activeSkills.length > 4 ? 4 : activeSkills.length > 2 ? 2 : 1
+              !isResponsive && activeSkills.length > 4
+                ? 4
+                : !isResponsive && activeSkills.length > 2
+                ? 2
+                : 1
             }
             spaceBetween={35}
             modules={[Pagination, Grid, Navigation]}
@@ -935,6 +1218,34 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
             pagination={{ clickable: true }}
             grid={{ rows: 2, fill: "column" }}
             grabCursor={true}
+            breakpoints={{
+              1024: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+                grid: {
+                  rows: 2,
+                  fill: "column",
+                },
+              },
+              480: {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+                grid: {
+                  rows: 2,
+                  fill: "column",
+                },
+                spaceBetween: 20,
+              },
+              320: {
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                grid: {
+                  rows: 2,
+                  fill: "column",
+                },
+                spaceBetween: 10,
+              },
+            }}
           >
             {activeSkills.map((skill, index) => (
               <SkillCardWrapper
@@ -1067,7 +1378,7 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
               Location
             </ContactInfo>
             <span>서울특별시 강동구 천호대로</span>
-          </ContactAddress> 
+          </ContactAddress>
           <div
             onMouseEnter={() => setCursorChanging(true)}
             onMouseLeave={() => setCursorChanging(false)}
