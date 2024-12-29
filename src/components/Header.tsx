@@ -109,16 +109,15 @@ const Container = styled.header<IProfileInfoProps>`
     height: 50px;
     padding: 0 20px;
     ${({ $isProfilePage, theme }) =>
-      $isProfilePage &&
-      `height: 70px; padding: 0; margin: 0; background: ${theme.colors.background};`}
+      $isProfilePage
+        ? `height: 70px; padding: 0; margin: 0; background: ${theme.colors.background};`
+        : `height: 50px; padding: 0 20px; margin: 0;`}
     ${InnerContainer} {
       width: 100%;
       height: 100%;
-      ${({ $isProfilePage, theme }) =>
-        $isProfilePage && `height: 70px; padding: 0;`}
+      ${({ $isProfilePage }) => $isProfilePage && `height: 70px; padding: 0;`}
       ${({ $isCommentsPage, theme }) =>
-        $isCommentsPage &&
-        `border-bottom: 1px solid ${theme.colors.lightBorder};`}
+        $isCommentsPage && `height: fit-content; margin-top: 20px; padding: 20px 0;`}
       ${LeftSide} {
         ${({ $isProfilePage }) => $isProfilePage && `padding-left: 10px;`}
         ${ProfileIcon} {
@@ -151,6 +150,7 @@ const Header = () => {
   const location = useLocation();
   const isProfilePage = location.pathname.split("/")[1] === "profile";
   const isCommentsPage = location.pathname.split("/")[1] === "comments";
+
   const theme = useTheme();
   const navigate = useNavigate();
   const { setCursorChanging } = cursorChangingStore();
@@ -198,7 +198,10 @@ const Header = () => {
           </ProfileLoading>
         )}
       </AnimatePresence>
-      <Container $isProfilePage={isProfilePage}>
+      <Container
+        $isProfilePage={isProfilePage}
+        $isCommentsPage={isCommentsPage}
+      >
         <InnerContainer
           $isProfilePage={isProfilePage}
           $isCommentsPage={isCommentsPage}

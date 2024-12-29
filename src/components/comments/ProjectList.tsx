@@ -9,11 +9,6 @@ import {
 import projects from "../../projects.json";
 import { useSearchParams } from "react-router-dom";
 
-const Container = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-`;
-
 const ProjectPic = styled.div`
   position: relative;
   aspect-ratio: 1;
@@ -60,7 +55,7 @@ const ProjectCategories = styled.div`
   }
 `;
 
-const ProjectItem = styled(motion.div)`
+const ProjectItem = styled(motion.div)<{ $backgroundPic: string }>`
   width: 100%;
   height: 190px;
   padding: 20px;
@@ -103,6 +98,46 @@ const ProjectItem = styled(motion.div)`
     border-left: 4px solid ${({ theme }) => theme.colors.textPoint};
     ${ProjectTitle} {
       color: ${({ theme }) => theme.colors.textPoint};
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    background: ${({ $backgroundPic }) =>
+      `linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${$backgroundPic}) center/cover no-repeat`};
+    &.active {
+      background: ${({ $backgroundPic }) =>
+        `linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${$backgroundPic}) center/cover no-repeat`};
+      padding: 0;
+      border: none;
+      border-radius: 0;
+    }
+  }
+`;
+
+const Container = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  @media screen and (max-width: 768px) {
+    padding: 0 20px;
+    ${ProjectItem} {
+      border-radius: 14px;
+      height: 180px;
+      padding: 20px;
+      ${ProjectPic} {
+        display: none;
+      }
+      ${ProjectContent} {
+        height: 100%;
+        ${ProjectTitle} {
+          font-size: 24px;
+          width: 100%;
+          text-align: left;
+          line-height: 1.2;
+          ${ProjectDate} {
+            font-size: 16px;
+          }
+        }
+      }
     }
   }
 `;
@@ -179,8 +214,7 @@ const ProjectList = () => {
     };
   }, [searchParams]);
 
-  useEffect(() => {
-  }, [commentsProject]);
+  useEffect(() => {}, [commentsProject]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -214,6 +248,7 @@ const ProjectList = () => {
           whileTap={tapAnimation}
           onClick={() => handleProjectClick(project.id)}
           className={commentsProject === project.id ? "active" : undefined}
+          $backgroundPic={project.mainBg}
         >
           <ProjectPic />
           <ProjectContent>

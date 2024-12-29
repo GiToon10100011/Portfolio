@@ -20,14 +20,6 @@ export interface IComment {
   createdAt: string;
 }
 
-const Container = styled(motion.div)`
-  width: 100%;
-  height: 100vh;
-  padding-top: 160px;
-  font-family: ${({ theme }) => theme.fonts.text};
-  overflow: hidden;
-`;
-
 const InnerContainer = styled.div`
   width: 1700px;
   height: 100%;
@@ -61,6 +53,29 @@ const RightArea = styled.div`
     height: 60px;
     pointer-events: none;
     transition: opacity 0.3s ease;
+  }
+`;
+
+const Container = styled(motion.div)`
+  width: 100%;
+  height: 100vh;
+  padding-top: 160px;
+  font-family: ${({ theme }) => theme.fonts.text};
+  overflow: hidden;
+  @media screen and (max-width: 768px) {
+    padding-top: 80px;
+    ${InnerContainer} {
+      width: 100%;
+      flex-direction: column;
+      padding-top: 0;
+      ${LeftArea} {
+        width: 100%;
+        padding-right: 0;
+      }
+      ${RightArea} {
+        display: none;
+      }
+    }
   }
 `;
 
