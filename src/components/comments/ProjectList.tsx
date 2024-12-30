@@ -4,10 +4,16 @@ import { motion } from "framer-motion";
 import {
   commentsProjectStore,
   cursorChangingStore,
+  responsiveStore,
   triggerMainStore,
 } from "../../stores";
 import projects from "../../projects.json";
 import { useSearchParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import { sign } from "crypto";
 
 const ProjectPic = styled.div`
   position: relative;
@@ -102,14 +108,26 @@ const ProjectItem = styled(motion.div)<{ $backgroundPic: string }>`
   }
 
   @media screen and (max-width: 768px) {
+    height: fit-content;
+    margin-bottom: 20px;
     background: ${({ $backgroundPic }) =>
       `linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${$backgroundPic}) center/cover no-repeat`};
+    min-height: 140px;
+    ${ProjectPic} {
+      display: none;
+    }
     &.active {
       background: ${({ $backgroundPic }) =>
         `linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${$backgroundPic}) center/cover no-repeat`};
       padding: 0;
       border: none;
       border-radius: 0;
+    }
+    &:hover:not(.active) {
+      ${ProjectTitle} {
+        color: ${({ theme }) => theme.colors.text};
+      }
+      border: none;
     }
   }
 `;
@@ -118,8 +136,19 @@ const Container = styled(motion.div)`
   width: 100%;
   height: 100%;
   @media screen and (max-width: 768px) {
-    padding: 0 20px;
+    .swiper-wrapper {
+      height: 210px;
+    }
+    .swiper-pagination-bullet {
+      width: 6px;
+      height: 6px;
+      background: ${({ theme }) => theme.colors.text};
+    }
+    .swiper-pagination-bullet-active {
+      background: ${({ theme }) => theme.colors.textPoint};
+    }
     ${ProjectItem} {
+      border: none;
       border-radius: 14px;
       height: 180px;
       padding: 20px;
@@ -173,7 +202,9 @@ const ProjectList = () => {
   const { setCursorChanging } = cursorChangingStore();
   const { setTriggerMain } = triggerMainStore();
   const { commentsProject, setCommentsProject } = commentsProjectStore();
+  const { isResponsive } = responsiveStore();
   const [searchParams] = useSearchParams();
+  const [currentIdx, setCurrentIdx] = useState(0);
 
   const handleProjectClick = (projectId: string) => {
     if (projectId === commentsProject) return;
@@ -188,49 +219,51 @@ const ProjectList = () => {
   };
 
   useEffect(() => {
-    const projectId = window.location.hash.split("?")[0].replace("#", "");
-    const commentId = searchParams.get("comment");
+    if (!isResponsive) {
+      const projectId = window.location.hash.split("?")[0].replace("#", "");
+      const commentId = searchParams.get("comment");
 
-    if (!projectId && !commentId) {
-      setCommentsProject(projects[0].id);
+      if (!projectId && !commentId) {
+        setCommentsProject(projects[0].id);
+      }
+
+      if (commentId) {
+        setCommentsProject(projectId);
+        setTimeout(() => {
+          const element = document.getElementById(projectId);
+          element?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      } else if (projectId) {
+        setCommentsProject(projectId);
+        setTimeout(() => {
+          const element = document.getElementById(projectId);
+          element?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      }
+
+      return () => {
+        setTriggerMain(true);
+      };
     }
-
-    if (commentId) {
-      setCommentsProject(projectId);
-      setTimeout(() => {
-        const element = document.getElementById(projectId);
-        element?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    } else if (projectId) {
-      setCommentsProject(projectId);
-      setTimeout(() => {
-        const element = document.getElementById(projectId);
-        element?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    }
-
-    return () => {
-      setTriggerMain(true);
-    };
-  }, [searchParams]);
-
-  useEffect(() => {}, [commentsProject]);
+  }, [searchParams, isResponsive]);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const projectId = window.location.hash.replace("#", "");
-      if (projectId && projectId !== commentsProject) {
-        setCommentsProject(projectId);
-        const element = document.getElementById(projectId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
+    if (!isResponsive) {
+      const handleHashChange = () => {
+        const projectId = window.location.hash.replace("#", "");
+        if (projectId && projectId !== commentsProject) {
+          setCommentsProject(projectId);
+          const element = document.getElementById(projectId);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
         }
-      }
-    };
+      };
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [commentsProject]);
+      window.addEventListener("hashchange", handleHashChange);
+      return () => window.removeEventListener("hashchange", handleHashChange);
+    }
+  }, [commentsProject, isResponsive]);
 
   return (
     <Container
@@ -238,27 +271,70 @@ const ProjectList = () => {
       animate="animate"
       variants={projectListVariants}
     >
-      {projects.map((project, index) => (
-        <ProjectItem
-          id={project.id}
-          key={index}
-          variants={projectItemVariants}
-          onMouseEnter={() => setCursorChanging(true)}
-          onMouseLeave={() => setCursorChanging(false)}
-          whileTap={tapAnimation}
-          onClick={() => handleProjectClick(project.id)}
-          className={commentsProject === project.id ? "active" : undefined}
-          $backgroundPic={project.mainBg}
+      {!isResponsive ? (
+        projects.map((project, index) => (
+          <ProjectItem
+            id={project.id}
+            key={index}
+            variants={projectItemVariants}
+            onMouseEnter={() => setCursorChanging(true)}
+            onMouseLeave={() => setCursorChanging(false)}
+            whileTap={tapAnimation}
+            onClick={() => handleProjectClick(project.id)}
+            className={commentsProject === project.id ? "active" : undefined}
+            $backgroundPic={project.mainBg}
+          >
+            <ProjectPic />
+            <ProjectContent>
+              <ProjectTitle>
+                {project.title + " " + project.subtitle}
+                <ProjectDate>{project.date}</ProjectDate>
+              </ProjectTitle>
+            </ProjectContent>
+          </ProjectItem>
+        ))
+      ) : (
+        <Swiper
+          slidesPerView={1}
+          slidesPerGroup={1}
+          spaceBetween={20}
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          onSwiper={(swiper) => {
+            const projectIndex = projects.findIndex(
+              (project) => project.id === commentsProject
+            );
+            setCurrentIdx(projectIndex);
+            swiper.slideTo(projectIndex);
+          }}
+          onSlideChange={(swiper) => {
+            setCurrentIdx(swiper.realIndex);
+            const currentProject = projects[swiper.realIndex];
+            setCommentsProject(currentProject.id);
+            window.history.pushState(null, "", `#${currentProject.id}`);
+          }}
         >
-          <ProjectPic />
-          <ProjectContent>
-            <ProjectTitle>
-              {project.title + " " + project.subtitle}
-              <ProjectDate>{project.date}</ProjectDate>
-            </ProjectTitle>
-          </ProjectContent>
-        </ProjectItem>
-      ))}
+          {projects.map((project, index) => (
+            <SwiperSlide key={index}>
+              <ProjectItem
+                key={index}
+                className={
+                  commentsProject === project.id ? "active" : undefined
+                }
+                $backgroundPic={project.mainBg}
+              >
+                <ProjectPic />
+                <ProjectContent>
+                  <ProjectTitle>
+                    {project.title + " " + project.subtitle}
+                    <ProjectDate>{project.date}</ProjectDate>
+                  </ProjectTitle>
+                </ProjectContent>
+              </ProjectItem>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </Container>
   );
 };

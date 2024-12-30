@@ -9,7 +9,7 @@ import React, {
 import { styled } from "styled-components";
 import { CommentIcons } from "../../Icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { commentsProjectStore } from "../../stores";
+import { commentsProjectStore, responsiveStore } from "../../stores";
 import { AnimatePresence, motion } from "framer-motion";
 import Alert from "./Alert";
 import Confirm from "./Confirm";
@@ -25,12 +25,6 @@ interface ICommentsList {
   isCommentAdded: boolean;
   setIsCommentAdded: (isAdded: boolean) => void;
 }
-
-const Container = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
 
 const CommentsHeader = styled.div`
   position: sticky;
@@ -52,9 +46,6 @@ const CommentsContent = styled(motion.div)`
   overflow-x: visible;
   overflow-y: scroll;
   scrollbar-width: none;
-  &.comments-content {
-    // existing styles remain
-  }
 `;
 
 const NoComments = styled.div`
@@ -75,6 +66,14 @@ const NoComments = styled.div`
       color: ${({ theme }) => theme.colors.text};
     }
   }
+  @media (max-width: 768px) {
+    font-size: 20px;
+    svg {
+      width: 240px;
+      height: 240px;
+      stroke-width: 0.4;
+    }
+  }
 `;
 
 const CommentItem = styled(motion.div)`
@@ -92,7 +91,7 @@ const CommentHeader = styled.div`
   margin-bottom: 14px;
 `;
 
-const CommentProfile = styled.div`
+const CommentProfile = styled(motion.div)`
   display: flex;
   align-items: center;
   gap: 20px;
@@ -128,6 +127,11 @@ const CommentMenu = styled.div`
   color: ${({ theme }) => theme.colors.text};
   & svg {
     cursor: pointer;
+  }
+  .comment-menu-icons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 `;
 
@@ -193,6 +197,87 @@ const ShareCommentMenu = styled.div`
   gap: 14px;
 `;
 
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    height: 400px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    ${CommentsHeader} {
+      width: 100%;
+      font-size: 24px;
+      padding-bottom: 14px;
+      background: ${({ theme }) => theme.colors.background};
+      z-index: 2;
+      margin-bottom: 20px;
+    }
+    ${CommentsContent} {
+      height: fit-content;
+      padding-bottom: 20px;
+    }
+    ${CommentItem} {
+      padding: 20px;
+      ${CommentHeader} {
+        margin-bottom: 14px;
+        ${CommentProfile} {
+          width: 100%;
+          gap: 10px;
+          min-width: 200px;
+          ${ProfileImage} {
+            width: 40px;
+            height: 40px;
+          }
+          ${ProfileName} {
+            font-size: 18px;
+            gap: 6px;
+          }
+          ${ProfileCreatedAt} {
+            font-size: 12px;
+          }
+        }
+        ${CommentMenu} {
+          width: 100%;
+          gap: 10px;
+          justify-content: space-between;
+          .comment-menu-icons {
+            flex: 1;
+            width: 100%;
+            justify-content: flex-end;
+            gap: 10px;
+          }
+          ${CommentMenuPassword} {
+            flex: 1;
+            gap: 0px;
+            input[type="password"],
+            input[type="text"] {
+              width: 100%;
+              min-width: 110px;
+              height: auto;
+              font-size: 14px;
+            }
+            div {
+              input[type="submit"],
+              input[type="button"] {
+                font-size: 14px;
+                padding: 12px 4px;
+              }
+            }
+          }
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+      ${CommentInfo} {
+        font-size: 14px;
+      }
+    }
+  }
+`;
+
 const commentListVariants = {
   initial: {
     opacity: 1,
@@ -253,6 +338,26 @@ const CommentMenuPasswordVariants = {
   },
 };
 
+const CommentProfileVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      type: "tween",
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+      type: "tween",
+    },
+  },
+};
+
 const LoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -271,6 +376,7 @@ const CommentsList = ({
   setIsCommentAdded,
 }: ICommentsList) => {
   const { commentsProject, setCommentsProject } = commentsProjectStore();
+  const { isResponsive } = responsiveStore();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [inputPassword, setInputPassword] = useState<string>("");
   const [menuMode, setMenuMode] = useState<string | null>(null);
@@ -395,6 +501,10 @@ const CommentsList = ({
     }
   }, [isCommentAdded]);
 
+  useEffect(() => {
+    console.log(menuMode);
+  }, [menuMode]);
+
   const renderComments = (
     current: INode | null,
     depth: number = 0,
@@ -436,13 +546,40 @@ const CommentsList = ({
           custom={depth}
         >
           <CommentHeader>
-            <CommentProfile>
-              <ProfileImage src={"/images/DefaultProfile.jpg"} alt="profile" />
-              <ProfileName>
-                {current.data.username}
-                <ProfileCreatedAt>{current.data.createdAt}</ProfileCreatedAt>
-              </ProfileName>
-            </CommentProfile>
+            {!isResponsive ? (
+              <CommentProfile>
+                <ProfileImage
+                  src={"/images/DefaultProfile.jpg"}
+                  alt="profile"
+                />
+                <ProfileName>
+                  {current.data.username}
+                  <ProfileCreatedAt>{current.data.createdAt}</ProfileCreatedAt>
+                </ProfileName>
+              </CommentProfile>
+            ) : (menuMode === "edit" || menuMode === "delete") &&
+              commentEditId === current.data.id ? null : (
+              <AnimatePresence mode="wait">
+                <CommentProfile
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={CommentProfileVariants}
+                  layout
+                >
+                  <ProfileImage
+                    src={"/images/DefaultProfile.jpg"}
+                    alt="profile"
+                  />
+                  <ProfileName>
+                    {current.data.username}
+                    <ProfileCreatedAt>
+                      {current.data.createdAt}
+                    </ProfileCreatedAt>
+                  </ProfileName>
+                </CommentProfile>
+              </AnimatePresence>
+            )}
             <CommentMenu>
               <AnimatePresence mode="wait">
                 {(menuMode === "edit" || menuMode === "delete") &&
@@ -477,41 +614,43 @@ const CommentsList = ({
                     </CommentMenuPassword>
                   )}
               </AnimatePresence>
-              {CommentIcons.delete({
-                onClick: () => handleDelete(current.data.id),
-                style: {
-                  stroke:
-                    menuMode === "delete" && commentEditId === current.data.id
-                      ? "#AF53FF"
-                      : "#ff3a3a",
-                  transform:
-                    menuMode === "delete" && commentEditId === current.data.id
-                      ? `scale(1.2)`
-                      : `scale(1)`,
-                  transition: "all 0.3s",
-                },
-              })}
-              {CommentIcons.edit({
-                onClick: () => handleEdit(current.data.id),
-                style: {
-                  stroke:
-                    menuMode === "edit" && commentEditId === current.data.id
-                      ? "#AF53FF"
-                      : "#aaa",
-                  transform:
-                    menuMode === "edit" && commentEditId === current.data.id
-                      ? `scale(1.2)`
-                      : `scale(1)`,
-                  transition: "all 0.3s",
-                },
-              })}
-              {CommentIcons.share({
-                onClick: () => handleShare(current.data.id),
-                $isShared:
-                  menuMode === "share" &&
-                  commentEditId === current.data.id &&
-                  isShared,
-              })}
+              <div className="comment-menu-icons">
+                {CommentIcons.delete({
+                  onClick: () => handleDelete(current.data.id),
+                  style: {
+                    stroke:
+                      menuMode === "delete" && commentEditId === current.data.id
+                        ? "#AF53FF"
+                        : "#ff3a3a",
+                    transform:
+                      menuMode === "delete" && commentEditId === current.data.id
+                        ? `scale(1.2)`
+                        : `scale(1)`,
+                    transition: "all 0.3s",
+                  },
+                })}
+                {CommentIcons.edit({
+                  onClick: () => handleEdit(current.data.id),
+                  style: {
+                    stroke:
+                      menuMode === "edit" && commentEditId === current.data.id
+                        ? "#AF53FF"
+                        : "#aaa",
+                    transform:
+                      menuMode === "edit" && commentEditId === current.data.id
+                        ? `scale(1.2)`
+                        : `scale(1)`,
+                    transition: "all 0.3s",
+                  },
+                })}
+                {CommentIcons.share({
+                  onClick: () => handleShare(current.data.id),
+                  $isShared:
+                    menuMode === "share" &&
+                    commentEditId === current.data.id &&
+                    isShared,
+                })}
+              </div>
             </CommentMenu>
           </CommentHeader>
           <CommentInfo>{current.data.content}</CommentInfo>

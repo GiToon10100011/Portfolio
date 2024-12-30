@@ -385,6 +385,7 @@ const Wrapper = styled(motion.main)<{ $background: string; $expand: boolean }>`
           ${DescStacks} {
             display: none;
           }
+          height: fit-content;
           ${DescTitle} {
             font-size: 20px;
           }
@@ -449,6 +450,7 @@ const Wrapper = styled(motion.main)<{ $background: string; $expand: boolean }>`
           display: none;
         }
         ${ButtonContainer} {
+          padding: 0 20px;
         }
       }
       ${CloseModal} {

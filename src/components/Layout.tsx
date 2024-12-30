@@ -51,6 +51,7 @@ const Layout = () => {
   const { isFullscreen, setIsFullscreen } = isFullscreenStore();
   const handleFullScreenChange = () => {
     if (document.fullscreenElement) {
+      console.log("full");
       setIsFullscreen(true);
     } else {
       setIsFullscreen(false);
@@ -81,6 +82,7 @@ const Layout = () => {
 
   useEffect(() => {
     setIsResponsive(responsive);
+    setIsFullscreen(true);
   }, [responsive]);
 
   return (

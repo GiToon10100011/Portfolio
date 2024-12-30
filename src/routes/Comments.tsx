@@ -5,7 +5,7 @@ import CommentsList from "../components/comments/CommentsList";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import WriteCommentsModal from "../components/comments/WriteCommentsModal";
-import { commentsProjectStore } from "../stores";
+import { commentsProjectStore, responsiveStore } from "../stores";
 import { fetchComments } from "../api";
 
 export interface INode {
@@ -56,6 +56,14 @@ const RightArea = styled.div`
   }
 `;
 
+const MobileProjectsHeader = styled.h2`
+  width: 100%;
+  font-size: 24px;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 20px;
+`;
+
 const Container = styled(motion.div)`
   width: 100%;
   height: 100vh;
@@ -63,17 +71,27 @@ const Container = styled(motion.div)`
   font-family: ${({ theme }) => theme.fonts.text};
   overflow: hidden;
   @media screen and (max-width: 768px) {
-    padding-top: 80px;
+    padding-top: 100px;
     ${InnerContainer} {
       width: 100%;
+      height: auto;
       flex-direction: column;
-      padding-top: 0;
+      padding-top: 20px;
+      padding: 0 20px;
+      gap: 0;
+      padding-bottom: 0;
       ${LeftArea} {
         width: 100%;
+        height: auto;
         padding-right: 0;
+        margin-bottom: 20px;
       }
       ${RightArea} {
-        display: none;
+        width: 100%;
+        height: 100%;
+        &::before {
+          display: none;
+        }
       }
     }
   }
@@ -87,6 +105,7 @@ const containerVariants = {
 
 const Comments = () => {
   const { commentsProject } = commentsProjectStore();
+  const { isResponsive } = responsiveStore();
   const [mode, setMode] = useState<string>("write");
   const [head, setHead] = useState<INode | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -125,6 +144,9 @@ const Comments = () => {
         transition={{ duration: 0.2 }}
       >
         <InnerContainer>
+          {isResponsive && (
+            <MobileProjectsHeader>Choose a Project</MobileProjectsHeader>
+          )}
           <LeftArea>
             <ProjectList />
           </LeftArea>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IComment, INode } from "../../routes/Comments";
-import { commentsProjectStore } from "../../stores";
+import { commentsProjectStore, responsiveStore } from "../../stores";
 import projects from "../../projects.json";
 import { addComment, editComment } from "../../api";
 import { PulseLoader } from "react-spinners";
@@ -15,17 +15,6 @@ interface IWriteCommentsModal {
   setHead: Dispatch<SetStateAction<INode | null>>;
   setIsCommentAdded: (isAdded: boolean) => void;
 }
-
-const Container = styled(motion.div)`
-  position: fixed;
-  z-index: 9;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(40px);
-  font-family: ${({ theme }) => theme.fonts.text};
-`;
 
 const FormContainer = styled.form`
   width: 1600px;
@@ -139,6 +128,83 @@ const SubmitButton = styled(ButtonBase)`
   background-color: ${({ theme }) => theme.colors.point};
 `;
 
+const Container = styled(motion.div)`
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(40px);
+  font-family: ${({ theme }) => theme.fonts.text};
+  @media (max-width: 768px) {
+    ${FormContainer} {
+      width: 100%;
+      padding: 20px;
+      ${SelectedProject} {
+        align-self: flex-start;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+      ${CredentialsContainer} {
+        flex-direction: column;
+        gap: 20px;
+        ${UsernameInput} {
+          width: 100%;
+          height: 60px;
+          border: 2px solid ${({ theme }) => theme.colors.text};
+          padding: 20px;
+          font-size: 16px;
+          &::placeholder {
+            font-size: 16px;
+          }
+          &:focus {
+            border: 2px solid ${({ theme }) => theme.colors.textPoint};
+            &::placeholder {
+              opacity: 0;
+            }
+          }
+        }
+        ${PasswordContainer} {
+          width: 100%;
+          span {
+            right: 20px;
+            font-size: 20px;
+          }
+        }
+      }
+      ${CommentInput} {
+        padding: 20px;
+        border: 2px solid ${({ theme }) => theme.colors.text};
+        font-size: 16px;
+        height: 300px;
+        &:focus {
+          border: 2px solid ${({ theme }) => theme.colors.textPoint};
+        }
+        &::placeholder {
+          font-size: 16px;
+        }
+      }
+      ${ModalMenu} {
+        flex-direction: column;
+        gap: 20px;
+        height: auto;
+        ${ButtonContainer} {
+          width: 100%;
+          justify-content: space-between;
+          height: 60px;
+          ${CancelButton} {
+            font-size: 22px;
+          }
+          ${SubmitButton} {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+`;
+
 const WriteCommentsModal = ({
   setIsModalOpen,
   commentEditId,
@@ -147,6 +213,7 @@ const WriteCommentsModal = ({
   setHead,
   setIsCommentAdded,
 }: IWriteCommentsModal) => {
+  const { isResponsive } = responsiveStore();
   const { commentsProject } = commentsProjectStore();
   const currentProject = projects.find(
     (project) => project.id === commentsProject
@@ -228,6 +295,12 @@ const WriteCommentsModal = ({
       transition={{ duration: 0.6 }}
     >
       <FormContainer onSubmit={handleSubmit}>
+        {isResponsive && (
+          <SelectedProject>
+            <span>Selected Project:</span>{" "}
+            {currentProject?.title + " " + currentProject?.subtitle}
+          </SelectedProject>
+        )}
         <CredentialsContainer>
           <UsernameInput
             placeholder="Username"
@@ -260,10 +333,12 @@ const WriteCommentsModal = ({
           required
         />
         <ModalMenu>
-          <SelectedProject>
-            <span>Selected Project:</span>{" "}
-            {currentProject?.title + " " + currentProject?.subtitle}
-          </SelectedProject>
+          {!isResponsive && (
+            <SelectedProject>
+              <span>Selected Project:</span>{" "}
+              {currentProject?.title + " " + currentProject?.subtitle}
+            </SelectedProject>
+          )}
           <ButtonContainer>
             <CancelButton
               whileTap={{ scale: 0.9 }}

@@ -106,18 +106,18 @@ const Container = styled.header<IProfileInfoProps>`
   @media (max-width: 768px) {
     width: 100%;
     margin-top: 40px;
-    height: 50px;
-    padding: 0 20px;
+    height: auto;
+    padding: 20px;
     ${({ $isProfilePage, theme }) =>
       $isProfilePage
         ? `height: 70px; padding: 0; margin: 0; background: ${theme.colors.background};`
-        : `height: 50px; padding: 0 20px; margin: 0;`}
+        : ` margin: 0;`}
     ${InnerContainer} {
       width: 100%;
-      height: 100%;
+      height: fit-content;
       ${({ $isProfilePage }) => $isProfilePage && `height: 70px; padding: 0;`}
       ${({ $isCommentsPage, theme }) =>
-        $isCommentsPage && `height: fit-content; margin-top: 20px; padding: 20px 0;`}
+        $isCommentsPage && `height: fit-content; padding-bottom: 14px;`}
       ${LeftSide} {
         ${({ $isProfilePage }) => $isProfilePage && `padding-left: 10px;`}
         ${ProfileIcon} {
