@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 import { NotFoundIcon } from "../Icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { responsiveStore } from "../stores";

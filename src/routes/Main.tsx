@@ -114,7 +114,6 @@ const Main = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const idMatchData = projects.find((project) => project.id === projectId);
-  console.log(idMatchData);
   const onHandlePlay = () => {
     setIsPlaying(true);
     setTimeout(() => {

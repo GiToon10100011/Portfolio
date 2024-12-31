@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import {
@@ -13,7 +13,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { sign } from "crypto";
 
 const ProjectPic = styled.div`
   position: relative;
@@ -45,21 +44,21 @@ const ProjectDate = styled.span`
   color: ${({ theme }) => theme.colors.lightBorder};
   font-size: 16px;
 `;
-const ProjectCategories = styled.div`
-  display: flex;
-  gap: 6px;
-  color: ${({ theme }) => theme.colors.text} !important;
-  background: none !important;
-  .bg-primary {
-    padding: 4px 10px;
-    border: 1px solid ${({ theme }) => theme.colors.text} !important;
-    border-radius: ${({ theme }) => theme.borderRadius.main} !important;
-    background: none !important;
-    font-family: ${({ theme }) => theme.fonts.text} !important;
-    font-size: 14px !important;
-    font-weight: ${({ theme }) => theme.fontWeight.regular} !important;
-  }
-`;
+// const ProjectCategories = styled.div`
+//   display: flex;
+//   gap: 6px;
+//   color: ${({ theme }) => theme.colors.text} !important;
+//   background: none !important;
+//   .bg-primary {
+//     padding: 4px 10px;
+//     border: 1px solid ${({ theme }) => theme.colors.text} !important;
+//     border-radius: ${({ theme }) => theme.borderRadius.main} !important;
+//     background: none !important;
+//     font-family: ${({ theme }) => theme.fonts.text} !important;
+//     font-size: 14px !important;
+//     font-weight: ${({ theme }) => theme.fontWeight.regular} !important;
+//   }
+// `;
 
 const ProjectItem = styled(motion.div)<{ $backgroundPic: string }>`
   width: 100%;
@@ -205,6 +204,7 @@ const ProjectList = () => {
   const { isResponsive } = responsiveStore();
   const [searchParams] = useSearchParams();
   const [currentIdx, setCurrentIdx] = useState(0);
+
 
   const handleProjectClick = (projectId: string) => {
     if (projectId === commentsProject) return;

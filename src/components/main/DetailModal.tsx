@@ -621,7 +621,6 @@ const Detail = ({
                   setCurrentIdx(swiper.realIndex);
                 }}
                 onRealIndexChange={(swiper) => {
-                  console.log(videoRefs[swiper.realIndex]);
                   videoRefs.forEach((ref) => {
                     ref.current?.pause();
                     videoRefs[swiper.realIndex].current?.play();

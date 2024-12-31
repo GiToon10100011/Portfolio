@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { styled } from "styled-components";
 import { CommentIcons } from "../../Icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { commentsProjectStore, responsiveStore } from "../../stores";
 import { AnimatePresence, motion } from "framer-motion";
 import Alert from "./Alert";
@@ -191,11 +190,11 @@ const CommentMenuPassword = styled(motion.form)`
   }
 `;
 
-const ShareCommentMenu = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 14px;
-`;
+// const ShareCommentMenu = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 14px;
+// `;
 
 const Container = styled.div`
   position: relative;
@@ -375,13 +374,12 @@ const CommentsList = ({
   isCommentAdded,
   setIsCommentAdded,
 }: ICommentsList) => {
-  const { commentsProject, setCommentsProject } = commentsProjectStore();
+  const { commentsProject } = commentsProjectStore();
   const { isResponsive } = responsiveStore();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [inputPassword, setInputPassword] = useState<string>("");
   const [menuMode, setMenuMode] = useState<string | null>(null);
   const [isShared, setIsShared] = useState<boolean>(false);
-  const isCommentsRendered = useRef(false);
   const scrollTimeout = useRef<NodeJS.Timeout>();
 
   //비번입력 후의 확인/취소 여부
@@ -463,12 +461,12 @@ const CommentsList = ({
     }
   };
 
-  // Extract comment ID from hash if it exists
-  const getCommentIdFromHash = () => {
-    const hash = window.location.hash;
-    const match = hash.match(/comment=([^&]*)/);
-    return match ? match[1] : null;
-  };
+  // // Extract comment ID from hash if it exists
+  // const getCommentIdFromHash = () => {
+  //   const hash = window.location.hash;
+  //   const match = hash.match(/comment=([^&]*)/);
+  //   return match ? match[1] : null;
+  // };
 
   useEffect(() => {
     setInputPassword("");
@@ -500,10 +498,6 @@ const CommentsList = ({
       }
     }
   }, [isCommentAdded]);
-
-  useEffect(() => {
-    console.log(menuMode);
-  }, [menuMode]);
 
   const renderComments = (
     current: INode | null,

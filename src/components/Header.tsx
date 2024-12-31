@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { NetworkStatusIcon } from "../Icons";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "styled-components";
 import FadeLoader from "react-spinners/FadeLoader";
@@ -116,7 +116,7 @@ const Container = styled.header<IProfileInfoProps>`
       width: 100%;
       height: fit-content;
       ${({ $isProfilePage }) => $isProfilePage && `height: 70px; padding: 0;`}
-      ${({ $isCommentsPage, theme }) =>
+      ${({ $isCommentsPage }) =>
         $isCommentsPage && `height: fit-content; padding-bottom: 14px;`}
       ${LeftSide} {
         ${({ $isProfilePage }) => $isProfilePage && `padding-left: 10px;`}

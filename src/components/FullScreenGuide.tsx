@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 import { FullScreenIcon } from "../Icons";
 import { motion } from "framer-motion";

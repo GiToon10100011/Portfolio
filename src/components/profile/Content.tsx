@@ -6,16 +6,11 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { CheckIcon, NavigateArrowIcon, popupStyle } from "../../Icons";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import skills from "../../skills.json";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import IntroduceText from "./IntroduceText";
 import { profileAnimationVariants } from "./profileAnimationVariants";
 import {
@@ -992,10 +987,6 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
       setSection("profile");
     }
   }, [inViews]);
-
-  useEffect(() => {
-    console.log(InViewAnimations);
-  }, [InViewAnimations]);
 
   return (
     <Container $isBottom={inViews.footer}>

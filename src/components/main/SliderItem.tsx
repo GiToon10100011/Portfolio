@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 import { sliderAnimations } from "../../styles/animations";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   cursorChangingStore,
   isPlayingStore,

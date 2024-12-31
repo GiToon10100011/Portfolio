@@ -2,7 +2,6 @@ import { triggerMainStore, isFullscreenStore, responsiveStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import Main from "./routes/Main";
 import Bootup from "./components/Bootup";
-import { useEffect } from "react";
 
 const App = () => {
   const { triggerMain } = triggerMainStore();

@@ -1,7 +1,7 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { IComment, INode } from "../../routes/Comments";
+import { INode } from "../../routes/Comments";
 import { deleteComment } from "../../api";
 import { commentsProjectStore } from "../../stores";
 
