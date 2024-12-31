@@ -12,6 +12,10 @@ const Alert = ({ isShared }: { isShared: boolean }) => {
     padding: 24px 32px;
     font-size: 20px;
     z-index: 2;
+    @media (max-width: 768px) {
+      padding: 20px;
+      font-size: 18px;
+    }
   `;
 
   const errorMessageVariants = {

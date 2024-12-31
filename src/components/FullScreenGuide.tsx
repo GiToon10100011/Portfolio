@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { FullScreenIcon } from "../Icons";
 import { motion } from "framer-motion";
+import { isFullscreenStore } from "../stores";
 
 const Container = styled(motion.div)`
   position: fixed;
@@ -38,8 +39,10 @@ const IconContainer = styled(motion.div)`
 `;
 
 const FullScreenGuide = () => {
+  const { setIsFullscreen } = isFullscreenStore();
   const setFullscreen = () => {
     document.documentElement.requestFullscreen();
+    setIsFullscreen(true);
   };
   return (
     <Container

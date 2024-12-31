@@ -6,17 +6,15 @@ import { useEffect } from "react";
 
 const App = () => {
   const { triggerMain } = triggerMainStore();
-  const { isFullscreen, setIsFullscreen } = isFullscreenStore();
+  const { isFullscreen } = isFullscreenStore();
   const { isResponsive } = responsiveStore();
-
-  useEffect(() => {
-    setIsFullscreen(isResponsive);
-  }, [isResponsive]);
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {!triggerMain && isFullscreen && <Bootup key="bootup" />}
+        {(isResponsive && !triggerMain || (!triggerMain && isFullscreen)) && (
+          <Bootup key="bootup" />
+        )}
         {triggerMain && <Main key="main" />}
         {/* <Main /> */}
       </AnimatePresence>

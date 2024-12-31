@@ -82,7 +82,6 @@ const Layout = () => {
 
   useEffect(() => {
     setIsResponsive(responsive);
-    setIsFullscreen(true);
   }, [responsive]);
 
   return (

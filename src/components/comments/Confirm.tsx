@@ -12,18 +12,6 @@ interface IConfirm {
   setHead: Dispatch<SetStateAction<INode | null>>;
   setCommentEditId: (id: string | null) => void;
 }
-const Container = styled(motion.div)`
-  top: 0;
-  left: 0;
-  position: fixed;
-  z-index: 7;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-`;
 
 const Overlay = styled.div`
   width: 100%;
@@ -65,9 +53,37 @@ const Button = styled.button`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   display: flex;
   width: 100%;
+`;
+
+const Container = styled(motion.div)`
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 7;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.text};
+
+  @media (max-width: 768px) {
+    ${ConfirmContent} {
+      padding: 20px;
+      padding-bottom: 90px;
+      span {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      ${StyledSvg} {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
 `;
 
 const variants = {
