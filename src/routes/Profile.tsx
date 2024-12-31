@@ -4,7 +4,11 @@ import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import Content from "../components/profile/Content";
 import { glitchAnimations } from "../styles/animations";
-import { cursorChangingStore, triggerMainStore } from "../stores";
+import {
+  cursorChangingStore,
+  responsiveStore,
+  triggerMainStore,
+} from "../stores";
 import Typewriter from "typewriter-effect";
 
 const InnerContainer = styled.div`
@@ -432,12 +436,18 @@ const Profile = () => {
   const [section, setSection] = useState<string>("profile");
   const { setTriggerMain } = triggerMainStore();
   const { setCursorChanging } = cursorChangingStore();
+  const { isResponsive } = responsiveStore();
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     return () => {
       setTriggerMain(true);
     };
   }, []);
+
+  const onMenuClick = (section: string) => {
+    setSection(section);
+    if (isResponsive) setMode("menu");
+  };
 
   return (
     <Container
@@ -497,7 +507,7 @@ const Profile = () => {
                     <SNSItem
                       onMouseEnter={() => setCursorChanging(true)}
                       onMouseLeave={() => setCursorChanging(false)}
-                      href="https://discord.gg/jinu"
+                      href="https://discord.gg/Eh8qxvrr"
                       target="_blank"
                     >
                       <SNSIcon
@@ -508,7 +518,7 @@ const Profile = () => {
                     <SNSItem
                       onMouseEnter={() => setCursorChanging(true)}
                       onMouseLeave={() => setCursorChanging(false)}
-                      href="https://github.com/JINU-JON"
+                      href="https://github.com/GiToon10100011"
                       target="_blank"
                     >
                       <SNSIcon
@@ -555,7 +565,7 @@ const Profile = () => {
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
-                  onClick={() => setSection("profile")}
+                  onClick={() => onMenuClick("profile")}
                 >
                   <MenuBadge />
                   Profile
@@ -567,7 +577,7 @@ const Profile = () => {
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
-                  onClick={() => setSection("about")}
+                  onClick={() => onMenuClick("about")}
                 >
                   <MenuBadge />
                   About
@@ -578,7 +588,7 @@ const Profile = () => {
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
-                  onClick={() => setSection("skills")}
+                  onClick={() => onMenuClick("skills")}
                 >
                   <MenuBadge />
                   Skills
@@ -589,7 +599,7 @@ const Profile = () => {
                   variants={menuItemVariants}
                   onMouseEnter={() => setCursorChanging(true)}
                   onMouseLeave={() => setCursorChanging(false)}
-                  onClick={() => setSection("contact")}
+                  onClick={() => onMenuClick("contact")}
                 >
                   <MenuBadge />
                   Contact

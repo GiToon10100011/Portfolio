@@ -175,7 +175,7 @@ const Slider = styled(Swiper)`
   }
 `;
 
-const SliderItem = styled(SwiperSlide)`
+const SliderItem = styled(SwiperSlide)<{ $show: boolean }>`
   position: relative;
   width: 500px !important;
   height: 300px;
@@ -206,6 +206,11 @@ const SliderItem = styled(SwiperSlide)`
   &:hover {
     &::before {
       opacity: 1;
+    }
+  }
+  @media (max-width: 768px) {
+    &::before {
+      display: none;
     }
   }
 `;
@@ -500,23 +505,15 @@ const Detail = ({
   const [isHovering, setIsHovering] = useState(false);
   const [isDescOpen, setIsDescOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState("||");
+  const [showPlayButton, setShowPlayButton] = useState(false);
   const troubleshootingRef = useRef<HTMLDivElement>(null);
   const isTroubleShootingInView = useInView(troubleshootingRef, {
     amount: 0.5,
   });
-  const videoRefs = [
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-  ];
+
+  const videoRefs = Array.from({ length: pages.length }, () =>
+    useRef<HTMLVideoElement>(null)
+  );
   const pagers = {
     clickable: true,
     renderBullet: (_: number, className: string) => {
@@ -636,6 +633,7 @@ const Detail = ({
                   <SliderItem
                     key={idx}
                     data-content={isPlaying}
+                    $show={showPlayButton}
                     onDoubleClick={() => {
                       videoRefs[idx].current?.requestFullscreen();
                     }}
