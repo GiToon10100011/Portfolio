@@ -20,8 +20,6 @@ const ProjectPic = styled.div`
   width: 154px;
   border-radius: ${({ theme }) => theme.borderRadius.main};
   border: 1px solid ${({ theme }) => theme.colors.itemsBorder};
-  background: url("/images/zeldaProjectThumbnail.png") center top/cover
-    no-repeat;
 `;
 
 const ProjectContent = styled.div`
@@ -74,6 +72,10 @@ const ProjectItem = styled(motion.div)<{ $backgroundPic: string }>`
   border-radius: 0;
   transition: all 0.3s ease;
   cursor: pointer;
+  ${ProjectPic} {
+    background: url(${({ $backgroundPic }) => $backgroundPic}) center top/cover
+      no-repeat;
+  }
   &.active {
     padding-top: 20px;
     background: ${({ theme }) => theme.colors.darkerBackground};
@@ -81,7 +83,8 @@ const ProjectItem = styled(motion.div)<{ $backgroundPic: string }>`
     border-radius: ${({ theme }) => theme.borderRadius.sub};
     ${ProjectPic} {
       background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url("/images/zeldaProjectThumbnail.png") center top/cover no-repeat;
+        url(${({ $backgroundPic }) => $backgroundPic}) center top/cover
+          no-repeat;
       &::before {
         content: "선택됨";
         position: absolute;
@@ -204,7 +207,6 @@ const ProjectList = () => {
   const { isResponsive } = responsiveStore();
   const [searchParams] = useSearchParams();
   const [currentIdx, setCurrentIdx] = useState(0);
-
 
   const handleProjectClick = (projectId: string) => {
     if (projectId === commentsProject) return;

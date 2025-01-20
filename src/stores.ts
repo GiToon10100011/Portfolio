@@ -1,14 +1,4 @@
-// import { atom } from "recoil";
-
-// export const triggerMainAtom = atom({
-//   key: "triggerMain",
-//   default: false,
-// });
-
-// export const isFullscreenAtom = atom<boolean>({
-//   key: "isFullscreen",
-//   default: false,
-// });
+import projects from "./projects.json";
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -69,7 +59,7 @@ export const isFullscreenStore = create<IsFullscreenStore>()(
 
 export const projectIdStore = create<ProjectIdStore>()(
   devtools((set) => ({
-    projectId: "tloztotk1",
+    projectId: projects[0].id,
     setProjectId: (projectId) => set({ projectId }),
   }))
 );
@@ -97,7 +87,7 @@ export const hideCursorStore = create<IHideCursorStore>()(
 
 export const commentsProjectStore = create<ICommentsProjectStore>()(
   devtools((set) => ({
-    commentsProject: "tloztotk1",
+    commentsProject: projects[0].id,
     setCommentsProject: (commentsProject) => set({ commentsProject }),
   }))
 );
