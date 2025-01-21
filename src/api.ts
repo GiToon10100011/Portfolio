@@ -8,7 +8,8 @@ export const fetchComments = async (commentsProject: string) => {
     const response = await axios.get(`/api/comments/${commentsProject}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching comments:", error);
+    return { head: null }; // 에러 발생시 기본값 반환
   }
 };
 
