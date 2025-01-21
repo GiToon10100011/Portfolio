@@ -1,50 +1,72 @@
-# React + TypeScript + Vite
+# Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+개인 포트폴리오 웹사이트입니다. React와 TypeScript를 기반으로 제작되었으며, 방명록 기능을 위한 별도의 Node.js & Express 서버와 연동되어 있습니다.
 
-Currently, two official plugins are available:
+## 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. 부트업 화면
 
-## Expanding the ESLint configuration
+- 사용자 경험을 위한 애니메이션 부트업 화면 구현
+- 반응형/데스크톱 환경에 따른 다른 부트업 로직
+- 프로그레스 바를 통한 로딩 상태 표시
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 2. 프로젝트 슬라이더
 
-- Configure the top-level `parserOptions` property like this:
+- Framer Motion을 활용한 드래그 가능한 프로젝트 슬라이더
+- 각 프로젝트별 상세 정보 모달
+- 반응형 디자인에 따른 스와이퍼(Swiper) 적용
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 3. 프로필 페이지
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- 기술 스택, 자기소개, 경력사항 등 상세 정보 제공
+- Google Maps API를 활용한 위치 정보 표시
+- 그리드 레이아웃을 활용한 기술 스택 필터링 기능
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### 4. 방명록 기능
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Node.js & Express 서버와 연동
+- 연결 리스트(Linked List) 자료구조를 활용한 댓글 시스템 구현
+- 댓글 CRUD 기능 (생성, 읽기, 수정, 삭제)
+- 프로젝트별 개별 방명록 관리
+- 비밀번호를 통한 댓글 수정/삭제 기능
+- 댓글 공유 기능
+
+### 5. UI/UX 요소
+
+- 커스텀 커서 구현
+- 반응형 디자인 지원
+- Framer Motion을 활용한 부드러운 페이지 전환 효과
+- 다크/라이트 모드 지원
+
+## 기술 스택
+
+### Frontend
+
+- React
+- TypeScript
+- Styled Components
+- Framer Motion
+- React Router
+- Axios
+- Zustand (상태관리)
+
+### Backend
+
+- Node.js
+- Express
+- 연결 리스트 자료구조를 활용한 데이터 관리
+
+## 특이사항
+
+### 방명록 시스템
+
+- 연결 리스트 자료구조를 활용하여 효율적인 댓글 관리 구현
+- 각 노드는 댓글 데이터와 다음 노드를 참조하는 포인터로 구성
+- 삽입, 삭제 작업의 시간 복잡도 최적화
+- 프로젝트별 독립적인 연결 리스트 관리로 데이터 구조화
+
+### 반응형 디자인
+
+- 모바일, 태블릿, 데스크톱 환경 지원
+- 디바이스별 최적화된 UI/UX 제공
+- 화면 크기에 따른 동적 레이아웃 조정

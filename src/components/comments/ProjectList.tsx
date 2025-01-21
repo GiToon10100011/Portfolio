@@ -267,6 +267,10 @@ const ProjectList = () => {
     }
   }, [commentsProject, isResponsive]);
 
+  useEffect(() => {
+    return;
+  }, [currentIdx]);
+
   return (
     <Container
       initial="initial"
@@ -284,7 +288,7 @@ const ProjectList = () => {
             whileTap={tapAnimation}
             onClick={() => handleProjectClick(project.id)}
             className={commentsProject === project.id ? "active" : undefined}
-            $backgroundPic={project.mainBg}
+            $backgroundPic={project.thumbnailImg}
           >
             <ProjectPic />
             <ProjectContent>

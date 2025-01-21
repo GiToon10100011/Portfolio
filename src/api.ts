@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = import.meta.env.VITE_PORTFOLIO_SERVER_URL;
 
 export const fetchComments = async (commentsProject: string) => {
   try {

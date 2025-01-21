@@ -499,6 +499,10 @@ const CommentsList = ({
     }
   }, [isCommentAdded]);
 
+  useEffect(() => {
+    return;
+  }, [isEditValid]);
+
   const renderComments = (
     current: INode | null,
     depth: number = 0,

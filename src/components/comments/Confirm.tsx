@@ -119,7 +119,6 @@ const lidVariants = {
 
 const Confirm = ({
   setIsConfirmOpen,
-  head,
   setHead,
   currentComment,
   setCommentEditId,

@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import Button from "../Button";
 import { BackIcon, HelpIcon, PlayIcon } from "../../Icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   commentsProjectStore,
   cursorChangingStore,
@@ -530,6 +530,11 @@ const Detail = ({
     setCommentsProject(id);
     navigate(`/comments#${id}`);
   };
+
+  useEffect(() => {
+    return;
+  }, [setShowPlayButton]);
+
   return (
     <>
       <Wrapper

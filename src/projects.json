@@ -1,88 +1,5 @@
 [
   {
-    "id": "tloztotk",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
-    "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
-    ],
-    "pages": [
-      {
-        "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
-      },
-      {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
-      },
-      {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
-      },
-      {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
-      }
-    ],
-    "stacks": [
-      "Javascript",
-      "SCSS",
-      "Fullpage.js",
-      "FeatherLight",
-      "SlickSlider",
-      "Firebase"
-    ],
-    "comments": [
-      {
-        "id": "",
-        "username": "",
-        "content": "",
-        "password": ""
-      }
-    ]
-  },
-  {
     "id": "webpokedex",
     "date": "2024.01.18",
     "deploymentUrl": "https://unovapokedexwebmastered.web.app/",
@@ -259,72 +176,42 @@
     ]
   },
   {
-    "id": "tloztotk5",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
+    "id": "aalpplayer",
+    "date": "2024.10.13",
+    "deploymentUrl": "https://aalpplayer.web.app",
+    "repoURL": "https://github.com/GiToon10100011/AceAttorney-LP-Player",
+    "title": "Ace Attorney:",
+    "subtitle": "LP Player",
+    "mainBg": "/images/AALPBg.avif",
+    "thumbnailImg": "/images/AALPProjectThumbnail.png",
+    "thumbnailContent": "Canvas API + TS를 활용한\n사이드 프로젝트",
+    "modalImg": "/images/AALPProjectModal.png",
     "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
+      "음악 재생 시 시각적 피드백을 제공하기 위해 Canvas API를 활용한 원형 오디오 비주얼라이저를 구현하고자 하는데 어려움을 겪었습니다. Web Audio API의 AnalyserNode를 사용하여 실시간 주파수 데이터를 분석하고, 이를 Canvas에 동적으로 렌더링하여 음악에 반응하는 시각적 효과를 만들었습니다. FFT(고속 푸리에 변환) 크기를 2048로 설정하여 더 부드러운 시각화를 구현했고, 로그 스케일링을 적용하여 주파수 분포를 더 자연스럽게 표현했습니다.",
+      "회전하는 LP 플레이어 UI를 구현하면서 음악 재생 상태와 회전 애니메이션을 동기화하는 데 어려움이 있었습니다. styled-components의 keyframes를 사용하여 회전 애니메이션을 정의하고, CSS animation-play-state 속성을 통해 재생/일시정지 상태를 제어했습니다. 또한 fastForward 상태에 따라 animation-duration을 동적으로 조절하여 재생 속도 변경 기능도 구현했습니다.",
+      "여러 음악 트랙을 원형으로 배치하고 회전하며 선택하는 인터페이스를 구현하려 했습니다. 각 트랙을 30도 간격으로 배치하고, wheel 이벤트를 감지하여 회전할 수 있도록 했습니다. 메뉴 아이템에 hover 시 배경 이미지가 변경되도록 하여 시각적 피드백을 제공했고, 선택된 트랙의 정보를 URL 파라미터로 관리하여 페이지 새로고침 시에도 상태가 유지되도록 구현했습니다."
     ],
     "pages": [
       {
         "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
+        "content": "웹사이트의 메인 페이지입니다. 중앙에 LP 플레이어가 위치하며, 현재 선택된 트랙의 앨범 아트와 함께 회전하는 애니메이션이 표시됩니다. 상단에는 RPM 조절 버튼이 있어 재생 속도를 변경할 수 있고, 좌측에는 플레이리스트를 열 수 있는 메뉴 버튼이 있습니다. 하단에는 이전/다음 트랙 버튼과 저작권 정보가 표시됩니다. 키보드 방향키로도 트랙을 변경할 수 있습니다.",
+        "video": "/media/Project-AALPMain.mov",
+        "poster": "/images/projects/Project-AALP/Project-AALPMain.png"
       },
       {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
+        "title": "Playlist Menu",
+        "content": "메뉴 버튼을 클릭하면 원형으로 펼쳐지는 플레이리스트 페이지입니다. 각 트랙이 30도 간격으로 배치되어 있으며, 마우스 휠로 회전하며 트랙을 탐색할 수 있습니다. 트랙에 hover하면 해당 앨범의 배경 이미지가 표시되고, 클릭하면 해당 트랙이 선택되어 메인 플레이어로 전환됩니다. 각 트랙의 제목과 재생 시간이 표시됩니다.",
+        "video": "/media/Project-AALPMenu.mov",
+        "poster": "/images/projects/Project-AALP/Project-AALPMenu.png"
       },
       {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
-      },
-      {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
+        "title": "Player Menu",
+        "content": "선택된 트랙의 상세 정보와 재생 컨트롤을 제공하는 페이지입니다. 중앙의 재생/일시정지 버튼으로 음악을 제어할 수 있고, 스페이스바로도 동작합니다. 트랙의 제목, 게임 정보, 발매일이 표시되며, 'More Details' 버튼을 통해 해당 게임의 공식 웹사이트로 이동할 수 있습니다. Canvas로 구현된 오디오 비주얼라이저가 음악에 반응하여 동적인 시각 효과를 제공합니다.",
+        "video": "/media/Project-AALPPlayer.mov",
+        "poster": "/images/projects/Project-AALP/Project-AALPPlayer.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": ["Typescript", "Canvas API", "Web Audio API", "Firebase"],
     "comments": [
       {
         "id": "",
@@ -335,7 +222,7 @@
     ]
   },
   {
-    "id": "tloztotk6",
+    "id": "tloztotk",
     "date": "2024.09.22",
     "deploymentUrl": "https://zeldatotkfullpage.web.app",
     "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
@@ -346,9 +233,9 @@
     "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
     "modalImg": "/images/zeldaProjectModal.png",
     "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
+      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
       "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
+      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
     ],
     "pages": [
       {
@@ -400,7 +287,14 @@
         "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": [
+      "Javascript",
+      "SCSS",
+      "Fullpage.js",
+      "FeatherLight",
+      "SlickSlider",
+      "Firebase"
+    ],
     "comments": [
       {
         "id": "",
@@ -411,72 +305,60 @@
     ]
   },
   {
-    "id": "tloztotk7",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
+    "id": "junglekr",
+    "date": "2024.09.04",
+    "deploymentUrl": "junglekoreakr1104.web.app",
+    "repoURL": "https://github.com/GiToon10100011/Amazon_KR",
+    "title": "Jungle:",
+    "subtitle": "Amazon KR Service",
+    "mainBg": "/images/jungleBg.webp",
+    "thumbnailImg": "/images/jungleProjectThumbnail.jpg",
+    "thumbnailContent": "Vanilla JS를 활용한 \n첫 팀 프로젝트(PM 담당)",
+    "modalImg": "/images/jungleProjectModal.png",
     "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
+      "iframe을 활용한 헤더와 푸터 컴포넌트 구현 과정에서 동적 높이 할당에 어려움을 겪었습니다. iframe 내부 콘텐츠의 높이가 동적으로 변할 때 부모 페이지와의 동기화가 되지 않아 레이아웃이 깨지는 현상이 발생했습니다. 이를 해결하기 위해 parent.document 속성을 활용하여 iframe에서 직접 부모 페이지의 요소에 접근하는 방법을 발견했고, 이를 통해 iframe 내부 콘텐츠의 높이 변화를 부모 페이지에 실시간으로 반영할 수 있었습니다. 결과적으로 헤더와 푸터가 콘텐츠 크기에 맞게 자연스럽게 조절되는 반응형 레이아웃을 구현할 수 있었습니다.",
+      "모바일 환경에서 장바구니 상품 목록과 결제 정보가 화면을 벗어나는 문제가 발생했습니다. 특히 iOS Safari에서 스크롤 동작이 부자연스럽고, 상품 이미지가 깨지는 현상이 있었습니다. 이를 해결하기 위해 CSS Grid와 Flexbox를 조합한 반응형 레이아웃을 구현하고, 미디어 쿼리를 통해 화면 크기별 최적화된 UI를 제공했습니다. 또한 이미지 최적화를 위해 WebP 포맷을 도입하고 지연 로딩(Lazy Loading)을 적용하여 모바일 성능을 개선했습니다.",
+      "여러 페이지 간의 유기적인 데이터 연동에 어려움을 겪었습니다. 특히 장바구니에서 결제 페이지로 넘어갈 때 선택한 상품 정보와 사용자 입력 데이터를 유지해야 했습니다. 이를 해결하기 위해 URL 파라미터와 세션 스토리지를 활용한 상태 관리 시스템을 구축했고, 페이지 이동 시 데이터 검증 로직을 추가하여 잘못된 접근을 방지했습니다. 또한 뒤로가기 시나리오를 고려하여 History API를 활용한 네비게이션 핸들링을 구현했습니다."
     ],
     "pages": [
       {
         "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
+        "content": "웹사이트의 메인 페이지입니다. Slick.js를 활용한 여러 슬라이더들로 구성되어 있으며, 사용자의 위치 정보를 확인하여 해외 접속자를 위한 리다이렉션 모달을 제공합니다. 카테고리 사이드바는 Intersection Observer API를 활용하여 스크롤 위치에 따라 자동으로 활성화되며, 각 섹션별 상품들은 동적으로 데이터를 불러와 렌더링됩니다. 또한 모바일 환경을 위한 하단 네비게이션 바를 구현했습니다. GeoLocation API를 활용하여 사용자의 위치 정보를 확인하여 해외 접속자를 위한 리다이렉션 모달을 제공합니다. 푸터에 Google Translate API를 활용한 번역 및 환율 정보를 제공하여 사용자의 편의를 돕습니다.",
+        "video": "/media/Project-JungleMain.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleMain.png"
       },
       {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
+        "title": "Detail page",
+        "content": "상품의 상세 정보를 보여주는 페이지입니다. URL 파라미터를 통해 상품 정보를 동적으로 불러오며, 상품 이미지 슬라이더, 옵션 선택 기능, 수량 조절 기능을 제공합니다. 또한 리뷰 섹션에서는 사용자들의 상품 평가를 확인할 수 있으며, '장바구니 담기' 기능을 통해 상품을 장바구니에 추가할 수 있습니다. 모바일 환경에서는 하단 고정 구매 버튼을 제공하여 사용성을 개선했습니다.",
+        "video": "/media/Project-JungleDetail.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleDetail.png"
       },
       {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
+        "title": "Cart Page",
+        "content": "장바구니 기능을 제공하는 페이지입니다. LocalStorage를 활용하여 장바구니 데이터를 관리하며, 상품 수량 변경 시 실시간으로 총액이 계산됩니다. 체크박스를 통한 선택 구매 기능을 제공하며, AI 추천 상품 섹션에서는 사용자의 장바구니 내역을 기반으로 관련 상품을 추천합니다. 결제 진행 시에는 배송지 정보 입력 및 결제 수단 선택 기능을 제공합니다.",
+        "video": "/media/Project-JungleCart.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleCart.png"
       },
       {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
+        "title": "Search Page",
+        "content": "상품 검색 기능을 제공하는 페이지입니다. 실시간 검색어 추천 기능과 최근 검색어 기록 기능을 구현했으며, 검색 결과는 카테고리별로 필터링이 가능합니다. 또한 가격, 인기도, 최신순 등 다양한 정렬 옵션을 제공하여 사용자가 원하는 상품을 쉽게 찾을 수 있도록 했습니다. 모바일 환경에서는 별도의 최적화된 검색 인터페이스를 제공합니다.",
+        "video": "/media/Project-JungleSearch.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleSearch.png"
       },
       {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
+        "title": "Login & Membership page",
+        "content": "사용자 인증 관련 페이지입니다. 회원가입 시 정규표현식을 활용한 실시간 유효성 검사를 제공하며, 또한 주소 입력 시 카카오 주소 API를 연동하여 사용자 편의성을 높였습니다. 로그인의 경우 LocalStorage를 활용하여 로그인 상태를 유지합니다.",
+        "video": "/media/Project-JungleLoginMembership.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleLoginMembership.png"
       },
       {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
+        "title": "My page",
+        "content": "사용자의 개인 정보와 주문 내역을 관리하는 페이지입니다. 주문 상태 추적, 배송지 관리, 개인정보 수정 기능을 제공합니다. 또한 보유 쿠폰 확인 및 사용 내역 조회가 가능하며, 찜한 상품 목록을 확인할 수 있습니다. 모바일 환경에서도 동일한 기능을 최적화된 UI로 제공합니다.",
+        "video": "/media/Project-JungleMy.mp4",
+        "poster": "/images/projects/Project-Jungle/Project-JungleMy.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": ["SCSS", "JavaScript", "LocalStorage", "Kakao Address API"],
     "comments": [
       {
         "id": "",
@@ -487,72 +369,47 @@
     ]
   },
   {
-    "id": "tloztotk8",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
+    "id": "personaminihomepage",
+    "date": "2024.08.19",
+    "deploymentUrl": "https://persona3reloadminihomep.web.app/",
+    "repoURL": "https://github.com/GiToon10100011/Persona-MiniHomepage",
+    "title": "Persona 3 Reload:",
+    "subtitle": "Mini Homepage",
+    "mainBg": "/images/personaBg.png",
+    "thumbnailImg": "/images/personaProjectThumbnail.jpg",
+    "thumbnailContent": "Vanilla JS를 활용한\n인터랙티브 사이드 프로젝트",
+    "modalImg": "/images/personaProjectModal.png",
     "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
+      "메인 페이지의 비디오 전환 및 타이밍 제어에 어려움이 있었습니다. 특히 여러 비디오를 순차적으로 재생하고 UI 요소들과 동기화하는 과정에서 문제가 발생했습니다. 이를 해결하기 위해 Video API의 play, ended 이벤트를 활용하여 비디오 간 전환을 제어하고, setTimeout을 통해 UI 요소들의 등장 타이밍을 조절했습니다. 또한 마지막 비디오는 loop 속성을 활용하여 배경으로 계속 재생되도록 구현했습니다.",
+      "About 페이지에서 캐릭터 정보 전환 시 데이터 관리와 애니메이션 동기화에 어려움이 있었습니다. 특히 여러 캐릭터 데이터를 효율적으로 관리하고 전환 효과를 자연스럽게 구현하는 것이 과제였습니다. 이를 해결하기 위해 객체 리터럴로 캐릭터 데이터를 구조화하고, classList를 활용한 애니메이션을 구현했습니다. overlay 클래스를 추가/제거하는 타이밍을 setTimeout으로 제어하여 부드러운 전환 효과를 구현했습니다."
     ],
     "pages": [
       {
         "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
+        "content": "웹사이트의 첫 화면으로, 연속된 인트로 비디오와 인터랙티브한 UI를 제공합니다. 학교 로고를 클릭하면 시작되는 애니메이션 시퀀스를 통해 몰입감 있는 진입 경험을 제공합니다. 실시간 시계와 날짜 표시 기능이 구현되어 있으며, 네비게이션을 통해 다른 섹션으로의 이동이 가능합니다. 또한 선호하는 캐릭터를 선택할 수 있는 Bias 기능을 제공하여 개인화된 경험을 제공합니다.",
+        "video": "/media/Project-PersonaMain.mp4",
+        "poster": "/images/projects/Project-Persona/Project-PersonaMain.png"
       },
       {
         "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
+        "content": "페르소나 시리즈의 게임들을 소개하는 페이지입니다. 각 게임의 정보와 트레일러 링크를 제공하며, 캐릭터 상세정보 버튼을 통해 해당 게임의 주요 캐릭터들을 확인할 수 있습니다. 캐릭터 정보는 동적으로 변경되며, 애니메이션 효과와 함께 표시됩니다. 각 게임별로 출시일, 연령 등급, 장르 등의 상세 정보를 제공합니다.",
+        "video": "/media/Project-PersonaAbout.mov",
+        "poster": "/images/projects/Project-Persona/Project-PersonaAbout.png"
       },
       {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
+        "title": "Jukebox page",
+        "content": "게임의 사운드트랙을 재생할 수 있는 뮤직 플레이어 페이지입니다. 앨범 커버와 함께 현재 재생 중인 곡의 정보를 표시하며, 재생/일시정지, 이전/다음 곡 전환, 반복 재생 등의 컨트롤을 제공합니다. 플레이리스트 기능을 통해 원하는 곡을 선택하여 재생할 수 있으며, 좋아요 기능도 구현되어 있습니다. 또한 게임의 명언을 표시하는 Quotes 섹션이 포함되어 있습니다.",
+        "video": "/media/Project-PersonaJukebox.mov",
+        "poster": "/images/projects/Project-Persona/Project-PersonaJukebox.png"
       },
       {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
+        "title": "Game page",
+        "content": "두 가지 미니게임을 제공하는 페이지입니다. 첫 번째는 한글 끝말잇기 게임으로, 제시어의 마지막 글자로 시작하는 단어를 입력하는 방식으로 진행됩니다. 두 번째는 로또 번호 생성기로, 1부터 45까지의 숫자 중 중복 없이 6개의 번호를 무작위로 생성합니다. Set 객체를 활용하여 중복을 방지하고, 구조분해할당을 통해 코드를 최적화했습니다.",
+        "video": "/media/Project-PersonaGame.mov",
+        "poster": "/images/projects/Project-Persona/Project-PersonaGame.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": ["JavaScript", "SCSS"],
     "comments": [
       {
         "id": "",
@@ -563,224 +420,47 @@
     ]
   },
   {
-    "id": "tloztotk9",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
+    "id": "aboutme",
+    "date": "2024.07.13",
+    "deploymentUrl": "https://aboutme-397ce.web.app/",
+    "repoURL": "https://github.com/GiToon10100011/About_Me",
+    "title": "About Me: ",
+    "subtitle": "My First Project",
+    "mainBg": "/images/aboutMeBg.png",
+    "thumbnailImg": "/images/aboutMeProjectThumbnail.png",
+    "thumbnailContent": "첫번째 프로젝트인 \n 자기소개 페이지 프로젝트",
+    "modalImg": "/images/aboutMeProjectModal.png",
     "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
+      "로딩 화면 애니메이션 구현에서 어려움이 있었습니다. 특히 카운터와 로더 바의 동기화, 그리고 부드러운 전환 효과를 구현하는 것이 과제였습니다. 이를 해결하기 위해 GSAP 라이브러리를 활용하여 타이밍을 제어하고, DOM 조작을 통해 동적으로 카운터 요소를 생성했습니다. setTimeout과 GSAP의 stagger, delay 속성을 조합하여 자연스러운 애니메이션 시퀀스를 구현했습니다.",
+      "반응형 디자인에서 모바일 메뉴와 카드 슬라이더 구현에 어려움이 있었습니다. 특히 데스크톱과 모바일 환경에서 다른 UI/UX를 제공하면서도 일관된 사용자 경험을 유지하는 것이 과제였습니다. 이를 해결하기 위해 미디어 쿼리를 활용하여 화면 크기에 따른 레이아웃 변경을 구현하고, 터치 이벤트와 슬라이드 애니메이션을 최적화했습니다."
     ],
     "pages": [
       {
-        "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
+        "title": "Main Section",
+        "content": "프리로더와 메인 타이틀 섹션입니다. GSAP를 활용한 로딩 애니메이션과 동적 카운터를 구현했으며, JSON 데이터를 기반으로 한 타이틀 텍스트 전환 효과를 포함합니다. 스크롤 인디케이터와 반응형 네비게이션 메뉴도 구현되어 있습니다.",
+        "video": "/media/Project-AboutMeMain.mp4",
+        "poster": "/images/projects/Project-AboutMe/Project-AboutMeMain.png"
       },
       {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
+        "title": "About Section",
+        "content": "개인 정보와 MBTI 정보를 토글 방식으로 전환하여 보여주는 섹션입니다. 데스크톱에서는 좌우 분할 레이아웃을, 모바일에서는 상하 전환 방식을 사용합니다. MBTI 수치는 애니메이션 효과와 함께 표시됩니다.",
+        "video": "/media/Project-AboutMeAbout.mov",
+        "poster": "/images/projects/Project-AboutMe/Project-AboutMeAbout.png"
       },
       {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
+        "title": "Hobbies Section",
+        "content": "3개의 인터랙티브 카드로 구성된 섹션입니다. 각 카드는 클릭 시 확장되며 이미지 슬라이더 기능을 포함합니다. 모바일 환경에서는 가로 스크롤 방식의 카드 슬라이더로 전환됩니다.  ",
+        "video": "/media/Project-AboutMeHobbies.mov",
+        "poster": "/images/projects/Project-AboutMe/Project-AboutMeHobbies.png"
       },
       {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
+        "title": "Hobbies & Contact Section",
+        "content": "미래의 목표와 비전을 보여주는 섹션입니다. 마우스 움직임에 반응하는 3D 카드 효과를 구현했으며, 각 카드는 perspective와 transform 속성을 활용하여 입체감 있는 움직임을 제공합니다. 모바일 환경에서는 페이저(pager)를 통한 슬라이드 형태로 전환되어 터치 인터랙션에 최적화된 경험을 제공합니다. Contact는 사용자와의 소통을 위한 연락처 폼 섹션입니다. 드롭다운 메뉴를 통해 문의 유형을 선택할 수 있으며, 이름, 이메일, 연락처, 메시지를 입력할 수 있는 폼을 제공합니다. 모든 입력 필드는 반응형으로 구현되어 있으며, 모바일 환경에서도 최적화된 사용자 경험을 제공합니다.",
+        "video": "/media/Project-AboutMeVisionContact.mp4",
+        "poster": "/images/projects/Project-AboutMe/Project-AboutMeVisionContact.png"
       }
     ],
-    "stacks": ["Javascript", "Fullpage.js"],
-    "comments": [
-      {
-        "id": "",
-        "username": "",
-        "content": "",
-        "password": ""
-      }
-    ]
-  },
-  {
-    "id": "tloztotk10",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
-    "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
-    ],
-    "pages": [
-      {
-        "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
-      },
-      {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
-      },
-      {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
-      },
-      {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
-      }
-    ],
-    "stacks": ["Javascript", "Fullpage.js"],
-    "comments": [
-      {
-        "id": "",
-        "username": "",
-        "content": "",
-        "password": ""
-      }
-    ]
-  },
-  {
-    "id": "tloztotk11",
-    "date": "2024.09.22",
-    "deploymentUrl": "https://zeldatotkfullpage.web.app",
-    "repoURL": "https://github.com/GiToon10100011/zeldaTotkProject",
-    "title": "The Legend of Zelda:",
-    "subtitle": "Tears of the Kingdom",
-    "mainBg": "/images/TotkBg.jpeg",
-    "thumbnailImg": "/images/zeldaProjectThumbnail.png",
-    "thumbnailContent": "Fullpage.JS를 활용한\n사이드 프로젝트",
-    "modalImg": "/images/zeldaProjectModal.png",
-    "modalTroubleshooting": [
-      "Ability page에서 SVG 모양에 맞춰 비디오 클립을 자르는 작업을 수행하려 했으나, 복잡한 모양의 비디오 자르기에 어려움을 겪었습니다. 해결을 위해 SVG의 clip-path와 mask 속성을 학습하여, 비디오 요소를 복잡한 SVG 모양에 맞게 자르는 방법을 적용했습니다. 이를 통해 원하는 형태로 비디오를 잘라낼 수 있었고, 프로젝트의 시각적 통일성을 높일 수 있었습니다. 또한, foreignObject를 사용하여 SVG 내부에 HTML 요소를 추가하는 방법을 알게 되었습니다.",
-      "Character page에서 UI상에 글이나 사진등들이 포함되어 있었고, 이를 hover할 때 배경 및 크기 변화를 주어 사용자와의 상호작용을 구현하려 했습니다. 허나 여러 레이어와 요소가 겹쳐 hover 효과가 예상과 다르게 나타나는 문제가 발생했습니다. 예를 들어, 특정 요소에 hover를 적용하면 다른 요소의 배경이나 크기가 함께 변경되는 등의 문제가 발생했습니다. 이를 해결하기 위해 각 요소가 독립적으로 작동하도록 pointer-events 속성을 활용했습니다.",
-      "프로젝트의 전체 페이지를 슬라이드 형태로 구현하고 싶었으나, fullPage.js의 페이지 슬라이드 기능이 유료 플러그인에 포함되어 있어 직접적인 사용에 제약이 있었습니다. 각 섹션에서 사용자가 쉽게 전환할 수 있도록 하려는 목적이 있었기 때문에 대체 솔루션이 필요했습니다. 이에 대한 해결책으로 fullPage.js의 기본 기능을 사용하여 페이지 간 자동 스크롤을 구현하였고, 페이지 전환 기능과 페이저 기능을 동시에 구현하면서도 추가적인 비용 없이 요구사항을 충족할 수 있었습니다."
-    ],
-    "pages": [
-      {
-        "title": "Main page",
-        "content": "웹사이트의 첫 화면입니다. 사용자가 로고를 클릭하면 페이드 애니메이션이 적용되어 로고가 서서히 사라지고, CSS의 perspective와 translateZ 속성을 활용하여 뒤에 있던 배경이 확대되며 나타납니다. 이후 요소들은 stagger 효과로 딜레이를 계산하여 순차적으로 등장하여, 방문자에게 강렬한 첫인상을 남깁니다.  전체적인 페이지 구조는 fullPage.js의 자동 스크롤 기능을 사용하여 스크롤 감지가 되면 다음 페이지로 이동시키도록 구현하였습니다. Watch Trailer라는 문구에 커서를 가져다 대면 로고 뒤에서 돌아가던 애니메이션이 멈추고, 클릭 시 해당 게임의 트레일러가 재생되는 모달 창이 나타납니다.",
-        "video": "/media/Project-ZeldaMain.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaMain.png"
-      },
-      {
-        "title": "About page",
-        "content": "이 페이지는 게임의 주요 정보를 소개하는 역할을 합니다. 세 가지 항목이 배치되어 있으며, 각 항목은 사전에 블러 처리를 적용해, 텍스트에 자연스럽게 집중할 수 있도록 설계되었습니다. 항목에 커서를 가져다 대면 블러 효과가 사라지며 배경이 드러나고, SVG로 구현된 구분선이 펼쳐집니다. 이와 함께 텍스트 뒤에는 은은한 포인트 색상의 배경이 나타나, 가독성을 높이고 강조 효과를 더합니다.",
-        "video": "/media/Project-ZeldaAbout.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbout.png"
-      },
-      {
-        "title": "Environment Page",
-        "content": "해당 페이지는 세 가지 주요 지역에 대한 설명과 이미지를 포함하고 있으며, 각 지역별 이미지는 slickSlider를 통해 자동으로 순회합니다. 각 지역에 맞는 슬라이드가 독립적으로 구성되어 있어, 슬라이드 안에 또 다른 슬라이드가 있는 중첩 슬라이드 구조로 제작되었습니다. 이를 통해 사용자는 각 지역의 이미지와 설명을 자연스럽게 탐색할 수 있습니다. 또한, 게임의 분위기를 반영하는 배경 이미지와 SVG 요소들을 사용하여 페이지 전체의 시각적 통일성을 유지했습니다. ",
-        "video": "/media/Project-ZeldaEnv.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaEnv.png"
-      },
-      {
-        "title": "Modal Page",
-        "content": "지역 페이지에서 “View Details” 버튼을 클릭하면 모달 페이지로 이동할 수 있습니다. 모달 페이지의 타이틀은 SVG로 구성되어 있으며, 각 글자가 순차적으로 드러나도록 설정해 사용자에게 몰입감을 제공합니다. 모달 페이지에서는 양수의 스크롤 값이 감지되면 배경이 점차 사라지며 하단의 콘텐츠가 드러나도록 구현되어 있습니다. 이때 커서는 사라지지만, CSS의 mix-blend-mode: difference와 filter: brightness() 속성을 활용해 커서를 움직일 때 마치 손전등을 비추는 것 같은 효과를 연출했습니다. 또한, 스크롤을 내릴 때 이미지와 텍스트에 각각 동적인 효과를 부여했습니다. 이미지는 ::before와 ::after 선택자를 사용해 가림막이 접히며 차례로 드러나도록 하고, 텍스트는 아래에서 위로 서서히 나타나게 설정했습니다. 마지막으로, 모달 하단에는 대표적인 트레일러들이 나열되어 있어 사용자들이 쉽게 접근할 수 있습니다.",
-        "video": "/media/Project-ZeldaModal.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaModal.png"
-      },
-      {
-        "title": "Ability page",
-        "content": "이 페이지는 주인공의 대표 능력을 소개하는 섹션으로, 각 능력에 맞는 설명 영상들이 슬라이더 형식으로 나열되어 있습니다. 사용자가 다음 슬라이드로 이동할 때는 전체 슬라이드를 축소한 뒤 이동이 끝나면 확대되는 애니메이션 효과를 추가해 몰입감을 높였습니다. 각 영상은 커서를 올리지 않으면 재생되지 않으며, grayscale 효과가 적용되어 일시정지된 느낌을 줍니다. 커서를 올리면 grayscale이 사라지며 영상이 자동 재생되고, 슬라이드의 각 모퉁이에 위치한 SVG 장식들이 슬라이드의 중심에 집중되도록 애니메이션 효과가 적용되어 사용자 시선을 자연스럽게 끌어 모으게 합니다.",
-        "video": "/media/Project-ZeldaAbilities.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAbilities.png"
-      },
-      {
-        "title": "Awards page",
-        "content": "이 페이지는 게임 리뷰를 모아놓은 섹션으로, 세로로 구성된 **버티컬 슬라이더(vertical slider)**가 사용되었습니다. 각 슬라이드에 커서를 올리면 ::before와 ::after 선택자를 사용해 강조 요소가 나타나, 리뷰 콘텐츠에 시각적 포인트를 더합니다. 각 리뷰는 data- 속성을 사용하여 동적으로 콘텐츠에 삽입되도록 구성되어 있으며, 이를 통해 리뷰 데이터를 효율적으로 관리할 수 있습니다. 또한, View the Awards 버튼을 클릭하면 해당 게임의 리뷰 사이트로 이동할 수 있습니다.",
-        "video": "/media/Project-ZeldaAwards.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaAwards.png"
-      },
-      {
-        "title": "Characters page",
-        "content": "이 페이지는 게임에 등장하는 주요 캐릭터들을 소개하는 섹션입니다. 각 캐릭터에 커서를 올리면 해당 캐릭터 섹션의 flex 값이 1로 확대되고, 나머지 섹션의 flex 값은 0으로 줄어들어 다른 캐릭터들을 밀어내며 강조됩니다. 강조된 캐릭터의 배경에는 해당 캐릭터의 큰 이미지가 배치되어 강렬한 시각적 효과를 주며, 추가로 작은 캐릭터 이미지와 설명이 나타나 패럴랙스 효과가 느껴지도록 설정했습니다. 이를 통해 사용자에게 집중적이고 몰입감 있는 캐릭터 소개를 제공하며, 각 캐릭터의 독특한 매력을 효과적으로 전달할 수 있습니다.",
-        "video": "/media/Project-ZeldaChar.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaChar.png"
-      },
-      {
-        "title": "Contact page",
-        "content": "이 페이지는 게임의 등급, 연락처와 같은 세부 정보를 정리한 마지막 페이지입니다. 단조로운 느낌을 피하기 위해, 제목을 SVG로 제작하고 각 path가 물결 형태로 움직이는 애니메이션을 추가했습니다. 정보 전달에 충실하면서도 시각적인 재미를 더해, 게임의 매력을 끝까지 유지하도록 설계되었습니다.",
-        "video": "/media/Project-ZeldaContact.mp4",
-        "poster": "/images/projects/Project-Zelda/Project-ZeldaContact.png"
-      }
-    ],
-    "stacks": ["Javascript", "Fullpage.js"],
+    "stacks": ["Javascript", "CSS", "GSAP"],
     "comments": [
       {
         "id": "",

@@ -507,7 +507,7 @@ const Profile = () => {
                     <SNSItem
                       onMouseEnter={() => setCursorChanging(true)}
                       onMouseLeave={() => setCursorChanging(false)}
-                      href="https://discord.gg/Eh8qxvrr"
+                      href="https://discord.gg/Czen9js7"
                       target="_blank"
                     >
                       <SNSIcon
@@ -539,6 +539,7 @@ const Profile = () => {
                     onMouseLeave={() => setCursorChanging(false)}
                     href="/resume.pdf"
                     target="_blank"
+                    download="전진우 입사지원서.pdf"
                   >
                     Download CV
                   </ContactItem>

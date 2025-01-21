@@ -896,9 +896,13 @@ const Content = ({ setSection }: { setSection: (section: string) => void }) => {
     setMap(map);
   }, []);
 
-  const onUnmount = useCallback(function callback(map: google.maps.Map) {
+  const onUnmount = useCallback(function callback() {
     setMap(null);
   }, []);
+
+  useEffect(() => {
+    return;
+  }, [map]);
 
   const viewRefs = {
     profile: useRef(null),

@@ -122,6 +122,11 @@ const Comments = () => {
       setIsModalOpen(false);
     };
   }, []);
+
+  useEffect(() => {
+    return;
+  }, [setMode]);
+
   return (
     <>
       <AnimatePresence>
