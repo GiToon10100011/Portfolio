@@ -484,6 +484,9 @@ const CommentsList = ({
   // Watch for project changes
   useEffect(() => {
     setIsProjectLoading(true);
+    setCommentEditId(null);
+    setMenuMode(null);
+    setInputPassword("");
   }, [commentsProject]); // Only trigger on project change
 
   useEffect(() => {
