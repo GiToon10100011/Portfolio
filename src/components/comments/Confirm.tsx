@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { INode } from "../../routes/Comments";
@@ -123,15 +123,19 @@ const Confirm = ({
   currentComment,
   setCommentEditId,
 }: IConfirm) => {
+  const [isDeleting, setIsDeleting] = useState(false);
   const { commentsProject } = commentsProjectStore();
   const handleDelete = async () => {
     if (currentComment && commentsProject) {
+      setIsDeleting(true);
       const response = await deleteComment(commentsProject, currentComment);
       setHead(response.head);
     }
+    setIsDeleting(false);
     setIsConfirmOpen(false);
   };
   const handleCancel = () => {
+    setIsDeleting(false);
     setCommentEditId(null);
     setIsConfirmOpen(false);
   };
@@ -183,7 +187,9 @@ const Confirm = ({
         </StyledSvg>
         <span>정말 삭제하시겠습니까?</span>
         <ButtonContainer>
-          <Button onClick={handleDelete}>삭제</Button>
+          <Button onClick={handleDelete} disabled={isDeleting}>
+            {isDeleting ? "삭제중..." : "삭제"}
+          </Button>
           <Button onClick={handleCancel}>취소</Button>
         </ButtonContainer>
       </ConfirmContent>

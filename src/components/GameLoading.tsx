@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { projectIdStore } from "../stores";
 import projects from "../projects.json";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const NintendoLogo = styled.img`
   position: absolute;
@@ -99,10 +100,22 @@ const GameLoading = () => {
   const { projectId } = projectIdStore();
   const navigate = useNavigate();
   const idMatchData = projects.find((project) => project.id === projectId);
-  setTimeout(() => {
-    window.open(idMatchData?.deploymentUrl ?? "/", "_blank");
-    navigate("/");
-  }, 6000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newWindow = window.open(
+        idMatchData?.deploymentUrl ?? "/",
+        "_blank"
+      );
+      if (!newWindow || newWindow.closed) {
+        navigate("/");
+        alert("팝업이 차단되었습니다. 팝업 차단을 해제해 주세요.");
+      } else {
+        navigate("/");
+      }
+    }, 6000);
+
+    return () => clearTimeout(timer);
+  }, [idMatchData, navigate]);
   return (
     <Container
       initial={{ opacity: 0 }}
