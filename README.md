@@ -1,6 +1,6 @@
 # 🎮 Nintendo Switch 콘솔 컨셉 포트폴리오 웹사이트
 
-![포트폴리오 메인 이미지](https://jinu-sportfolioconsole.web.app/logo/main_logo.png)
+<img width="1470" alt="image" src="https://github.com/user-attachments/assets/5aad15be-d425-40b2-a6b9-7e8ab1b54785" />
 
 > 👉 해당 레포지토리는 클라이언트 레포지토리입니다. 서버 레포지토리를 확인하고 싶으시다면 [바로가기](https://github.com/GiToon10100011/PortfolioServer)
 
